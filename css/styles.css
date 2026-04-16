@@ -1165,6 +1165,66 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   MOBILE HERO — Aire arriba + animación MALA FAMA desde el centro
+   ───────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* 1. Más aire: el contenido arranca más abajo */
+  .home-hero__content {
+    padding-top: 108px !important;
+    padding-bottom: 356px !important;
+  }
+
+  /* 2. Más gap bajo el retrato */
+  .home-hero__portrait,
+  .home-hero--ready .home-hero__portrait {
+    bottom: 56px !important;
+  }
+
+  /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */
+
+  /* Estado inicial: oculto Y desplazado hacia abajo (centro del hero) */
+  .home-hero__signature {
+    opacity: 0 !important;
+    transform: rotate(-1.2deg) scale(1) translateY(30vh) !important;
+    transition: none !important;
+  }
+
+  /* Cuando el hero está listo: aparece de golpe en centro y sube a su lugar */
+  .home-hero--ready .home-hero__signature {
+    opacity: 1 !important;
+    transform: rotate(-1.2deg) scale(1) translateY(0) !important;
+    /* opacity: rapidísimo (aparece en el centro sin que se note el fade)
+       transform: sube suave con overshoot */
+    transition: opacity 0.12s ease 0s,
+                transform 1s cubic-bezier(0.2, 0.85, 0.3, 1.08) 0.05s !important;
+  }
+
+  /* El resto del contenido aparece DESPUÉS de que MALA FAMA termina de subir */
+  .home-hero--ready .home-hero__eyebrow {
+    transition-delay: 0.85s !important;
+  }
+  .home-hero--ready .home-hero__manifesto {
+    transition-delay: 1.05s !important;
+  }
+  .home-hero--ready .home-hero__line:nth-child(1) {
+    transition-delay: 1.05s !important;
+  }
+  .home-hero--ready .home-hero__line:nth-child(2) {
+    transition-delay: 1.15s !important;
+  }
+  .home-hero--ready .home-hero__line:nth-child(3) {
+    transition-delay: 1.25s !important;
+  }
+  .home-hero--ready .home-hero__ctas {
+    transition-delay: 1.35s !important;
+  }
+  .home-hero--ready .home-hero__pillars {
+    transition-delay: 1.5s !important;
+  }
+}
+
 /* Hero full-width en celular — quita el margen y border-radius del diseño "tarjeta"
    que aplica el bloque de 900px de arriba */
 @media (max-width: 640px) {
