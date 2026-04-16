@@ -1172,14 +1172,14 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 
   /* 1. Más aire: el contenido arranca más abajo */
   .home-hero__content {
-    padding-top: 108px !important;
-    padding-bottom: 356px !important;
+    padding-top: 156px !important;
+    padding-bottom: 380px !important;
   }
 
   /* 2. Más gap bajo el retrato */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 56px !important;
+    bottom: 72px !important;
   }
 
   /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */

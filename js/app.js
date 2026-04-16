@@ -2122,12 +2122,20 @@
     onScroll();
   }
 
-  // ─── Mobile: mostrar subnav al hacer scroll hacia ARRIBA ───
-  (function initMobileSubnavScrollUp() {
+  // ─── Mobile: navbar visible al inicio + en el top + al hacer scroll UP ───
+  // Comportamiento:
+  //   • y ≤ 40   → visible (el usuario está arriba de todo)
+  //   • scroll DOWN (y > lastY + 3) y y > 80 → ocultar
+  //   • scroll UP   (y < lastY - 3)          → mostrar
+  (function initMobileSubnavScroll() {
     if (!document.querySelector('.shop-subnav')) return;
     var lastY = window.scrollY;
     var ticking = false;
     function isMobile() { return window.matchMedia('(max-width: 900px)').matches; }
+    function apply(visible) {
+      if (visible) document.body.classList.add('subnav-mobile-visible');
+      else document.body.classList.remove('subnav-mobile-visible');
+    }
     function update() {
       ticking = false;
       if (!isMobile()) {
@@ -2135,16 +2143,30 @@
         return;
       }
       var y = window.scrollY;
-      if (y < lastY - 3 && y > 60) {
-        document.body.classList.add('subnav-mobile-visible');
-      } else if (y > lastY + 3 || y <= 30) {
-        document.body.classList.remove('subnav-mobile-visible');
+      if (y <= 40) {
+        // En el top de la página → siempre visible
+        apply(true);
+      } else if (y > lastY + 3 && y > 80) {
+        // Scroll hacia abajo → ocultar
+        apply(false);
+      } else if (y < lastY - 3) {
+        // Scroll hacia arriba → mostrar
+        apply(true);
       }
       lastY = y;
+    }
+    // Estado inicial: si ya estamos cargando en mobile cerca del top, mostrar
+    if (isMobile() && window.scrollY <= 40) {
+      document.body.classList.add('subnav-mobile-visible');
     }
     window.addEventListener('scroll', function () {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    // Al cargar la página asegurarse de aplicar el estado correcto
+    window.addEventListener('load', update);
   })();
 
   // ─── Desktop: todas las páginas — ocultar subnav al scroll down, mostrar al scroll up ───
