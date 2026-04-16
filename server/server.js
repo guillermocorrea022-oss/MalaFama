@@ -44,7 +44,7 @@ try {
 }
 
 const app = express();
-const PORT = 8096;
+const PORT = process.env.PORT || 8096;
 
 // =============================================
 // SEGURIDAD — SESSION_SECRET obligatorio en producción
