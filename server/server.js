@@ -65,7 +65,8 @@ if (process.env.NODE_ENV === 'production' && !process.env.SESSION_SECRET) {
 // Para agregar un dominio nuevo, añadirlo al array allowedOrigins.
 const allowedOrigins = [
   'https://cervezamalafama.com',
-  'https://www.cervezamalafama.com'
+  'https://www.cervezamalafama.com',
+  'https://malafama-production.up.railway.app'  // demo Railway
 ];
 app.use(cors({
   credentials: true,
@@ -116,8 +117,9 @@ app.use(function(req, res, next) {
     "script-src 'self' 'unsafe-inline'; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: blob:; " +
-    "connect-src 'self'; " +
+    "img-src 'self' data: blob: https://maps.gstatic.com https://maps.googleapis.com; " +
+    "connect-src 'self' https://maps.googleapis.com; " +
+    "frame-src 'self' https://www.google.com https://maps.google.com https://www.google.com.uy; " +
     "frame-ancestors 'self';"
   );
 
