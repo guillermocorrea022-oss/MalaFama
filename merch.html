@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/loader.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Merch Mala Fama — Cerveza artesanal uruguaya.">
+  <title>Producto | Cervecería Mala Fama</title>
+  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/pack.css?v=2">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body class="pack-page">
+
+  <!-- Shop Subnav — aparece al hacer scroll up en móvil -->
+  <nav class="shop-subnav pdp-subnav" aria-label="Navegación rápida">
+    <div class="shop-subnav__inner">
+      <a href="index.html?view=home" class="shop-subnav__link">INICIO</a>
+      <a href="index.html?view=cans" class="shop-subnav__link">CERVEZAS</a>
+      <a href="index.html?view=valuepacks" class="shop-subnav__link">PACKS</a>
+      <a href="index.html?view=specials" class="shop-subnav__link">ESPECIALES</a>
+      <a href="index.html?view=merch" class="shop-subnav__link">MERCH</a>
+      <a href="index.html?view=archive" class="shop-subnav__link">SIN STOCK</a>
+    </div>
+  </nav>
+
+
+  <!-- Top Marquee -->
+  <div class="top-marquee">
+    <div class="top-marquee__track">
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+    </div>
+  </div>
+
+  <!-- Logo flotante -->
+  <a href="index.html" class="floating-logo" aria-label="Inicio">
+    <img src="img/logo.png" alt="Mala Fama Brewing" class="floating-logo__img">
+  </a>
+
+  <!-- Carrito flotante -->
+  <div class="floating-actions">
+    <button class="floating-actions__btn" id="searchBtn" aria-label="Buscar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <button class="floating-actions__btn" id="cartBtn" aria-label="Cart">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3c.5 0 2.8-.2 3.5.3s1 1.8 1.3 2.7l3.2 12c.3 1 .8 1.8 1.9 2s2.2.1 3.2.1h7.2c1.2 0 2-.6 2.3-1.7L27 9.5c.2-.8.1-1.6-.8-1.8-.6-.1-1.2 0-1.8 0H8.5"/>
+        <circle cx="12" cy="27" r="1.8" stroke-width="2"/>
+        <circle cx="23" cy="27" r="1.8" stroke-width="2"/>
+        <path d="M10 22.5c1-.1 4.2.2 5.5.1 2-.1 5.5.2 7.5-.1"/>
+      </svg>
+      <span class="floating-cart__badge" id="cartBadge" style="display:none">0</span>
+    </button>
+  </div>
+
+  <!-- ============================================
+       MERCH PAGE — Dynamic product layout
+       ============================================ -->
+
+  <!-- Hero -->
+  <section class="merch-hero" id="merchHero">
+    <div class="merch-hero__image-wrap">
+      <img class="merch-hero__image" id="merchImage" src="" alt="">
+    </div>
+    <div class="merch-hero__info">
+      <nav class="merch-hero__breadcrumbs">
+        <a href="index.html">Tienda</a>
+        <span class="sep">/</span>
+        <a href="index.html">Merch</a>
+        <span class="sep">/</span>
+        <span id="merchBreadcrumb"></span>
+      </nav>
+      <h1 class="merch-hero__title" id="merchTitle"></h1>
+      <p class="merch-hero__subtitle" id="merchSubtitle"></p>
+      <div class="merch-hero__price-row">
+        <span class="merch-hero__price" id="merchPrice"></span>
+        <span class="merch-hero__price-tax">IVA incluido</span>
+      </div>
+      <p class="merch-hero__desc" id="merchDesc"></p>
+
+      <!-- Details grid (size, material, etc) -->
+      <div class="merch-detail-grid" id="merchDetails"></div>
+
+      <!-- Quantity + Add to Cart -->
+      <div class="wp-qty-label">Cantidad</div>
+      <div class="wp-cart-row">
+        <div class="wp-qty">
+          <button class="wp-qty__btn" id="merchQtyMinus" aria-label="Menos">−</button>
+          <span class="wp-qty__value" id="merchQtyValue">1</span>
+          <button class="wp-qty__btn" id="merchQtyPlus" aria-label="Más">+</button>
+        </div>
+        <button class="wp-add-btn" id="merchAddBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          Agregar al carrito
+        </button>
+      </div>
+      <div id="merchStockStatus"></div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="related-products">
+    <div class="related-products__inner">
+      <h2 class="related-products__title">También te van a gustar</h2>
+      <div class="related-products__carousel" id="relatedCarousel"></div>
+    </div>
+  </section>
+
+  <!-- Nav flotante -->
+  <nav class="floating-nav" id="floatingNav">
+    <a href="restaurant.html" class="floating-nav__link">Locales</a>
+    <a href="nosotros.html" class="floating-nav__link">Sobre nosotros</a>
+    <a href="restaurant.html#reservas" class="floating-nav__link floating-nav__link--primary">RESERVAR MESA</a>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <!-- Logo -->
+      <div class="footer__logo-wrap">
+        <img src="img/logo-historia/logo.carga.png" alt="Mala Fama" class="footer__logo-img">
+      </div>
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <span class="footer__newsletter-eyebrow">Club Mala Fama</span>
+        <h2 class="footer__newsletter-title">SUMATE A LA <em>MALA FAMA</em></h2>
+        <p class="footer__newsletter-sub">Novedades, lanzamientos, ediciones limitadas y 10% OFF en tu próxima compra. Cero spam, pura cerveza.</p>
+        <form class="footer__newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡BIENVENIDO!'; setTimeout(()=>{this.querySelector('button').textContent='SUSCRIBIRME'; this.querySelector('input').value='';},2500);">
+          <input type="email" class="footer__newsletter-input" placeholder="tu@email.com" required>
+          <button type="submit" class="footer__newsletter-btn">Suscribirme</button>
+        </form>
+      </div>
+
+      <!-- Grid principal -->
+      <div class="footer__grid">
+        <!-- Brand -->
+        <div class="footer__brand">
+          <img src="img/logo.png" alt="Mala Fama" class="footer__brand-logo">
+          <p class="footer__brand-tagline"><strong>Cerveza artesanal uruguaya.</strong> Sin filtrar, sin pasteurizar, con mala fama desde siempre.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div>
+          <h3 class="footer__section-title">Tienda</h3>
+          <a href="index.html?view=cans" class="footer__link">Cervezas</a>
+          <a href="index.html?view=valuepacks" class="footer__link">Packs</a>
+          <a href="index.html?view=specials" class="footer__link">Especiales</a>
+          <a href="index.html?view=merch" class="footer__link">Merch</a>
+        </div>
+
+        <!-- Compañía -->
+        <div>
+          <h3 class="footer__section-title">Compañía</h3>
+          <a href="nosotros.html" class="footer__link">Nuestra historia</a>
+          <a href="restaurant.html" class="footer__link">Locales</a>
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__link">Contacto</a>
+          <a href="#" class="footer__link">Preguntas frecuentes</a>
+        </div>
+
+        <!-- Locales -->
+        <div>
+          <h3 class="footer__section-title">Locales</h3>
+          <div class="footer__location">
+            <div class="footer__location-name">Montevideo</div>
+            <span class="footer__location-addr">Maldonado 1970</span>
+            <a href="tel:+59897313349" class="footer__location-phone">+598 97 313 349</a>
+            <a href="https://www.instagram.com/cerveceria_malafama/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @cerveceria_malafama
+            </a>
+          </div>
+          <div class="footer__location">
+            <div class="footer__location-name">Punta del Este</div>
+            <span class="footer__location-addr">Pedragosa Sierra 20100</span>
+            <a href="tel:+59892150847" class="footer__location-phone">+598 92 150 847</a>
+            <a href="https://www.instagram.com/malafama_puntadeleste/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @malafama_puntadeleste
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wordmark gigante -->
+      <div class="footer__wordmark" aria-hidden="true">MALA FAMA</div>
+
+      <!-- Bottom -->
+      <div class="footer__bottom">
+        <span>&copy; 2026 Cervecería Mala Fama · Uruguay</span>
+        <span class="footer__bottom-disclaimer">Bebé con responsabilidad · Prohibida la venta a menores de 18 años</span>
+        <div class="footer__bottom-links">
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__bottom-link">ventas@cervezamalafama.com</a>
+          <a href="#" class="footer__bottom-link">Términos</a>
+          <a href="#" class="footer__bottom-link">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer Overlay -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">TU CARRITO</h2>
+      <button class="cart-drawer__close" id="cartCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="cart-drawer__shipping">
+      <div class="cart-drawer__shipping-text" id="shippingText">ENVÍO GRATIS A PARTIR DE $U 2.000</div>
+      <div class="cart-drawer__shipping-bar">
+        <div class="cart-drawer__shipping-progress" id="shippingProgress"></div>
+      </div>
+    </div>
+    <div class="cart-drawer__scroll">
+      <div class="cart-drawer__items" id="cartItemsContainer"></div>
+      <div class="cart-drawer__personal-message">
+        <label for="cartMessage">AGREGÁ UN MENSAJE PERSONAL</label>
+        <textarea id="cartMessage" placeholder="ESCRIBÍ TU MENSAJE ACÁ..." maxlength="120"></textarea>
+        <p class="cart-message-help">POR EJEMPLO, SI ES UN REGALO. MÁXIMO 120 CARACTERES.</p>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__subtotal">
+        <span>TOTAL</span>
+        <span id="cartSubtotal">$U 0</span>
+      </div>
+      <div class="cart-drawer__terms">
+        <label class="cart-drawer__checkbox-label">
+          <input type="checkbox" id="cartTermsCheck">
+          <span class="checkbox-custom"></span>
+          <span class="terms-text">ACEPTO LOS <a href="#">TÉRMINOS Y CONDICIONES</a> Y DECLARO SER MAYOR DE 18 AÑOS.</span>
+        </label>
+      </div>
+      <div class="cart-drawer__actions">
+        <button class="cart-drawer__shop-btn" id="continueShoppingBtn">SEGUIR COMPRANDO</button>
+        <button class="cart-drawer__checkout-btn" id="checkoutBtn" disabled>FINALIZAR COMPRA</button>
+      </div>
+      <div class="cart-drawer__payments">
+        <span>Pago seguro en Uruguay con:</span>
+        <div class="cart-drawer__payment-icons">
+          <span style="display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span style="background:rgba(232,0,45,0.1);border:1px solid rgba(232,0,45,0.25);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#e8002d;letter-spacing:0.04em;">OCA</span>
+            <span style="background:rgba(255,122,0,0.1);border:1px solid rgba(255,122,0,0.25);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#ff7a00;letter-spacing:0.04em;">ITAÚ</span>
+            <span style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:0.04em;">VISA</span>
+            <span style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:0.04em;">MASTERCARD</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/merch.js"></script>
+</body>
+</html>

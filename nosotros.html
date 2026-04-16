@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/loader.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Somos una cervecería artesanal uruguaya fundada por cuatro hermanos en 2016. Conocé nuestra historia, nuestros valores y nuestra pasión por la cerveza.">
+  <meta property="og:title" content="Nosotros | Cervecería Mala Fama">
+  <meta property="og:description" content="Cuatro hermanos, una pasión y cerveza que quisiéramos tomar nosotros. Fundada en 2016 en Uruguay.">
+  <meta property="og:image" content="img/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://cervezamalafama.com/nosotros">
+  <title>Nosotros | Cervecería Mala Fama</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nosotros.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body class="page-nosotros">
+
+  <!-- Shop Subnav — aparece al hacer scroll up en móvil -->
+  <nav class="shop-subnav pdp-subnav" aria-label="Navegación rápida">
+    <div class="shop-subnav__inner">
+      <a href="index.html?view=home" class="shop-subnav__link">INICIO</a>
+      <a href="index.html?view=cans" class="shop-subnav__link">CERVEZAS</a>
+      <a href="index.html?view=valuepacks" class="shop-subnav__link">PACKS</a>
+      <a href="index.html?view=specials" class="shop-subnav__link">ESPECIALES</a>
+      <a href="index.html?view=merch" class="shop-subnav__link">MERCH</a>
+      <a href="index.html?view=archive" class="shop-subnav__link">SIN STOCK</a>
+    </div>
+  </nav>
+
+
+  <!-- Top Marquee -->
+  <div class="top-marquee">
+    <div class="top-marquee__track">
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+    </div>
+  </div>
+
+  <!-- Logo flotante arriba-izquierda -->
+  <a href="index.html" class="floating-logo" aria-label="Inicio">
+    <img src="img/logo.png" alt="Mala Fama Brewing" class="floating-logo__img">
+  </a>
+
+  <!-- Buscar + Carrito flotante arriba-derecha -->
+  <div class="floating-actions">
+    <button class="floating-actions__btn" id="searchBtn" aria-label="Buscar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <button class="floating-actions__btn" id="cartBtn" aria-label="Cart">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3c.5 0 2.8-.2 3.5.3s1 1.8 1.3 2.7l3.2 12c.3 1 .8 1.8 1.9 2s2.2.1 3.2.1h7.2c1.2 0 2-.6 2.3-1.7L27 9.5c.2-.8.1-1.6-.8-1.8-.6-.1-1.2 0-1.8 0H8.5"/>
+        <circle cx="12" cy="27" r="1.8" stroke-width="2"/>
+        <circle cx="23" cy="27" r="1.8" stroke-width="2"/>
+        <path d="M10 22.5c1-.1 4.2.2 5.5.1 2-.1 5.5.2 7.5-.1"/>
+      </svg>
+      <span class="floating-cart__badge" id="cartBadge" style="display:none">0</span>
+    </button>
+    <button class="floating-actions__btn" id="userBtn" aria-label="Mi cuenta">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ============================================
+       HERO — Barricas photo full bleed
+       ============================================ -->
+  <section class="nos-hero">
+    <div class="nos-hero__bg" style="background-image: url('img/nosotros-hero.png');"></div>
+    <div class="nos-hero__overlay"></div>
+
+    <!-- "2016" outline decorativo de fondo — solo desktop -->
+    <div class="nos-hero__year-bg" aria-hidden="true">2016</div>
+
+    <div class="nos-hero__content">
+      <!-- Columna izquierda: título -->
+      <div class="nos-hero__left">
+        <h1 class="nos-hero__title">
+          <span class="nos-hero__title-row">
+            <span class="nos-hero__title-mala">Mala</span><span class="nos-hero__title-fama">Fama</span>
+          </span>
+          <span class="nos-hero__title-historia">Historia</span>
+        </h1>
+      </div>
+      <!-- Columna derecha: quote — solo desktop -->
+      <div class="nos-hero__right">
+        <p class="nos-hero__quote">
+          <span class="nos-hero__line">Cuatro hermanos,</span>
+          <span class="nos-hero__line">una pasión,</span>
+          <span class="nos-hero__line">y la cerveza que queríamos tomar nosotros.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Barra de stats al pie — solo desktop -->
+    <div class="nos-hero__pillars" aria-hidden="true">
+      <div class="nos-hero__pillar">
+        <span class="nos-hero__pillar-num">2016</span>
+        <span class="nos-hero__pillar-label">Fundada</span>
+      </div>
+      <div class="nos-hero__pillar-sep">·</div>
+      <div class="nos-hero__pillar">
+        <span class="nos-hero__pillar-num">4</span>
+        <span class="nos-hero__pillar-label">Hermanos</span>
+      </div>
+      <div class="nos-hero__pillar-sep">·</div>
+      <div class="nos-hero__pillar">
+        <span class="nos-hero__pillar-num">100%</span>
+        <span class="nos-hero__pillar-label">Artesanal</span>
+      </div>
+      <div class="nos-hero__pillar-sep">·</div>
+      <div class="nos-hero__pillar">
+        <span class="nos-hero__pillar-num">Uruguay</span>
+        <span class="nos-hero__pillar-label">Origen</span>
+      </div>
+    </div>
+
+    <div class="nos-hero__scroll-hint">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================================
+       EL NOMBRE — Origin text + 3 Truco Cards
+       ============================================ -->
+  <section class="nos-section nos-origin reveal">
+    <div class="nos-section__inner">
+      <div class="nos-origin__text">
+        <span class="nos-label">El nombre</span>
+        <h2 class="nos-heading nos-heading--split"><span class="nos-heading__mala">Mala</span><span class="nos-heading__fama">fama</span></h2>
+        <p class="nos-body">
+          El nombre <strong>Malafama</strong> surge a raíz del logo: el charrúa. Es un reconocimiento hacia los indígenas que lucharon en la creación de esta patria y luego fueron aniquilados por su supuesta "mala fama".
+        </p>
+        <p class="nos-body">
+          El logo parte de un retrato del cacique charrúa <em>Tabaré</em>, inspirado en el poema escrito por nuestro tatarabuelo, <strong>Don Juan Zorrilla de San Martín</strong>.
+        </p>
+        <p class="nos-body">
+          Esta cervecería, formada por cuatro hermanos, le hace honor a todo lo que es Uruguay: su bandera, su gran historia y sus costumbres.
+        </p>
+        <p class="nos-cards-hint">↓ Hacé click en las cartas para verlas</p>
+      </div>
+
+      <!-- TRUCO CARDS FAN -->
+      <div class="nos-cards-fan" role="group" aria-label="Las 3 cartas de Mala Fama">
+        <!-- Card: Logo -->
+        <button class="nos-card nos-card--left" data-card="logo" aria-label="Ver el logo">
+          <div class="nos-card__inner">
+            <div class="nos-card__breaks nos-card__breaks--1"></div>
+            <div class="nos-card__corner nos-card__corner--tl">1</div>
+            <div class="nos-card__body">
+              <img src="img/logo-historia/logo real.png" alt="Logo Mala Fama" class="nos-card__img-logo">
+            </div>
+            <div class="nos-card__corner nos-card__corner--br">1</div>
+            <div class="nos-card__label">El Logo</div>
+          </div>
+        </button>
+
+        <!-- Card: Cacique (center, in front) -->
+        <button class="nos-card nos-card--center" data-card="cacique" aria-label="Ver el retrato del cacique">
+          <div class="nos-card__inner">
+            <div class="nos-card__breaks nos-card__breaks--2"></div>
+            <div class="nos-card__corner nos-card__corner--tl">2</div>
+            <div class="nos-card__body">
+              <img src="img/logo-historia/cacique-retrato.png" alt="Retrato cacique Tabaré" class="nos-card__img-cacique">
+            </div>
+            <div class="nos-card__corner nos-card__corner--br">2</div>
+            <div class="nos-card__label">El Cacique</div>
+          </div>
+        </button>
+
+        <!-- Card: Poem -->
+        <button class="nos-card nos-card--right" data-card="poema" aria-label="Ver el poema">
+          <div class="nos-card__inner">
+            <div class="nos-card__breaks nos-card__breaks--3"></div>
+            <div class="nos-card__corner nos-card__corner--tl">3</div>
+            <div class="nos-card__body nos-card__body--poem">
+              <p class="nos-card__poem-title">TABARÉ</p>
+              <p class="nos-card__poem-text">
+                <em>En la orilla bravía<br>
+                del Plata soberano,<br>
+                con sangre de charrúa<br>
+                y sangre de cristiano...</em>
+              </p>
+            </div>
+            <div class="nos-card__corner nos-card__corner--br">3</div>
+            <div class="nos-card__label">El Poema</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================
+       CARD MODAL / LIGHTBOX
+       ============================================ -->
+  <div class="nos-modal" id="nosModal" role="dialog" aria-modal="true" aria-label="Ver carta">
+    <div class="nos-modal__overlay" id="nosModalOverlay"></div>
+    <div class="nos-modal__card" id="nosModalCard">
+      <button class="nos-modal__close" id="nosModalClose" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <!-- Content injected by JS -->
+    </div>
+  </div>
+
+  <!-- ============================================
+       TIMELINE — Bottle Label Unfurled
+       ============================================ -->
+  <section class="nos-bottle-timeline">
+    <div class="nos-bottle-timeline__inner">
+      <span class="nos-label nos-label--light" style="text-align:center;display:block;margin-bottom:60px;">Nuestra trayectoria</span>
+
+      <div class="nos-bt-container">
+
+        <!-- The wide, unfurled label spanning across -->
+        <div class="nos-bt-label reveal">
+          <!-- Left Wing (Label metadata) -->
+          <div class="nos-bt-label__wing nos-bt-label__wing--left">
+            <div class="nos-bt-meta">
+              <h4 class="nos-bt-meta__title">710 ML <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 2C12 2 4 9.5 4 15.5C4 19.64 7.58 23 12 23C16.42 23 20 19.64 20 15.5C20 9.5 12 2 12 2Z"/></svg></h4>
+              <p>FUNDADO EN:<br>10/03/2016<br>CONSUMIR CON AMIGOS</p>
+              
+              <div class="nos-bt-meta__warnings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <p><strong>Advertencia:</strong><br>Esta cerveza contiene alta dosis de pasión y puede generar fanatismo irremediable por la barrica.</p>
+              </div>
+
+              <div class="nos-bt-barcode">
+                <span>LIC. NO.</span><br>MF19702016
+                <div class="nos-bt-barcode__bars"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Timeline Content -->
+          <div class="nos-bt-label__center">
+            <div class="nos-bt-timeline-grid">
+              
+              <div class="nos-bt-step">
+                <span class="nos-bt-step__year">2016</span>
+                <h4 class="nos-bt-step__title">Comienzos<br>Nómades</h4>
+                <p class="nos-bt-step__desc">Arrancamos sin fábrica propia, cocinando con la ayuda de nuestros amigos de Boar, movidos por las ganas de hacer la cerveza que soñábamos.</p>
+              </div>
+
+              <div class="nos-bt-step">
+                <span class="nos-bt-step__year">2018</span>
+                <h4 class="nos-bt-step__title">Nuestro Propio<br>Brewpub</h4>
+                <p class="nos-bt-step__desc">Armamos nuestra casa, ganando control total sobre el proceso. Un espacio único donde la cerveza y la comunidad se encuentran cara a cara.</p>
+              </div>
+
+              <div class="nos-bt-step">
+                <span class="nos-bt-step__year">2021</span>
+                <h4 class="nos-bt-step__title">Amor por<br>la Barrica</h4>
+                <p class="nos-bt-step__desc">Nos sumergimos en el mundo de la maduración en madera. Empezamos a jugar con el tiempo y roble, transformando recetas clásicas en complejas.</p>
+              </div>
+
+              <div class="nos-bt-step">
+                <span class="nos-bt-step__year">Hoy</span>
+                <h4 class="nos-bt-step__title">Curiosidad<br>Sin Límites</h4>
+                <p class="nos-bt-step__desc">Casi nunca repetimos una receta. Ingredientes exóticos, levaduras salvajes, experimentación constante. Cada lote es una aventura nueva para probar.</p>
+              </div>
+
+            </div>
+            
+            <div class="nos-bt-label__brand">
+            </div>
+          </div>
+
+          <!-- Right Wing (Stats table) -->
+          <div class="nos-bt-label__wing nos-bt-label__wing--right">
+            <div class="nos-bt-stats">
+              <h4 class="nos-bt-stats__title">NUESTRA HISTORIA<br>EN NÚMEROS Y DETALLES</h4>
+              <p>Ingredientes: Agua, Malta, Lúpulo, Levadura, Tiempo, Locura y mucha, pero mucha Paciencia.</p>
+              
+              <table class="nos-bt-table">
+                <tr><td>ESPÍRITU</td><td>INDEPENDIENTE</td></tr>
+                <tr><td>FILTRADO</td><td>0%</td></tr>
+                <tr><td>BARRICAS</td><td>MUCHAS</td></tr>
+                <tr><td>CURIOSIDAD</td><td>INFINITA</td></tr>
+                <tr><td>COLOR</td><td>OSCURO / CLARO</td></tr>
+                <tr><td>MÉTODO</td><td>SIEMPRE VIVA</td></tr>
+              </table>
+
+              <div class="nos-bt-domain">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                www.cervezamalafama.com
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PHILOSOPHY — Artisanal label cards
+       ============================================ -->
+  <section class="nos-section nos-values reveal">
+    <div class="nos-section__inner">
+      <span class="nos-label">Lo que nos define</span>
+      <h2 class="nos-heading">Nuestra filosofía</h2>
+      <div class="nos-values__grid">
+
+        <div class="nos-value-card reveal">
+          <div class="nos-value-card__ribbon"></div>
+          <div class="nos-value-card__icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>
+              <path d="M12 12c0 3.3-2.7 6-6 6"/>
+              <circle cx="17" cy="6" r="3"/>
+            </svg>
+          </div>
+          <div class="nos-value-card__divider"></div>
+          <h3 class="nos-value-card__title">Vivas y naturales</h3>
+          <p class="nos-value-card__text">Sin filtrar, sin clarificantes y sin pasteurizar. La cerveza como debe ser: viva.</p>
+          <div class="nos-value-card__batch">Lote N° 001</div>
+        </div>
+
+        <div class="nos-value-card reveal">
+          <div class="nos-value-card__ribbon"></div>
+          <div class="nos-value-card__icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/>
+              <line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <div class="nos-value-card__divider"></div>
+          <h3 class="nos-value-card__title">Maduración en madera</h3>
+          <p class="nos-value-card__text">Apasionados de la barrica, que transforma y complejiza cada receta con el tiempo.</p>
+          <div class="nos-value-card__batch">Lote N° 002</div>
+        </div>
+
+        <div class="nos-value-card reveal">
+          <div class="nos-value-card__ribbon"></div>
+          <div class="nos-value-card__icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="nos-value-card__divider"></div>
+          <h3 class="nos-value-card__title">Siempre experimentando</h3>
+          <p class="nos-value-card__text">Ingredientes exóticos, técnicas nuevas y curiosidad sin límites. Casi nunca repetimos una receta.</p>
+          <div class="nos-value-card__batch">Lote N° 003</div>
+        </div>
+
+        <div class="nos-value-card reveal">
+          <div class="nos-value-card__ribbon"></div>
+          <div class="nos-value-card__icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="nos-value-card__divider"></div>
+          <h3 class="nos-value-card__title">Para compartir</h3>
+          <p class="nos-value-card__text">Somos apasionados de hacer la cerveza que más nos gusta y poder compartirla con amigos.</p>
+          <div class="nos-value-card__batch">Lote N° 004</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       MANIFESTO — Bold quote
+       ============================================ -->
+  <section class="nos-manifesto reveal">
+    <div class="nos-manifesto__inner">
+      <blockquote class="nos-manifesto__quote">
+        "Somos apasionados de hacer la cerveza que más nos gusta<br>
+        <em>y poder compartirla con amigos."</em>
+      </blockquote>
+      <p class="nos-manifesto__attribution">— Los hermanos Mala Fama</p>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SOCIAL CTA
+       ============================================ -->
+  <section class="nos-section nos-social-cta reveal">
+    <div class="nos-social-cta__inner">
+      <h2 class="nos-heading">Seguinos en <span style="color: #2b52b3;">Instagram</span></h2>
+      <p class="nos-body" style="text-align:center;margin-bottom:32px;">Cada lote, cada tanda, cada novedad — te la contamos primero en el IG.</p>
+      <a href="https://www.instagram.com/cerveceria_malafama/" class="nos-social-cta__btn" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        @cerveceria_malafama
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <!-- Logo -->
+      <div class="footer__logo-wrap">
+        <img src="img/logo-original/logo-footer.png" alt="Mala Fama" class="footer__logo-img">
+      </div>
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <span class="footer__newsletter-eyebrow">Club Mala Fama</span>
+        <h2 class="footer__newsletter-title">SUMATE A LA <em>MALA FAMA</em></h2>
+        <p class="footer__newsletter-sub">Novedades, lanzamientos, ediciones limitadas y 10% OFF en tu próxima compra. Cero spam, pura cerveza.</p>
+        <form class="footer__newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡BIENVENIDO!'; setTimeout(()=>{this.querySelector('button').textContent='SUSCRIBIRME'; this.querySelector('input').value='';},2500);">
+          <input type="email" class="footer__newsletter-input" placeholder="tu@email.com" required>
+          <button type="submit" class="footer__newsletter-btn">Suscribirme</button>
+        </form>
+      </div>
+
+      <!-- Grid principal -->
+      <div class="footer__grid">
+        <!-- Brand -->
+        <div class="footer__brand">
+          <img src="img/logo.png" alt="Mala Fama" class="footer__brand-logo">
+          <p class="footer__brand-tagline"><strong>Cerveza artesanal uruguaya.</strong> Sin filtrar, sin pasteurizar, con mala fama desde siempre.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div>
+          <h3 class="footer__section-title">Tienda</h3>
+          <a href="index.html?view=cans" class="footer__link">Cervezas</a>
+          <a href="index.html?view=valuepacks" class="footer__link">Packs</a>
+          <a href="index.html?view=specials" class="footer__link">Especiales</a>
+          <a href="index.html?view=merch" class="footer__link">Merch</a>
+        </div>
+
+        <!-- Compañía -->
+        <div>
+          <h3 class="footer__section-title">Compañía</h3>
+          <a href="nosotros.html" class="footer__link">Nuestra historia</a>
+          <a href="restaurant.html" class="footer__link">Locales</a>
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__link">Contacto</a>
+          
+        </div>
+
+        <!-- Locales -->
+        <div>
+          <h3 class="footer__section-title">Locales</h3>
+          <div class="footer__location">
+            <div class="footer__location-name">Montevideo</div>
+            <span class="footer__location-addr">Maldonado 1970</span>
+            <a href="tel:+59897313349" class="footer__location-phone">+598 97 313 349</a>
+            <a href="https://www.instagram.com/cerveceria_malafama/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @cerveceria_malafama
+            </a>
+          </div>
+          <div class="footer__location">
+            <div class="footer__location-name">Punta del Este</div>
+            <span class="footer__location-addr">Pedragosa Sierra 20100</span>
+            <a href="tel:+59892150847" class="footer__location-phone">+598 92 150 847</a>
+            <a href="https://www.instagram.com/malafama_puntadeleste/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @malafama_puntadeleste
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wordmark gigante -->
+      <div class="footer__wordmark" aria-hidden="true">MALA FAMA</div>
+
+      <!-- Bottom -->
+      <div class="footer__bottom">
+        <span>&copy; 2026 Cervecería Mala Fama · Uruguay</span>
+        <span class="footer__bottom-disclaimer">Bebé con responsabilidad · Prohibida la venta a menores de 18 años</span>
+        <div class="footer__bottom-links">
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__bottom-link">ventas@cervezamalafama.com</a>
+          <a href="#" class="footer__bottom-link">Términos</a>
+          <a href="#" class="footer__bottom-link">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Isla flotante inferior -->
+  <nav class="floating-nav" id="floatingNav">
+    <a href="restaurant.html" class="floating-nav__link">Locales</a>
+    <a href="nosotros.html" class="floating-nav__link active">Sobre nosotros</a>
+    <a href="restaurant.html#reservas" class="floating-nav__link floating-nav__link--primary">RESERVAR MESA</a>
+  </nav>
+
+  <script>
+    /* ---- Scroll reveal ---- */
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => revealObs.observe(el));
+
+    /* ---- Truco Card Modal ---- */
+    const modal     = document.getElementById('nosModal');
+    const modalCard = document.getElementById('nosModalCard');
+    const overlay   = document.getElementById('nosModalOverlay');
+    const closeBtn  = document.getElementById('nosModalClose');
+
+    const cardContents = {
+      logo: {
+        title: 'El Logo',
+        suit: '♣',
+        body: `<img src="img/logo-historia/logo real.png" alt="Logo Mala Fama" style="width:100%;max-width:320px;margin:0 auto;display:block;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.25));">`
+      },
+      cacique: {
+        title: 'El Cacique',
+        suit: '♠',
+        body: `<img src="img/logo-historia/cacique-retrato.png" alt="Retrato del cacique Tabaré" style="width:100%;max-width:340px;margin:0 auto;display:block;border-radius:4px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.25));">
+               <p style="text-align:center;font-size:13px;color:#7a6a52;margin-top:12px;font-style:italic;font-family:'IM Fell English',serif;">"Para Hebe, con el afecto de su amigo viejo — J. Zorrilla de San Martín"</p>`
+      },
+      poema: {
+        title: 'Tabaré — J. Zorrilla de San Martín',
+        suit: '♦',
+        body: `<div style="font-family:'IM Fell English',serif;text-align:center;line-height:1.9;color:#3a2a1a;">
+          <p style="font-size:20px;font-weight:700;letter-spacing:0.15em;margin-bottom:20px;">TABARÉ</p>
+          <p style="font-style:italic;font-size:15px;">
+            En la orilla bravía<br>
+            del Plata soberano,<br>
+            con sangre de charrúa<br>
+            y sangre de cristiano,<br><br>
+            vivió el indio Tabaré,<br>
+            de ojos azules claros,<br>
+            hijo de raza muerta,<br>
+            alma de mundos varios.<br><br>
+            La tribu lo miraba<br>
+            como a un ser extraño,<br>
+            y él buscaba en silencio<br>
+            lo que el mundo le había negado.<br><br>
+            — Juan Zorrilla de San Martín
+          </p>
+        </div>`
+      }
+    };
+
+    function openCard(type) {
+      const content = cardContents[type];
+      modalCard.innerHTML = `
+        <button class="nos-modal__close" id="nosModalClose2" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="nos-modal__suit">${content.suit}</div>
+        <div class="nos-modal__title">${content.title}</div>
+        <div class="nos-modal__divider"></div>
+        <div class="nos-modal__body">${content.body}</div>
+        <div class="nos-modal__suit nos-modal__suit--bottom">${content.suit}</div>
+      `;
+      modal.classList.add('nos-modal--open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('nosModalClose2').addEventListener('click', closeCard);
+    }
+
+    function closeCard() {
+      modal.classList.remove('nos-modal--open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.nos-card').forEach(btn => {
+      btn.addEventListener('click', () => openCard(btn.dataset.card));
+    });
+
+    overlay.addEventListener('click', closeCard);
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeCard();
+    });
+  </script>
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Mala Fama Brewing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="page-admin">
+
+  <!-- Top Marquee (same as index) -->
+  <div class="top-marquee">
+    <div class="top-marquee__track">
+      <span>PANEL DE ADMINISTRACIÓN</span>
+      <span>MALA FAMA BREWING</span>
+      <span>PANEL DE ADMINISTRACIÓN</span>
+      <span>MALA FAMA BREWING</span>
+      <span>PANEL DE ADMINISTRACIÓN</span>
+      <span>MALA FAMA BREWING</span>
+      <span>PANEL DE ADMINISTRACIÓN</span>
+      <span>MALA FAMA BREWING</span>
+    </div>
+  </div>
+
+  <!-- Logo flotante (same as index) -->
+  <a href="index.html" class="floating-logo" aria-label="Inicio">
+    <img src="img/logo.png" alt="Mala Fama Brewing" class="floating-logo__img">
+  </a>
+
+  <!-- Actions: user info + logout (replaces cart/search) -->
+  <div class="floating-actions">
+    <span id="adminUserName" style="color:#fff;font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;opacity:0.6;margin-right:4px;"></span>
+    <button class="floating-actions__btn" onclick="adminLogout()" aria-label="Cerrar sesión" title="Cerrar sesión">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Admin Tabs (styled like shop-subnav) -->
+  <nav class="shop-subnav pdp-subnav" style="z-index:1000;">
+    <div class="shop-subnav__inner">
+      <a href="#" class="shop-subnav__link active" onclick="event.preventDefault();switchTab('dashboard')">Dashboard</a>
+      <a href="#" class="shop-subnav__link" onclick="event.preventDefault();switchTab('orders')">Pedidos</a>
+      <a href="#" class="shop-subnav__link" onclick="event.preventDefault();switchTab('bookings')">Reservas</a>
+      <a href="#" class="shop-subnav__link" onclick="event.preventDefault();switchTab('products')">Productos</a>
+      <a href="#" class="shop-subnav__link" onclick="event.preventDefault();switchTab('customers')">Clientes</a>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="admin-content">
+
+    <!-- ===== DASHBOARD TAB ===== -->
+    <div id="tab-dashboard" class="tab-panel active">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="label">Ventas Hoy</div>
+          <div class="value" id="statTodayTotal">$U 0</div>
+          <div class="sub" id="statTodayCount">0 pedidos</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Ventas Semana</div>
+          <div class="value" id="statWeekTotal">$U 0</div>
+          <div class="sub" id="statWeekCount">0 pedidos</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Ventas Mes</div>
+          <div class="value" id="statMonthTotal">$U 0</div>
+          <div class="sub" id="statMonthCount">0 pedidos</div>
+        </div>
+      </div>
+
+      <div id="lowStockAlerts"></div>
+
+      <div class="chart-container">
+        <h3>Revenue Últimos 7 Días</h3>
+        <div class="chart-bars" id="revenueChart"></div>
+      </div>
+
+      <div class="admin-table-container">
+        <h3>Pedidos Recientes</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="recentOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ORDERS TAB ===== -->
+    <div id="tab-orders" class="tab-panel">
+      <div class="filters-bar">
+        <select id="orderStatusFilter" onchange="loadOrders()">
+          <option value="">Todos los estados</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="preparando">Preparando</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <input type="date" id="orderDateFrom" onchange="loadOrders()" placeholder="Desde">
+        <input type="date" id="orderDateTo" onchange="loadOrders()" placeholder="Hasta">
+      </div>
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Pago</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== BOOKINGS TAB ===== -->
+    <div id="tab-bookings" class="tab-panel">
+      <!-- Capacity Editor -->
+      <div class="admin-card" style="margin-bottom:24px;">
+        <h3 style="margin:0 0 16px;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.05em;">Gestión de Cupos</h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px;">
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Local</label>
+            <select id="capLocation" onchange="loadCapacityInfo(); loadBookings();" style="padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+              <option value="montevideo">Montevideo</option>
+              <option value="punta del este">Punta del Este</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Fecha</label>
+            <input type="date" id="capDate" onchange="loadCapacityInfo(); loadBookings();" style="padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Capacidad base</label>
+            <div style="display:flex;gap:6px;">
+              <input type="number" id="capBase" style="width:80px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+              <button onclick="saveBaseCapacity()" style="padding:8px 16px;background:#1d2357;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;">Guardar</button>
+            </div>
+          </div>
+        </div>
+        <div id="capInfo" style="display:flex;gap:20px;flex-wrap:wrap;font-size:0.9rem;"></div>
+        <!-- Agregar reserva manual -->
+        <div style="border-top:1px solid #eee;margin-top:16px;padding-top:16px;">
+          <h4 style="margin:0 0 12px;font-size:0.8rem;font-weight:700;text-transform:uppercase;color:#888;letter-spacing:0.05em;">Agregar reserva manual (WhatsApp / presencial)</h4>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;">
+            <div>
+              <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Nombre</label>
+              <input type="text" id="manualName" placeholder="Juan García" style="width:160px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+            </div>
+            <div>
+              <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Email (opcional)</label>
+              <input type="email" id="manualEmail" placeholder="juan@email.com" style="width:180px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+            </div>
+            <div>
+              <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Personas</label>
+              <input type="number" id="manualGuests" value="2" min="1" max="50" style="width:70px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+            </div>
+            <div>
+              <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Hora</label>
+              <select id="manualTime" style="padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+                <option>20:00</option><option>20:15</option><option>20:30</option><option>20:45</option>
+                <option>21:00</option><option>21:15</option><option>21:30</option><option>21:45</option>
+                <option>22:00</option><option>22:15</option><option>22:30</option><option>22:45</option>
+                <option>23:00</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;color:#888;">Nota</label>
+              <input type="text" id="manualNote" placeholder="Ej: reservó por WhatsApp" style="width:180px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+            </div>
+            <button onclick="saveManualBooking()" style="padding:8px 18px;background:#1d2357;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:700;">+ Agregar reserva</button>
+          </div>
+          <div id="manualBookingMsg" style="margin-top:8px;font-size:0.85rem;min-height:20px;"></div>
+        </div>
+      </div>
+
+      <!-- Bookings Table -->
+      <div class="filters-bar">
+        <select id="bookingLocationFilter" onchange="loadBookings()">
+          <option value="">Todas las ubicaciones</option>
+          <option value="montevideo">Montevideo</option>
+          <option value="punta del este">Punta del Este</option>
+        </select>
+        <select id="bookingStatusFilter" onchange="loadBookings()">
+          <option value="">Todos los estados</option>
+          <option value="confirmed">Confirmada</option>
+          <option value="cancelled">Cancelada</option>
+          <option value="completed">Completada</option>
+        </select>
+      </div>
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Personas</th>
+              <th>Local</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== PRODUCTS TAB ===== -->
+    <div id="tab-products" class="tab-panel">
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Estilo</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== CUSTOMERS TAB ===== -->
+    <div id="tab-customers" class="tab-panel">
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Pedidos</th>
+              <th>Total Gastado</th>
+              <th>Registro</th>
+            </tr>
+          </thead>
+          <tbody id="customersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Detail Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal" style="position:relative;">
+      <button class="close-btn" onclick="closeOrderModal()">✕</button>
+      <h3>Detalle del Pedido</h3>
+      <div id="orderModalContent"></div>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

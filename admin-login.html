@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Mala Fama Brewing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0f1020;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #1a1d35;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+
+    .login-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .login-logo img {
+      width: 180px;
+      height: auto;
+      filter: invert(1);
+    }
+
+    .login-title {
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .login-field {
+      margin-bottom: 16px;
+    }
+
+    .login-field label {
+      display: block;
+      color: rgba(255,255,255,0.5);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .login-field input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .login-field input:focus {
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .login-error {
+      background: rgba(196, 30, 30, 0.15);
+      border: 1px solid rgba(196, 30, 30, 0.4);
+      border-radius: 8px;
+      color: #ff6b6b;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      display: none;
+      letter-spacing: 0.03em;
+    }
+
+    .login-error.visible { display: block; }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1d2357;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+
+    .login-btn:hover { background: #252d6e; }
+    .login-btn:active { transform: scale(0.98); }
+    .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="img/logo-original/logo-horizontal.png" alt="Mala Fama Brewing">
+    </div>
+    <div class="login-title">Panel de Administración</div>
+
+    <div class="login-error" id="loginError"></div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="login-field">
+        <label>Email</label>
+        <input type="email" id="emailInput" placeholder="admin@malafama.com" required autocomplete="username">
+      </div>
+      <div class="login-field">
+        <label>Contraseña</label>
+        <input type="password" id="passwordInput" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn" id="loginBtn">Ingresar al panel</button>
+    </form>
+  </div>
+
+  <script>
+    // Si ya está logueado como admin, ir directo al dashboard
+    fetch('/api/auth/me').then(r => r.json()).then(data => {
+      if (data.user && data.user.isAdmin) {
+        window.location.replace('admin.html');
+      }
+    }).catch(() => {});
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      var btn = document.getElementById('loginBtn');
+      var errorEl = document.getElementById('loginError');
+      var email = document.getElementById('emailInput').value.trim();
+      var password = document.getElementById('passwordInput').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Ingresando...';
+      errorEl.classList.remove('visible');
+
+      try {
+        var res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: password })
+        });
+        var data = await res.json();
+
+        if (data.success && data.user && data.user.isAdmin) {
+          window.location.replace('admin.html');
+        } else if (data.success && !data.user.isAdmin) {
+          errorEl.textContent = 'Esta cuenta no tiene acceso al panel de administración.';
+          errorEl.classList.add('visible');
+          btn.disabled = false;
+          btn.textContent = 'Ingresar al panel';
+        } else {
+          errorEl.textContent = data.error || 'Email o contraseña incorrectos.';
+          errorEl.classList.add('visible');
+          btn.disabled = false;
+          btn.textContent = 'Ingresar al panel';
+        }
+      } catch (err) {
+        errorEl.textContent = 'Error de conexión. Verificá que el servidor esté activo.';
+        errorEl.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Ingresar al panel';
+      }
+    }
+  </script>
+
+</body>
+</html>

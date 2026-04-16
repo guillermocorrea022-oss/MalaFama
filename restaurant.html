@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visitá nuestros locales en Montevideo y Punta del Este. +10 canillas de cerveza artesanal, cocina a leña y el mejor ambiente.">
+  <meta property="og:title" content="Locales | Cervecería Mala Fama">
+  <meta property="og:description" content="Cervecería artesanal con locales en Montevideo y Punta del Este. Reservá tu mesa online.">
+  <meta property="og:image" content="img/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://cervezamalafama.com/locales">
+  <title>Locales | Cervecería Mala Fama</title>
+  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/restaurant.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Rye&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body class="page-locales">
+
+  <!-- Shop Subnav — aparece al hacer scroll up en móvil -->
+  <nav class="shop-subnav pdp-subnav" aria-label="Navegación rápida">
+    <div class="shop-subnav__inner">
+      <a href="index.html?view=home" class="shop-subnav__link">INICIO</a>
+      <a href="index.html?view=cans" class="shop-subnav__link">CERVEZAS</a>
+      <a href="index.html?view=valuepacks" class="shop-subnav__link">PACKS</a>
+      <a href="index.html?view=specials" class="shop-subnav__link">ESPECIALES</a>
+      <a href="index.html?view=merch" class="shop-subnav__link">MERCH</a>
+      <a href="index.html?view=archive" class="shop-subnav__link">SIN STOCK</a>
+    </div>
+  </nav>
+
+
+  <!-- Top Marquee -->
+  <div class="top-marquee">
+    <div class="top-marquee__track">
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>SIN FILTRAR · SIN PASTEURIZAR · SIN CLARIFICANTES</span>
+    </div>
+  </div>
+
+  <!-- Logo flotante arriba-izquierda -->
+  <a href="index.html" class="floating-logo" aria-label="Inicio">
+    <img src="img/logo.png" alt="Mala Fama Brewing" class="floating-logo__img">
+  </a>
+
+  <!-- Buscar + Carrito flotante arriba-derecha -->
+  <div class="floating-actions">
+    <button class="floating-actions__btn" id="searchBtn" aria-label="Buscar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <button class="floating-actions__btn" id="cartBtn" aria-label="Cart">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3c.5 0 2.8-.2 3.5.3s1 1.8 1.3 2.7l3.2 12c.3 1 .8 1.8 1.9 2s2.2.1 3.2.1h7.2c1.2 0 2-.6 2.3-1.7L27 9.5c.2-.8.1-1.6-.8-1.8-.6-.1-1.2 0-1.8 0H8.5"/>
+        <circle cx="12" cy="27" r="1.8" stroke-width="2"/>
+        <circle cx="23" cy="27" r="1.8" stroke-width="2"/>
+        <path d="M10 22.5c1-.1 4.2.2 5.5.1 2-.1 5.5.2 7.5-.1"/>
+      </svg>
+      <span class="floating-cart__badge" id="cartBadge" style="display:none">0</span>
+    </button>
+    <button class="floating-actions__btn" id="userBtn" aria-label="Mi cuenta">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ============================================
+       HERO — Full bleed, dark atmospheric
+       ============================================ -->
+  <section class="loc-hero">
+    <div class="loc-hero__bg" style="background-image: url('img/restaurant/bar-0.jpg');"></div>
+    <div class="loc-hero__overlay"></div>
+
+    <!-- "+10" outline decorativo de fondo — solo desktop -->
+    <div class="loc-hero__year-bg" aria-hidden="true">+10</div>
+
+    <div class="loc-hero__content">
+      <!-- Columna izquierda: título -->
+      <div class="loc-hero__left">
+        <h1 class="loc-hero__title">
+          <span class="loc-hero__title-row">
+            <span class="loc-hero__title-mala">Mala</span><span class="loc-hero__title-fama">Fama</span>
+          </span>
+          <span class="loc-hero__title-locales">Locales</span>
+        </h1>
+      </div>
+      <!-- Columna derecha: directorio — solo desktop -->
+      <div class="loc-hero__right">
+        <div class="loc-hero__directory">
+          <div class="loc-hero__dir-item">
+            <span class="loc-hero__dir-city">Montevideo</span>
+            <span class="loc-hero__dir-addr">Maldonado 1970</span>
+            <span class="loc-hero__dir-phone">+598 97 313 349</span>
+          </div>
+          <div class="loc-hero__dir-divider"></div>
+          <div class="loc-hero__dir-item">
+            <span class="loc-hero__dir-city">Punta del Este</span>
+            <span class="loc-hero__dir-addr">Pedragosa Sierra 20100</span>
+            <span class="loc-hero__dir-phone">+598 92 150 847</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de stats al pie — solo desktop -->
+    <div class="loc-hero__pillars" aria-hidden="true">
+      <div class="loc-hero__pillar">
+        <span class="loc-hero__pillar-num">2</span>
+        <span class="loc-hero__pillar-label">Locales</span>
+      </div>
+      <div class="loc-hero__pillar-sep">·</div>
+      <div class="loc-hero__pillar">
+        <span class="loc-hero__pillar-num">+10</span>
+        <span class="loc-hero__pillar-label">Canillas</span>
+      </div>
+      <div class="loc-hero__pillar-sep">·</div>
+      <div class="loc-hero__pillar">
+        <span class="loc-hero__pillar-num">Cocina</span>
+        <span class="loc-hero__pillar-label">A leña</span>
+      </div>
+      <div class="loc-hero__pillar-sep">·</div>
+      <div class="loc-hero__pillar">
+        <span class="loc-hero__pillar-num">Reservas</span>
+        <span class="loc-hero__pillar-label">Online</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       INTRO — What we are
+       ============================================ -->
+  <section class="loc-intro reveal">
+    <div class="loc-intro__inner">
+      <h2 class="loc-intro__heading">Cerveza <span style="color: #2b52b3;">tirada</span></h2>
+      <p class="loc-intro__text">Nuestros locales en el centro de Montevideo y Punta del Este cuentan con más de 10 canillas de nuestra cerveza que rota semanalmente, además de variedades en lata y botella. Nuestra cocina a leña apunta a la cocina tradicional uruguaya con toques europeos y asiáticos modernos. <br><br>También contamos con agua mineral y natural de la Vertiente Del Angel, una barra completa con cocktails c/ y sin alcohol, y la selección de nuestros vinos preferidos disponibles de tirada, botella y algunos por copa.</p>
+      <div class="loc-intro__features">
+        <div class="loc-feature reveal">
+          <div class="loc-feature__img">
+            <img src="./img/local/canillas.jpg" alt="Canillas de cerveza artesanal" loading="lazy">
+          </div>
+          <div class="loc-feature__label">+10 Canillas</div>
+          <div class="loc-feature__desc">Cerveza artesanal que rota cada semana</div>
+        </div>
+        <div class="loc-feature reveal">
+          <div class="loc-feature__img">
+            <img src="./img/local/cocina-a-leña.jpg" alt="Cocina a leña" loading="lazy">
+          </div>
+          <div class="loc-feature__label">Cocina a leña</div>
+          <div class="loc-feature__desc">Uruguaya con toques europeos y asiáticos</div>
+        </div>
+        <div class="loc-feature reveal">
+          <div class="loc-feature__img">
+            <img src="img/restaurant/bar-0.jpg" alt="Bar completo" loading="lazy">
+          </div>
+          <div class="loc-feature__label">Bar completo</div>
+          <div class="loc-feature__desc">Cócteles, vinos en canilla y por copa</div>
+        </div>
+        <div class="loc-feature reveal">
+          <div class="loc-feature__img">
+            <img src="./img/local/foto-pool.jpg" alt="Ambiente Mala Fama" loading="lazy">
+          </div>
+          <div class="loc-feature__label">El mejor ambiente</div>
+          <div class="loc-feature__desc">Buena música, buena onda</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+   <!-- ============================================
+       CARTA — Single CTA to open PDF menu
+       ============================================ -->
+  <section class="loc-carta reveal">
+    <div class="loc-carta__inner">
+      <h3 class="loc-section-title">Nuestra <span style="color: #2b52b3;">carta</span></h3>
+      <p class="loc-carta__text">Cerveza artesanal, cocina a leña, tragos de autor y vinos.</p>
+      <a href="assets/menu.pdf" target="_blank" class="loc-carta__btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Ver carta completa
+      </a>
+    </div>
+  </section>
+
+
+
+  <!-- ============================================
+       GALLERY — Horizontal auto-scroll carousel
+       Only real photos comida
+       ============================================ -->
+  <section class="loc-gallery">
+    <h3 class="loc-section-title reveal">Nuestros <span style="color: #2b52b3;">platos</span></h3>
+    <div class="loc-gallery__track" id="foodGallery">
+      <div class="loc-gallery__card"><img src="./img/comidas/empanadas.jpg" alt="Empanadas artesanales de la cocina a leña" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/comidas/milanapo.jpg" alt="Milanesa napolitana con papas" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/pizza-peporoni.jpg" alt="Pizza de pepperoni a la leña" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/pizzafuga.jpg" alt="Pizza fugazzeta con queso" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/comidas/pizzas.jpg" alt="Variedad de pizzas artesanales" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/comidas/plato1.jpg" alt="Plato principal de cocina uruguaya" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/plato2.jpg" alt="Plato con toques europeos y asiáticos" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/plato3.jpg" alt="Comida de la cocina a leña Mala Fama" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/comidas/plato4.jpg" alt="Plato especial del día" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/plato5.jpg" alt="Entrada para compartir" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/comidas/plato6.jpg" alt="Postre artesanal" loading="lazy"></div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- ============================================
+       GALLERY — Horizontal auto-scroll carousel
+       Only real photos
+       ============================================ -->
+  <section class="loc-gallery">
+    <h3 class="loc-section-title reveal">El <span style="color: #2b52b3;">ambiente</span></h3>
+    <div class="loc-gallery__track" id="ambientGallery">
+      <div class="loc-gallery__card"><img src="img/restaurant/bar-0.jpg" alt="Barra de cervecería Mala Fama" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/local/canillas.jpg" alt="Canillas de cerveza artesanal rotativas" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/restaurant/bar-1.jpg" alt="Interior del local Montevideo" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/local/foto-ambiente-2.jpg" alt="Ambiente nocturno cervecería" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="img/restaurant/bar-2.jpg" alt="Local Mala Fama Punta del Este" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/local/foto-ambiente-4.jpg" alt="Terraza y espacio al aire libre" loading="lazy"></div>
+      <div class="loc-gallery__card"><img src="./img/local/foto-ambiente-3.jpg" alt="Mesa de pool y zona de juegos" loading="lazy"></div>
+    </div>
+  </section>
+
+  
+
+  <!-- ============================================
+       LOCATIONS — Two cards side by side
+       ============================================ -->
+  <section class="loc-locations">
+    <h3 class="loc-section-title reveal"><span style="color: #2b52b3;">Encontranos</span></h3>
+    <div class="loc-cards">
+
+      <!-- Montevideo -->
+      <div class="loc-card reveal">
+        <div class="loc-card__image">
+          <img src="img/restaurant/bar-1.jpg" alt="Mala Fama Montevideo" loading="lazy">
+          <div class="loc-card__badge">MVD</div>
+        </div>
+        <div class="loc-card__info">
+          <h4 class="loc-card__name">Montevideo</h4>
+          <p class="loc-card__address">Maldonado 1970</p>
+          <p class="loc-card__phone"><a href="tel:+59897313349">+598 97 313 349</a></p>
+          <div class="loc-card__hours">
+            <p>Mar - Sáb: 20:00 - 02:30</p>
+          </div>
+          <div class="loc-card__actions">
+            <button class="loc-card__btn loc-card__btn--primary" onclick="openBookingModal('montevideo')">Reservar mesa</button>
+            <a href="https://www.google.com/maps/place/Cervecer%C3%ADa+Mala+Fama/@-34.9080556,-56.1666667,17z/" target="_blank" class="loc-card__btn loc-card__btn--secondary">Cómo llegar</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Punta del Este -->
+      <div class="loc-card reveal">
+        <div class="loc-card__image">
+          <img src="img/restaurant/bar-2.jpg" alt="Mala Fama Punta del Este" loading="lazy">
+          <div class="loc-card__badge">PDE</div>
+        </div>
+        <div class="loc-card__info">
+          <h4 class="loc-card__name">Punta del Este</h4>
+          <p class="loc-card__address">Pedragosa Sierra 20100</p>
+          <p class="loc-card__phone"><a href="tel:+59892150847">+598 92 150 847</a></p>
+          <div class="loc-card__hours">
+            <p>Mié - Sáb: 20:00 - 03:00</p>
+          </div>
+          <div class="loc-card__actions">
+            <button class="loc-card__btn loc-card__btn--primary" onclick="openBookingModal('punta del este')">Reservar mesa</button>
+            <a href="https://www.google.com/maps/place/Mala+Fama+PDE/@-34.9576359,-54.945893,17z/" target="_blank" class="loc-card__btn loc-card__btn--secondary">Cómo llegar</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  
+  <!-- ============================================
+       MAPS — Embedded Google Maps
+       ============================================ -->
+  <section class="loc-maps">
+    <div class="loc-maps__grid">
+      <div class="loc-map reveal">
+        <h4 class="loc-map__title">Mala Fama — Montevideo</h4>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.2479493979854!2d-56.1666667!3d-34.9080556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f81a17586ffbb%3A0xe53bc9d87aa1de20!2sCervecer%C3%ADa%20Mala%20Fama!5e0!3m2!1sen!2suy!4v1710000000000!5m2!1sen!2suy" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="loc-map reveal">
+        <h4 class="loc-map__title">Mala Fama — Punta del Este</h4>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1565.4613280824976!2d-54.945893!3d-34.9576359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95751aaf2367dadd%3A0x63a32f505698b64e!2sMala%20Fama%20PDE!5e0!3m2!1sen!2suy!4v1710000000000!5m2!1sen!2suy" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       BOOKING MODAL — Reservation form
+       ============================================ -->
+  <div class="booking-modal-overlay" id="bookingModal">
+    <div class="booking-modal-content">
+      <button class="booking-modal-close" id="closeBookingBtn">&times;</button>
+
+      <!-- Logo -->
+      <div class="bk-logo">
+        <img src="img/logo-original/logo-horizontal.png" alt="Mala Fama" class="bk-logo__img">
+      </div>
+
+      <!-- Pills resumen -->
+      <div class="bk-pills" id="bkPills"></div>
+
+      <!-- Separador -->
+      <div class="bk-divider"></div>
+
+      <!-- PASO 1: Elegir local -->
+      <div class="bk-step" id="bkStep1" data-step="1">
+        <h3 class="bk-title">Elegí tu <strong>local</strong></h3>
+        <div class="bk-location-btns">
+          <button class="bk-location-btn" data-location="montevideo">
+            <span class="bk-location-btn__name">Montevideo</span>
+            <span class="bk-location-btn__cap" id="capMdeo"></span>
+          </button>
+          <button class="bk-location-btn" data-location="punta del este">
+            <span class="bk-location-btn__name">Punta del Este</span>
+            <span class="bk-location-btn__cap" id="capPde"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PASO 2: Comensales -->
+      <div class="bk-step hidden" id="bkStep2" data-step="2">
+        <h3 class="bk-title">Escoja cantidad de <strong>comensales</strong></h3>
+        <div class="bk-guests-grid">
+          <button class="bk-guest-btn" data-guests="1">1</button>
+          <button class="bk-guest-btn" data-guests="2">2</button>
+          <button class="bk-guest-btn" data-guests="3">3</button>
+          <button class="bk-guest-btn" data-guests="4">4</button>
+        </div>
+        <div class="bk-guests-custom">
+          <button class="bk-guest-adj" id="guestMinus">−</button>
+          <span class="bk-guest-num" id="guestNum">5</span>
+          <button class="bk-guest-adj" id="guestPlus">+</button>
+        </div>
+        <button class="bk-confirm-guests hidden" id="confirmGuestsBtn" onclick="confirmCustomGuests()">Confirmar →</button>
+        <button class="bk-back" id="bkBack2">← Volver</button>
+      </div>
+
+      <!-- PASO 3: Fecha -->
+      <div class="bk-step hidden" id="bkStep3" data-step="3">
+        <h3 class="bk-title">Seleccionar <strong>fecha</strong></h3>
+        <div class="bk-dates-scroll" id="bkDatesScroll"></div>
+        <button class="bk-back" id="bkBack3">← Volver</button>
+      </div>
+
+      <!-- PASO 4: Horario -->
+      <div class="bk-step hidden" id="bkStep4" data-step="4">
+        <div class="bk-time-nav">
+          <button class="bk-time-nav__btn" id="bkPrevDay">
+            <span class="bk-time-nav__label">Día anterior</span>
+            <span class="bk-time-nav__date" id="bkPrevDayDate"></span>
+          </button>
+          <div class="bk-time-nav__current">
+            <strong>Reservas disponibles</strong>
+            <span id="bkCurrentDay"></span>
+          </div>
+          <button class="bk-time-nav__btn" id="bkNextDay">
+            <span class="bk-time-nav__label">Día siguiente</span>
+            <span class="bk-time-nav__date" id="bkNextDayDate"></span>
+          </button>
+        </div>
+        <div class="bk-slots" id="bkSlots"></div>
+        <button class="bk-back" id="bkBack4">← Volver</button>
+      </div>
+
+      <!-- PASO 5: Confirmar -->
+      <div class="bk-step hidden" id="bkStep5" data-step="5">
+        <div class="bk-confirm" id="bkConfirmContent">
+          <!-- Se llena dinámicamente: resumen + botón confirmar, o pedir login -->
+        </div>
+        <button class="bk-back" id="bkBack5">← Volver</button>
+      </div>
+
+      <!-- Éxito -->
+      <div class="bk-step hidden" id="bkStepSuccess">
+        <div class="bk-success">
+          <div class="bk-success__icon">✓</div>
+          <h4 class="bk-success__title">¡Reserva confirmada!</h4>
+          <p class="bk-success__text" id="bkSuccessText"></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <!-- Logo -->
+      <div class="footer__logo-wrap">
+        <img src="img/logo-original/logo-footer.png" alt="Mala Fama" class="footer__logo-img">
+      </div>
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <span class="footer__newsletter-eyebrow">Club Mala Fama</span>
+        <h2 class="footer__newsletter-title">SUMATE A LA <em>MALA FAMA</em></h2>
+        <p class="footer__newsletter-sub">Novedades, lanzamientos, ediciones limitadas y 10% OFF en tu próxima compra. Cero spam, pura cerveza.</p>
+        <form class="footer__newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡BIENVENIDO!'; setTimeout(()=>{this.querySelector('button').textContent='SUSCRIBIRME'; this.querySelector('input').value='';},2500);">
+          <input type="email" class="footer__newsletter-input" placeholder="tu@email.com" required>
+          <button type="submit" class="footer__newsletter-btn">Suscribirme</button>
+        </form>
+      </div>
+
+      <!-- Grid principal -->
+      <div class="footer__grid">
+        <!-- Brand -->
+        <div class="footer__brand">
+          <img src="img/logo.png" alt="Mala Fama" class="footer__brand-logo">
+          <p class="footer__brand-tagline"><strong>Cerveza artesanal uruguaya.</strong> Sin filtrar, sin pasteurizar, con mala fama desde siempre.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div>
+          <h3 class="footer__section-title">Tienda</h3>
+          <a href="index.html?view=cans" class="footer__link">Cervezas</a>
+          <a href="index.html?view=valuepacks" class="footer__link">Packs</a>
+          <a href="index.html?view=specials" class="footer__link">Especiales</a>
+          <a href="index.html?view=merch" class="footer__link">Merch</a>
+        </div>
+
+        <!-- Compañía -->
+        <div>
+          <h3 class="footer__section-title">Compañía</h3>
+          <a href="nosotros.html" class="footer__link">Nuestra historia</a>
+          <a href="restaurant.html" class="footer__link">Locales</a>
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__link">Contacto</a>
+          
+        </div>
+
+        <!-- Locales -->
+        <div>
+          <h3 class="footer__section-title">Locales</h3>
+          <div class="footer__location">
+            <div class="footer__location-name">Montevideo</div>
+            <span class="footer__location-addr">Maldonado 1970</span>
+            <a href="tel:+59897313349" class="footer__location-phone">+598 97 313 349</a>
+            <a href="https://www.instagram.com/cerveceria_malafama/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @cerveceria_malafama
+            </a>
+          </div>
+          <div class="footer__location">
+            <div class="footer__location-name">Punta del Este</div>
+            <span class="footer__location-addr">Pedragosa Sierra 20100</span>
+            <a href="tel:+59892150847" class="footer__location-phone">+598 92 150 847</a>
+            <a href="https://www.instagram.com/malafama_puntadeleste/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @malafama_puntadeleste
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wordmark gigante -->
+      <div class="footer__wordmark" aria-hidden="true">MALA FAMA</div>
+
+      <!-- Bottom -->
+      <div class="footer__bottom">
+        <span>&copy; 2026 Cervecería Mala Fama · Uruguay</span>
+        <span class="footer__bottom-disclaimer">Bebé con responsabilidad · Prohibida la venta a menores de 18 años</span>
+        <div class="footer__bottom-links">
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__bottom-link">ventas@cervezamalafama.com</a>
+          <a href="#" class="footer__bottom-link">Términos</a>
+          <a href="#" class="footer__bottom-link">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Isla flotante inferior — navegación + reservar -->
+  <nav class="floating-nav" id="floatingNav">
+    <a href="restaurant.html" class="floating-nav__link active">Locales</a>
+    <a href="nosotros.html" class="floating-nav__link">Sobre nosotros</a>
+    <button class="floating-nav__link floating-nav__link--primary" onclick="openBookingModal()" style="border:none;font-family:inherit;cursor:pointer;">RESERVAR MESA</button>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/restaurant.js"></script>
+</body>
+</html>

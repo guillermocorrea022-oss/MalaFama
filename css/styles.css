@@ -1,0 +1,6892 @@
+/* =====================================================================
+   MALA FAMA  â€”  SISTEMA DE DISEÃ‘O PRINCIPAL (styles.css)
+   =====================================================================
+   Este archivo contiene TODOS los estilos del sitio, organizado asÃ­:
+
+   1.  IMPORTS Y VARIABLES          â€” Fuentes, colores, espaciado, sombras
+   2.  RESET Y BASE                 â€” NormalizaciÃ³n de elementos HTML
+   3.  MARQUEE SUPERIOR             â€” Banner animado fijo arriba
+   4.  LOGO FLOTANTE                â€” Logo circular arriba-izquierda
+   5.  ACCIONES FLOTANTES           â€” Botones bÃºsqueda/carrito arriba-derecha
+   6.  OVERLAY DE BÃšSQUEDA          â€” Modal fullscreen de bÃºsqueda
+   7.  HERO DINÃMICO                â€” Showcase rotativo de cervezas
+   8.  VERIFICACIÃ“N DE EDAD         â€” Modal age gate
+   9.  SUB-NAVEGACIÃ“N TIENDA        â€” Tabs horizontales (INICIO, CERVEZAS, etc.)
+   10. LAYOUT DE TIENDA             â€” Grid sidebar + productos
+   11. GRILLA DE PRODUCTOS          â€” CSS Grid + skeleton loaders
+   12. TARJETA DE PRODUCTO          â€” Card individual en la grilla
+   13. NAVEGACIÃ“N FLOTANTE INFERIOR â€” Barra fija abajo (Shop, Locales, etc.)
+   14. FOOTER                       â€” Pie de pÃ¡gina, newsletter, redes
+   15. PÃGINA DE PRODUCTO (PDP)     â€” Layout 3 columnas, sticky, acordeÃ³n
+   16. ANIMACIONES                  â€” fadeInUp, delays escalonados
+   17. RESPONSIVE                   â€” Breakpoints: 1200, 900, 640, 380px
+   18. DESKTOP GRANDE               â€” Ajustes >=1201px
+   19. ELEMENTOS HOME               â€” TÃ­tulo dinÃ¡mico, promos, categorÃ­as
+   20. CAJÃ“N DE CARRITO              â€” Drawer deslizable desde la derecha
+   21. SISTEMA AUTH/USUARIO          â€” Login, registro, pedidos
+   22. BEER PICKER                  â€” Selector de cervezas para packs
+   ===================================================================== */
+
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   1. IMPORTS Y VARIABLES DE DISEÃ‘O
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Fuentes de Google: Inter (texto general) y Barlow Condensed (tÃ­tulos display) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap');
+
+/* Variables CSS globales â€” cambiar aquÃ­ para afectar todo el sitio */
+:root {
+  /* Paleta de colores â€” modificar estos valores para cambiar el esquema de color */
+  --color-bg: #EAEAEA;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-green: #2b52b3;
+  --color-green-hover: #2b52b3;
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #e2e2e2;
+  --color-gray-300: #cccccc;
+  --color-gray-400: #999999;
+  --color-gray-500: #777777;
+  --color-gray-600: #555555;
+  --color-gray-700: #333333;
+  --color-gray-800: #1a1a1a;
+  --color-text: #1a1a1a;
+  --color-text-muted: rgba(0, 0, 0, 0.6);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+
+  /* TipografÃ­a â€” font-family es para texto general, font-display para tÃ­tulos grandes */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Barlow Condensed', 'Inter', sans-serif;
+  /* Fuente display para tÃ­tulos, botones y headings */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Espaciado â€” escala de 4px; usar estas variables en padding/margin/gap */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Bordes redondeados â€” de sutil (md) a pÃ­ldora (pill) */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 28px;
+  --radius-pill: 999px;
+
+  /* Sombras â€” card es sutil, card-hover mÃ¡s pronunciada, can para latas, nav para barra flotante */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadow-can: 1rem 1rem 1rem rgba(0, 0, 0, 0.35);
+  --shadow-nav: 0 4px 24px rgba(0, 0, 0, 0.15);
+
+  /* Transiciones â€” fast para hovers, normal para la mayorÃ­a, slow para animaciones grandes */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Layout â€” ancho mÃ¡ximo del sitio, altura del header y de la barra flotante inferior */
+  --max-width: 1400px;
+  --header-height: 72px;
+  --floating-nav-height: 56px;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   2. RESET Y ESTILOS BASE
+   Normaliza todos los elementos para que se comporten igual en todos
+   los navegadores. Define tipografÃ­a base, colores y comportamiento
+   general de links, botones e imÃ¡genes.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   3. MARQUEE SUPERIOR (banner promocional)
+   Barra fija en la parte superior que se desplaza horizontalmente
+   con texto promocional. Altura: 42px desktop, 34px mÃ³vil.
+   Para cambiar el contenido: editar index.html â†’ .top-marquee__track
+   Para cambiar velocidad: modificar 20s en la animaciÃ³n marquee.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.top-marquee {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  /* Altura del banner â€” afecta posiciÃ³n de todo lo que va debajo */
+  z-index: 1002;
+  background: #2b52b3;
+  /* Color de fondo del banner â€” azul marca */
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.top-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+  /* Compensa el gap para crear una simetría matemática perfecta al 50% */
+  width: max-content;
+  /* Evita que el contenedor se deforme o comprima por la pantalla */
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  will-change: transform;
+  color: white;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(var(--marquee-pct, -50%));
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   4. LOGO FLOTANTE (arriba-izquierda)
+   Logo circular fijo que rota 360Â° al hacer hover.
+   Para cambiar tamaÃ±o: modificar width/height de .floating-logo
+   Para cambiar posiciÃ³n: modificar top/left
+   Para cambiar rotaciÃ³n: modificar el transform en .floating-logo__img
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.floating-logo {
+  position: fixed;
+  top: 44px;
+  left: 40px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 125px;
+  height: 125px;
+  padding: 10px;
+  /* 42px marquee + 2px gap, 20px mÃ¡s grande, mÃ¡s padding lateral */
+  background: transparent;
+  border-radius: 50%;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  overflow: visible;
+}
+
+.floating-logo:hover {
+  background: transparent;
+}
+
+.floating-logo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: rotate(-12deg);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+  /* Sombra leve requested */
+}
+
+.floating-logo:hover .floating-logo__img {
+  transform: rotate(348deg);
+  /* Full 360 rotation from -12deg */
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   5. ACCIONES FLOTANTES (bÃºsqueda + carrito)
+   Botones circulares fijos arriba-derecha con fondo translÃºcido.
+   El badge verde del carrito muestra la cantidad de items.
+   Para cambiar posiciÃ³n: modificar top/right de .floating-actions
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.floating-actions {
+  position: fixed;
+  top: 81px;
+  right: 40px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.floating-actions__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.floating-actions__btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.floating-cart__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  background: var(--color-green);
+  color: var(--color-white);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   6. OVERLAY DE BÃšSQUEDA
+   Modal fullscreen con fondo blur que aparece al hacer clic en el
+   botÃ³n de bÃºsqueda. Contiene input, resultados y estado vacÃ­o.
+   Se activa con la clase .active via JS (initSearch en app.js)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-overlay__content {
+  width: 90%;
+  max-width: 640px;
+  position: relative;
+}
+
+.search-overlay__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.search-overlay__close:hover {
+  color: #fff;
+}
+
+.search-overlay__input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+
+.search-overlay__icon {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.search-overlay__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.1rem;
+  font-family: var(--font-family);
+  letter-spacing: 0.02em;
+}
+
+.search-overlay__input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.search-overlay__results {
+  margin-top: 16px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.search-result:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.search-result__img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.search-result__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.search-result__sub {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.search-result__price {
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  color: var(--color-green);
+}
+
+.search-no-results {
+  text-align: center;
+  padding: 32px 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   7. HERO DINÃMICO (showcase rotativo de cervezas)
+   SecciÃ³n grande con ilustraciÃ³n de fondo, imagen de la lata y
+   texto descriptivo. Rota automÃ¡ticamente entre productos en stock.
+   Usa bgColor del producto como fondo, con tema claro/oscuro auto.
+   Para cambiar tamaÃ±o del hero: min-height de .dyn-hero
+   Para cambiar tamaÃ±o de la lata: transform scale en .dyn-hero__can-img
+   Incluye media query propia para â‰¤900px (layout vertical)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HOME HERO â€” Manifiesto Malafama
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.home-hero {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0 0 60px 0;
+  border-radius: 0;
+  overflow: hidden;
+  background: #0a0a0a;
+  color: #fafafa;
+  isolation: isolate;
+}
+
+/* â”€â”€â”€ Modo HOME: hero fullbleed + navbar oculto mientras estÃ¡s al tope â”€â”€â”€ */
+body.view-home .shop-subnav {
+  transform: translate(-50%, -180%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.view-home.subnav-revealed .shop-subnav {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.view-home .home-hero {
+  margin-top: 0;
+}
+
+body.view-home .home-hero__content {
+  padding-top: calc(42px + clamp(48px, 8vh, 100px));
+}
+
+/* En todas las otras views (cervezas, packs, etc) la pÃ¡gina necesita
+   espacio arriba para que el subnav pill + marquee no tapen el contenido */
+body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
+  padding-top: 110px;
+}
+
+/* Capa 0: imagen de fondo */
+.home-hero__bg {
+  position: absolute;
+  inset: -4%;
+  /* extra para permitir parallax sin dejar bordes */
+  z-index: 0;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-hero__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 50%;
+  filter: brightness(0.52) contrast(1.12) saturate(0.88);
+  transition: transform 1.2s ease;
+}
+
+/* Capa 1: vignette / degradado de legibilidad */
+.home-hero__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.68) 35%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0.55) 100%),
+    radial-gradient(ellipse at 30% 60%, rgba(139, 20, 20, 0.18), transparent 60%);
+}
+
+/* Capa 2: textura grano artesanal */
+.home-hero__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.7 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 320px 320px;
+  mix-blend-mode: overlay;
+  opacity: 0.28;
+}
+
+/* Capa 3: contenido editorial (izquierda) */
+.home-hero__content {
+  position: relative;
+  z-index: 4;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(60px, 9vh, 120px) clamp(32px, 6vw, 80px);
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* Eyebrow â€” mismo estilo que nosotros.html .nos-hero__eyebrow (simple, rojo) */
+.home-hero__eyebrow {
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Manifiesto â€” frase editorial pequeÃ±a, letra distinta, complementa MALAFAMA */
+.home-hero__manifesto {
+  font-family: var(--font-family);
+  /* Inter, contraste con el display de MALAFAMA */
+  font-style: italic;
+  font-size: clamp(15px, 1.45vw, 22px);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.005em;
+  color: rgba(250, 250, 250, 0.86);
+  margin: 18px 0 48px 2px;
+  max-width: 42ch;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+  position: relative;
+  padding-left: 18px;
+  border-left: 2px solid #2b52b3;
+}
+
+.home-hero__line {
+  display: block;
+  position: relative;
+}
+
+/* Firma MALAFAMA */
+.home-hero__signature {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 9vw, 9rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  margin: 8px 0 48px -4px;
+  display: flex;
+  align-items: baseline;
+  transform: rotate(-1.2deg);
+  filter: drop-shadow(2px 4px 0 rgba(0, 0, 0, 0.4));
+}
+
+.home-hero__signature-word {
+  display: inline-block;
+  color: #fafafa;
+}
+
+.home-hero__signature-word--accent {
+  color: #2b52b3;
+  margin-left: 0.08em;
+  transform: rotate(2deg) translateY(-0.03em);
+  text-shadow:
+    -1px 1px 0 rgba(20, 30, 100, 0.6),
+    3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Sub copy */
+.home-hero__sub {
+  font-family: var(--font-family);
+  font-size: clamp(15px, 1.2vw, 19px);
+  line-height: 1.5;
+  color: rgba(250, 250, 250, 0.82);
+  max-width: 46ch;
+  margin: 0 0 36px 0;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+/* CTAs */
+.home-hero__ctas {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.home-hero__cta {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-hero__cta--primary {
+  background: #fafafa;
+  color: #0a0a0a;
+  padding: 18px 32px;
+  font-size: 15px;
+  border-radius: 999px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: color 0.18s ease, border-radius 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+}
+
+/* Fill de "mancha de tinta" que entra desde la esquina izq-abajo */
+.home-hero__cta--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #2b52b3;
+  clip-path: polygon(0 120%, -20% 120%, -20% 120%);
+  transition: clip-path 0.32s cubic-bezier(0.3, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.home-hero__cta--primary span,
+.home-hero__cta--primary svg {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero__cta--primary:hover::before {
+  clip-path: polygon(0 0, 120% 0, 120% 120%, 0 120%);
+}
+
+.home-hero__cta--primary:hover {
+  color: #fafafa;
+  border-radius: 6px;
+  /* pierde el pill â†’ se vuelve bloque/sello */
+  transform: rotate(-1.2deg) scale(1.03);
+  box-shadow:
+    5px 5px 0 rgba(0, 0, 0, 0.55),
+    /* sombra dura tipo imprenta */
+    -2px -1px 0 rgba(20, 30, 100, 0.5);
+  animation: heroCTAStamp 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.4) forwards;
+}
+
+@keyframes heroCTAStamp {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  35% {
+    transform: rotate(-2deg) scale(0.97);
+  }
+
+  70% {
+    transform: rotate(0.8deg) scale(1.05);
+  }
+
+  100% {
+    transform: rotate(-1.2deg) scale(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__cta--primary::before {
+    transition: none;
+  }
+
+  @keyframes heroCTAStamp {
+
+    0%,
+    100% {
+      transform: none;
+    }
+  }
+}
+
+.home-hero__cta--ghost {
+  color: rgba(250, 250, 250, 0.75);
+  font-size: 14px;
+  padding: 10px 4px;
+  border-bottom: 1px dashed rgba(250, 250, 250, 0.4);
+}
+
+.home-hero__cta--ghost:hover {
+  color: #fafafa;
+  border-bottom-color: #fafafa;
+}
+
+/* Pilares */
+.home-hero__pillars {
+  list-style: none;
+  padding: 20px 0 0 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  border-top: 1px dashed rgba(250, 250, 250, 0.2);
+  max-width: 100%;
+}
+
+.home-hero__pillars li {
+  font-family: var(--font-family);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 250, 0.55);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.home-hero__pillars strong {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 22px;
+  color: #fafafa;
+  letter-spacing: -0.01em;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RETRATO CHARRÃšA â€” Home Hero (centro-derecha, angulado)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Para AJUSTAR A MANO en el futuro:
+   â€¢ POSICIÃ“N HORIZONTAL: cambiÃ¡ `right` (menor = mÃ¡s al centro,
+       mayor = mÃ¡s a la derecha). Ej: 4% muy al centro / 14% bien a la derecha.
+   â€¢ TAMAÃ‘O: cambiÃ¡ el clamp() en `width`.
+   â€¢ INCLINACIÃ“N: cambiÃ¡ el Ã¡ngulo en `rotate(...)`.
+       Positivo (ej: 6deg) inclina a la DERECHA.
+       Negativo (ej: -6deg) inclina a la IZQUIERDA.
+       OJO: hay que cambiarlo en TRES lugares marcados con [ROTAR]:
+         1) .home-hero__portrait                       (estado base)
+         2) .home-hero__portrait (entry initial)       (animaciÃ³n entrada)
+         3) .home-hero--ready .home-hero__portrait     (entry final)
+       + en js/app.js (showHomeHero) hay 2 transforms con rotate(-6deg)
+   â€¢ OCULTAR EN MOBILE: ver @media (max-width: 900px) mÃ¡s abajo.
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.home-hero__portrait {
+  position: absolute;
+  right: 10%;
+  /* â† acercar/alejar del centro */
+  top: 51%;
+  width: clamp(360px, 32vw, 520px);
+  /* â† tamaÃ±o */
+  z-index: 6;
+  /* arriba del contenido para clickear todo el retrato */
+  transform: translateY(-50%) rotate(8deg);
+  /* [ROTAR] inclinaciÃ³n base */
+  pointer-events: auto;
+  /* clickeable: abre el lightbox */
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.home-hero__portrait-img {
+  display: block;
+  width: 90%;
+  height: auto;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6)) contrast(1.08) brightness(0.96);
+  transition: filter 0.3s ease;
+}
+
+.home-hero__portrait:hover .home-hero__portrait-img {
+  filter: drop-shadow(0 24px 55px rgba(0, 0, 0, 0.75)) contrast(1.12) brightness(1);
+}
+
+/* â”€â”€â”€ Lightbox del retrato (al clickear se abre en el centro) â”€â”€â”€ */
+.mf-portrait-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: background 0.5s ease;
+}
+
+.mf-portrait-lightbox--open {
+  background: rgba(0, 0, 0, 0.93);
+  pointer-events: auto;
+}
+
+.mf-portrait-lightbox__img {
+  /* Centrado via flex del padre. TamaÃ±o objetivo = el del lightbox abierto.
+     La animaciÃ³n open/close usa SOLO transform (FLIP technique).
+     IMPORTANTE: NO usar max-height aquÃ­ â€” capar la altura rompe el aspect
+     ratio y deforma la imagen al hacer scale. Si hace falta achicar en
+     pantallas chicas, bajar el width. */
+  display: block;
+  width: min(63vw, 576px);
+  /* 10% mÃ¡s chico que antes */
+  height: auto;
+  filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.85));
+  transform-origin: center center;
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.15),
+    opacity 0.5s ease;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.mf-portrait-lightbox--open .mf-portrait-lightbox__img {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mf-portrait-lightbox__close {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.mf-portrait-lightbox--open .mf-portrait-lightbox__close {
+  opacity: 1;
+  transition-delay: 0.35s, 0s, 0s;
+}
+
+.mf-portrait-lightbox__close:hover {
+  background: rgba(43, 82, 179, 0.85);
+  transform: scale(1.08) rotate(90deg);
+}
+
+/* Capa 5: scroll indicator */
+.home-hero__scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 250, 0.55);
+  animation: homeScrollBounce 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes homeScrollBounce {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(6px);
+    opacity: 0.9;
+  }
+}
+
+/* Kinetic type entrada para el headline */
+.home-hero__line .dyn-hero__letter {
+  /* reuso mismas clases que mejora 2 */
+}
+
+/* Entry animation â€” orden visual: eyebrow â†’ MALAFAMA â†’ frase lÃ­neas â†’ sub â†’ ctas â†’ pilares */
+.home-hero__content .home-hero__line {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.home-hero--ready .home-hero__line {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.home-hero--ready .home-hero__line:nth-child(1) {
+  transition-delay: 0.95s;
+}
+
+.home-hero--ready .home-hero__line:nth-child(2) {
+  transition-delay: 1.08s;
+}
+
+.home-hero--ready .home-hero__line:nth-child(3) {
+  transition-delay: 1.22s;
+}
+
+.home-hero__signature {
+  opacity: 0;
+  transform: rotate(-1.2deg) scale(0.9);
+}
+
+.home-hero--ready .home-hero__signature {
+  opacity: 1;
+  transform: rotate(-1.2deg) scale(1);
+  transition: opacity 0.6s ease 0.28s, transform 0.85s cubic-bezier(0.2, 0.9, 0.3, 1.4) 0.28s;
+}
+
+.home-hero__eyebrow,
+.home-hero__manifesto,
+.home-hero__sub,
+.home-hero__ctas,
+.home-hero__pillars {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.home-hero--ready .home-hero__eyebrow,
+.home-hero--ready .home-hero__manifesto,
+.home-hero--ready .home-hero__sub,
+.home-hero--ready .home-hero__ctas,
+.home-hero--ready .home-hero__pillars {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.home-hero--ready .home-hero__eyebrow {
+  transition-delay: 0.05s;
+}
+
+.home-hero--ready .home-hero__manifesto {
+  transition-delay: 0.85s;
+}
+
+.home-hero--ready .home-hero__sub {
+  transition-delay: 1.45s;
+}
+
+.home-hero--ready .home-hero__ctas {
+  transition-delay: 1.6s;
+}
+
+.home-hero--ready .home-hero__pillars {
+  transition-delay: 1.75s;
+}
+
+.home-hero__portrait {
+  opacity: 0;
+  /* Entrada: aparece desde la derecha (bien afuera de pantalla) */
+  transform: translate(180%, -50%) rotate(8deg);
+  /* [ROTAR] estado inicial entrada */
+}
+
+.home-hero--ready .home-hero__portrait {
+  opacity: 1;
+  transform: translateY(-50%) rotate(8deg);
+  /* [ROTAR] estado final entrada */
+  transition: opacity 0.7s ease 0.5s, transform 1.1s cubic-bezier(0.2, 0.85, 0.3, 1.05) 0.4s;
+}
+
+/* Responsive â€” mobile */
+@media (max-width: 900px) {
+  .home-hero {
+    width: calc(100% - 24px);
+    min-height: 92vh;
+    border-radius: 24px;
+    margin: 12px auto 40px auto;
+  }
+
+  .home-hero__content {
+    padding: 60px 24px 320px;
+    min-height: 92vh;
+  }
+
+  .home-hero__vignette {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.75) 60%, rgba(0, 0, 0, 0.9) 100%),
+      radial-gradient(ellipse at 50% 60%, rgba(139, 20, 20, 0.2), transparent 70%);
+  }
+
+  .home-hero__eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .home-hero__manifesto {
+    font-size: clamp(14px, 3.6vw, 17px);
+    max-width: 100%;
+    padding-left: 14px;
+  }
+
+  .home-hero__signature {
+    font-size: clamp(4.5rem, 22vw, 7.5rem);
+    margin-bottom: 22px;
+  }
+
+  .home-hero__manifesto {
+    margin-top: 6px;
+    margin-bottom: 28px;
+  }
+
+  .home-hero__ctas {
+    margin-bottom: 16px;
+  }
+
+  .home-hero__sub {
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .home-hero__ctas {
+    gap: 12px;
+  }
+
+  .home-hero__cta--primary {
+    padding: 15px 24px;
+    font-size: 13px;
+  }
+
+  /* Centrar todo el contenido del hero en mobile */
+  .home-hero__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .home-hero__manifesto {
+    text-align: left;
+  }
+
+  .home-hero__sub {
+    display: none;
+  }
+
+  .home-hero__ctas {
+    justify-content: center;
+  }
+
+  .home-hero__pillars {
+    justify-content: center;
+  }
+
+  /* Cuadro — posicionamiento base mobile */
+  .home-hero__portrait,
+  .home-hero--ready .home-hero__portrait {
+    display: block;
+    position: absolute !important;
+    bottom: 32px !important;
+    left: 50% !important;
+    top: auto !important;
+    right: auto !important;
+    width: 59vw;
+    max-width: 242px;
+    opacity: 0 !important;
+    transform: translateX(calc(-50% + 5px + 130vw)) rotate(4deg) !important;
+    transition: none !important;
+    will-change: transform, opacity;
+    z-index: 7;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  /* Cuadro — entra cuando el scroll trigger lo detecta en viewport */
+  .home-hero__portrait.portrait-in-view,
+  .home-hero--ready .home-hero__portrait.portrait-in-view {
+    opacity: 1 !important;
+    transform: translateX(calc(-50% + 5px)) rotate(4deg) !important;
+    transition: opacity 0.7s ease 0.3s, transform 1.1s cubic-bezier(0.2, 0.85, 0.3, 1.05) 0.2s !important;
+  }
+
+  /* Cuadro — oculto mientras el lightbox está abierto */
+  .home-hero__portrait.portrait-in-view.portrait-lb-open,
+  .home-hero--ready .home-hero__portrait.portrait-in-view.portrait-lb-open {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+
+  .home-hero__scroll {
+    display: none;
+  }
+
+  .home-hero__pillars {
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding-top: 16px;
+  }
+
+  .home-hero__pillars li {
+    font-size: 10px;
+  }
+
+  .home-hero__pillars strong {
+    font-size: 17px;
+  }
+}
+
+/* Accent word blue — only on mobile */
+@media (max-width: 900px) {
+  .hero-accent-mobile {
+    color: #2b52b3;
+  }
+}
+
+/* Hero full-width en celular — quita el margen y border-radius del diseño "tarjeta"
+   que aplica el bloque de 900px de arriba */
+@media (max-width: 640px) {
+  .home-hero {
+    width: 100%;            /* ocupa todo el ancho de la pantalla */
+    margin: 0 0 40px 0;     /* sin margen lateral */
+    border-radius: 0;       /* sin bordes redondeados */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .home-hero__bg-img,
+  .home-hero__portrait,
+  .home-hero__eyebrow-dot,
+  .home-hero__scroll {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.dyn-hero {
+  position: relative;
+  width: calc(100% - 64px);
+  max-width: 1400px;
+  min-height: 460px;
+  overflow: hidden;
+  transition: background-color 0.8s ease;
+  margin: 16px auto 60px auto;
+  border-radius: 40px;
+}
+
+/* Textura grano artesanal sobre el fondo plano del hero */
+.dyn-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.65 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 320px 320px;
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  border-radius: inherit;
+}
+
+.dyn-hero--dark::before {
+  mix-blend-mode: overlay;
+  opacity: 0.22;
+}
+
+/* Mancha de tinta sutil al costado, color del accent del producto */
+.dyn-hero::after {
+  content: "";
+  position: absolute;
+  left: -80px;
+  bottom: -120px;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M40,90 Q20,40 70,30 Q120,10 150,50 Q200,80 170,140 Q150,200 80,180 Q10,160 40,90 Z' fill='%23000'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.05;
+  transform: rotate(-12deg);
+  border-radius: inherit;
+}
+
+.dyn-hero--dark::after {
+  opacity: 0.08;
+  filter: invert(1);
+}
+
+.dyn-hero__bg-illustration {
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 75%;
+  height: 160%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+  opacity: 1;
+  /* Fully visible */
+  transition: background-image 0.6s ease, opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dyn-hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  gap: 40px;
+  height: 100%;
+}
+
+.dyn-hero__text {
+  flex: 1;
+  max-width: 500px;
+  position: relative;
+  z-index: 4;
+}
+
+.dyn-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 4px;
+  transition: color 0.5s;
+}
+
+.dyn-hero__name {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 9vw, 8rem);
+  font-weight: 900;
+  line-height: 0.85;
+  margin: 0 0 24px;
+  letter-spacing: -0.03em;
+  transition: color 0.5s;
+}
+
+/* Kinetic type â€” letras con entrada escalonada al rotar el hero */
+.dyn-hero__letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translate(var(--kx, 0), var(--ky, 0)) rotate(var(--kr, 0deg));
+  transition: opacity 0.35s ease, transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+  will-change: transform, opacity;
+}
+
+.dyn-hero__letter--in {
+  opacity: 1;
+  transform: translate(0, 0) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dyn-hero__letter {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.dyn-hero__desc {
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 0 0 32px;
+  max-width: 480px;
+  transition: color 0.5s;
+}
+
+.dyn-hero__notes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.dyn-hero__note {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.5s, color 0.5s;
+}
+
+.dyn-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  /* Pill shape */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dyn-hero__cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.dyn-hero__can {
+  flex-shrink: 0;
+  position: relative;
+  width: 380px;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  margin-right: 10px;
+}
+
+.dyn-hero__can-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(15px 35px 45px rgba(0, 0, 0, 0.6));
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+  transform: scale(1.55) rotate(7deg);
+}
+
+.dyn-hero__can-img:hover {
+  transform: scale(1.65) rotate(3deg);
+}
+
+.dyn-hero__dots {
+  position: absolute;
+  top: 24px;
+  /* Move to top right */
+  right: 32px;
+  left: auto;
+  transform: none;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.dyn-hero__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 0;
+}
+
+.dyn-hero__dot.active {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.4);
+}
+
+/* Tema claro â€” texto oscuro sobre fondos claros (se aplica automÃ¡ticamente desde JS) */
+.dyn-hero--light .dyn-hero__eyebrow,
+.dyn-hero--light .dyn-hero__name,
+.dyn-hero--light .dyn-hero__desc {
+  color: #1a1a1a;
+}
+
+.dyn-hero--light .dyn-hero__note {
+  background: rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+}
+
+.dyn-hero--light .dyn-hero__cta {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.dyn-hero--light .dyn-hero__dot {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dyn-hero--light .dyn-hero__dot.active {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Tema oscuro â€” texto blanco sobre fondos oscuros (se aplica automÃ¡ticamente desde JS) */
+.dyn-hero--dark .dyn-hero__eyebrow,
+.dyn-hero--dark .dyn-hero__name,
+.dyn-hero--dark .dyn-hero__desc {
+  color: #fff;
+}
+
+.dyn-hero--dark .dyn-hero__note {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.dyn-hero--dark .dyn-hero__cta {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+@media (max-width: 900px) {
+  .dyn-hero__desc {
+    display: none !important;
+  }
+
+  .dyn-hero {
+    width: calc(100% - 32px);
+    margin: 20px auto 40px auto;
+    min-height: 520px;
+    border-radius: 24px;
+  }
+
+  .dyn-hero__content {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 60px 24px;
+    gap: 0;
+  }
+
+  .dyn-hero__text {
+    max-width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    /* texto debajo de la lata, sin superposiciÃ³n */
+  }
+
+  .dyn-hero__can {
+    width: 260px;
+    height: 300px;
+    margin-right: 0;
+  }
+
+  .dyn-hero__bg-illustration {
+    width: 150%;
+    height: 100%;
+    right: -25%;
+    top: 30%;
+    opacity: 0.7;
+    /* 10% menos opacidad en mÃ³vil */
+  }
+
+  .dyn-hero__notes {
+    justify-content: center;
+  }
+
+  .dyn-hero__desc {
+    max-width: 100%;
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   8. VERIFICACIÃ“N DE EDAD (Age Gate)
+   Modal fullscreen con gradiente naranja que aparece al entrar al
+   sitio. Dos botones con imÃ¡genes para SÃ/NO. Se oculta con la
+   clase .hidden y se guarda en sessionStorage.
+   Para cambiar colores del fondo: modificar el gradiente en .age-gate
+   Para cambiar tamaÃ±o de botones: .age-gate__btn img (width/height)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #E8540A 0%, #F5A623 100%);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.age-gate.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.age-gate__content {
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.age-gate__title {
+  font-size: clamp(48px, 12vw, 120px);
+  font-weight: var(--font-weight-light);
+  line-height: 0.95;
+  color: var(--color-black);
+  margin-bottom: var(--space-10);
+}
+
+.age-gate__buttons {
+  display: flex;
+  gap: var(--space-6);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.age-gate__btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: transform var(--transition-normal);
+}
+
+.age-gate__btn:hover {
+  transform: scale(1.05);
+}
+
+.age-gate__btn img {
+  width: 240px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
+.age-gate__btn-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-white);
+  color: var(--color-black);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   9. SUB-NAVEGACIÃ“N DE LA TIENDA
+   Tabs horizontales: INICIO, CERVEZAS, PACKS, ESPECIALES, MERCH, SIN STOCK.
+   Scroll horizontal en mÃ³vil. La tab activa tiene fondo negro.
+   padding-top incluye la altura del marquee (42px) + espacio para el logo.
+   Para agregar tabs: editar index.html â†’ .shop-subnav__inner
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Shop subnav â€” pill flotante fija arriba, centrada y alineada con logo + acciones */
+.shop-subnav {
+  position: fixed;
+  top: 84px;
+  /* alineado con floating-actions */
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: calc(100% - 340px);
+  /* deja espacio al logo (izq) y botones (der) */
+  padding: 6px;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.2, 1), opacity 0.4s ease;
+}
+
+.shop-subnav__inner {
+  max-width: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.shop-subnav__inner::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.shop-subnav__link {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+  padding: 10px 20px;
+  border-radius: 999px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.shop-subnav__link:hover:not(.active) {
+  color: #fafafa;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.shop-subnav__link.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fafafa;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   10. LAYOUT DE LA TIENDA
+   Grid de 2 columnas: sidebar (280px) + productos. El sidebar es
+   sticky y contiene los filtros de categorÃ­a. El padding-top de
+   130px compensa el marquee + logo flotante.
+   En â‰¤640px colapsa a 1 columna.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.shop-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 95px var(--space-8) var(--space-20);
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.shop-sidebar {
+  position: sticky;
+  top: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* TÃ­tulo de la secciÃ³n de productos (ej: "CERVEZAS", "PACKS") */
+.hero {
+  position: relative;
+  text-align: left;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--color-green);
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+/* â”€â”€â”€ Filtros de categorÃ­a â”€â”€â”€ */
+/* Botones de filtro en el sidebar: IPA, STOUT, LAGER, etc.
+   El botÃ³n activo tiene borde inferior negro.
+   En mÃ³vil (â‰¤640px) se reorganizan en fila horizontal con wrap. */
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.filters__categories {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.filters__categories::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-btn {
+  padding: 0 0 2px 0;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-gray-500);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  color: var(--color-black);
+}
+
+.filter-btn.active {
+  color: var(--color-black);
+  border-bottom-color: var(--color-black);
+}
+
+/* ELIMINADO: .filters__sort, .filters__sort-label, .filters__sort-select
+   â€” Selectores de ordenamiento que estaban ocultos (display: none)
+   y nunca se usaban en el sitio. Limpiados para reducir peso del CSS. */
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   11. GRILLA DE PRODUCTOS + SKELETON LOADERS
+   Grid de 4 columnas (desktop), 3 (tablet), 2 (mÃ³vil).
+   Los skeleton loaders se muestran mientras cargan los datos de stock.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* Skeleton loaders â€” placeholders animados mientras cargan los productos */
+@keyframes skeleton-pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 460px;
+  background: var(--color-white);
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+}
+
+.skeleton-card__image {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(135deg, #e8e8e8 25%, #f0f0f0 50%, #e8e8e8 75%);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-card__info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.skeleton-card__line {
+  height: 14px;
+  border-radius: 6px;
+  background: #e8e8e8;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-card__line--title {
+  width: 60%;
+  height: 18px;
+}
+
+.skeleton-card__line--sub {
+  width: 80%;
+}
+
+.skeleton-card__line--price {
+  width: 40%;
+  margin-top: auto;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   12. TARJETA DE PRODUCTO
+   Card individual en la grilla. Incluye imagen, nombre, subtÃ­tulo,
+   precio, precio ItaÃº y botÃ³n de compra rÃ¡pida.
+   Al hacer hover sube 4px y la imagen escala+rota.
+   El badge dorado ("SALE") se posiciona arriba-derecha con rotaciÃ³n.
+   Para cambiar el color del botÃ³n: .product-card__buy-btn (background)
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  background: var(--color-white);
+  border-radius: var(--radius-3xl);
+  isolation: isolate;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-card__image-wrapper {
+  padding-top: var(--space-4);
+  filter: drop-shadow(var(--shadow-can));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+}
+
+.product-card__image {
+  height: 100%;
+  max-height: 456px;
+  width: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  transition: transform var(--transition-normal);
+  transform: scale(1.35);
+}
+
+.product-card:hover .product-card__image {
+  transform: scale(1.45) rotate(-2deg);
+}
+
+.product-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 52px;
+  height: 52px;
+  background: #FFD700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 0.95;
+  color: var(--color-black);
+  transform: rotate(12deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0;
+  flex-shrink: 0;
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.product-card__name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-black) !important;
+}
+
+.product-card__subtitle {
+  margin-top: var(--space-1);
+  color: var(--color-black);
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.product-card__bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.product-card__price-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card__price {
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-black);
+}
+
+.product-card__price-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-500);
+  margin-bottom: 2px;
+}
+
+.product-card__itau-price {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ff7a00;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.product-card__buy-btn {
+  padding: var(--space-2) var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-bold);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-green);
+  color: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  /* isolation: isolate â†’ nuevo stacking context para que ::before z-index:-1
+     quede detrÃ¡s del texto pero arriba del background del botÃ³n */
+  isolation: isolate;
+  transition: color 0.18s ease, border-radius 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+}
+
+.product-card__buy-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+  clip-path: polygon(0 120%, -20% 120%, -20% 120%);
+  transition: clip-path 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.product-card__buy-btn:hover::before {
+  clip-path: polygon(0 0, 120% 0, 120% 120%, 0 120%);
+}
+
+.product-card__buy-btn:hover {
+  color: var(--color-white);
+  border-radius: 5px;
+  transform: rotate(-1deg) scale(1.04);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45), -1px -1px 0 rgba(0, 0, 0, 0.2);
+  animation: buyBtnStamp 0.26s cubic-bezier(0.2, 0.9, 0.3, 1.4) forwards;
+}
+
+@keyframes buyBtnStamp {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  35% {
+    transform: rotate(-1.8deg) scale(0.96);
+  }
+
+  70% {
+    transform: rotate(0.6deg) scale(1.05);
+  }
+
+  100% {
+    transform: rotate(-1deg) scale(1.04);
+  }
+}
+
+/* â”€â”€â”€ Qty picker en cards de producto â”€â”€â”€ */
+.card-qty-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: var(--color-black);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  animation: qtyPickerIn 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+}
+
+@keyframes qtyPickerIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.card-qty-picker__btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-white);
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  line-height: 1;
+}
+
+.card-qty-picker__btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.card-qty-picker__num {
+  min-width: 28px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-white);
+  user-select: none;
+}
+
+.card-qty-picker__confirm {
+  width: 36px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-green);
+  color: var(--color-white);
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.card-qty-picker__confirm:hover {
+  background: #2b52b3;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   13. NAVEGACIÃ“N FLOTANTE INFERIOR
+   Barra fija en la parte inferior con links: Shop, Locales, etc.
+   Forma de pÃ­ldora sobre fondo negro. Se compacta en mÃ³vil.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.floating-nav {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-black);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-nav);
+}
+
+.floating-nav__link {
+  padding: var(--space-2) var(--space-5);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.floating-nav__link:hover {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.floating-nav__link.active {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.floating-nav__link--primary {
+  background: var(--color-green) !important;
+  /* #2b52b3 */
+  color: rgba(255, 255, 255, 0.7) !important;
+  /* Gris por defecto */
+  text-transform: uppercase;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(43, 82, 179, 0.3);
+}
+
+.floating-nav__link--primary:hover {
+  background: var(--color-green) !important;
+  /* Mantener el mismo azul */
+  color: #ffffff !important;
+  /* Letras se iluminan a blanco */
+  transform: translateY(-1px);
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   14. FOOTER
+   Pie de pÃ¡gina con: newsletter (formulario email), grid de links
+   (2 columnas), redes sociales y barra inferior con copyright.
+   El newsletter se conecta al endpoint /api/newsletter del backend.
+   En mÃ³vil colapsa a 1 columna.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FOOTER â€” Mala Fama (simple, sobrio)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.footer {
+  position: relative;
+  z-index: 2;
+  background: #0c0c0c;
+  color: #eaeaea;
+  padding: 80px 40px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* â”€â”€ Logo central â”€â”€ */
+.footer__logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+
+
+}
+
+.footer__logo-img {
+  width: 320px;
+  height: auto;
+  opacity: 0.95;
+}
+
+/* â”€â”€ Newsletter â”€â”€ */
+.footer__newsletter {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 72px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__newsletter-eyebrow {
+  display: none;
+}
+
+.footer__newsletter-title {
+  font-family: 'Barlow Condensed', Impact, sans-serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.footer__newsletter-title em {
+  font-style: normal;
+  color: #2b52b3;
+}
+
+.footer__newsletter-sub {
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 auto 24px;
+  max-width: 440px;
+}
+
+.footer__newsletter-form {
+  display: flex;
+  gap: 8px;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: none;
+}
+
+.footer__newsletter-input {
+  flex: 1;
+  padding: 13px 18px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.footer__newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer__newsletter-input:focus {
+  outline: none;
+  border-color: #2b52b3;
+}
+
+.footer__newsletter-btn {
+  padding: 13px 24px;
+  font-family: 'Barlow Condensed', Impact, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #2b52b3;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.footer__newsletter-btn:hover {
+  background: #2a308f;
+}
+
+/* â”€â”€ Grid â”€â”€ */
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+.footer__brand {
+  display: none;
+}
+
+.footer__section-title {
+  font-family: 'Barlow Condensed', Impact, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
+  padding: 0;
+  border: none;
+}
+
+.footer__section-title::before,
+.footer__section-title::after {
+  content: none;
+}
+
+.footer__link {
+  display: block;
+  padding: 6px 0;
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  width: fit-content;
+}
+
+.footer__link:hover {
+  color: #fff;
+}
+
+/* â”€â”€ Locales â”€â”€ */
+.footer__location {
+  margin-bottom: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  transform: none;
+}
+
+.footer__location:last-child {
+  margin-bottom: 0;
+}
+
+.footer__location-name {
+  font-family: 'Barlow Condensed', Impact, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin-bottom: 6px;
+  text-shadow: none;
+}
+
+.footer__location-addr,
+.footer__location-phone {
+  display: block;
+  font-family: var(--font-family);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  line-height: 1.55;
+  font-style: normal;
+  transition: color 0.2s ease;
+}
+
+.footer__location-phone:hover {
+  color: #fff;
+}
+
+.footer__location-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.65);
+  background: transparent;
+  text-decoration: none;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  transition: color 0.2s ease;
+}
+
+.footer__location-ig svg {
+  width: 13px;
+  height: 13px;
+}
+
+.footer__location-ig:hover {
+  color: #2b52b3;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.footer__wordmark {
+  display: none;
+}
+
+/* â”€â”€ Bottom bar â”€â”€ */
+.footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-family);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.footer__bottom-disclaimer {
+  font-family: var(--font-family);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  background: transparent;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  transform: none;
+}
+
+.footer__bottom-links {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer__bottom-link {
+  font-family: var(--font-family);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: color 0.2s ease;
+}
+
+.footer__bottom-link:hover {
+  color: #fff;
+}
+
+/* â”€â”€ Responsive â”€â”€ */
+@media (max-width: 780px) {
+  .footer {
+    padding: 60px 22px 24px;
+  }
+
+  .footer__newsletter {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+  }
+
+  .footer__newsletter-form {
+    flex-direction: column;
+  }
+
+  .footer__newsletter-btn {
+    width: 100%;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-bottom: 44px;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer__logo-img {
+    width: 220px;
+    max-width: 100%;
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   15. PÃGINA DE PRODUCTO (PDP) â€” product.html
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   Layout de 3 zonas con fondo continuo dinÃ¡mico:
+     ZONA 1 (izquierda): Contenido editorial â€” ilustraciÃ³n, specs,
+            acordeones (My Story, Geeky Info). Hace scroll normal.
+     ZONA 2 (centro): Imagen de la lata/botella â€” sticky, grande.
+     ZONA 3 (derecha): Panel de compra â€” sticky, breadcrumbs, nombre,
+            precio, selector de pack, cantidad, botÃ³n Add to Cart.
+
+   El fondo cambia de color segÃºn el producto (bgColor de data.js).
+   Si el fondo es claro, JS agrega .pdp-dark-text para invertir textos.
+   En tablet/mÃ³vil colapsa a 1 columna (lata arriba, info, editorial).
+
+   Para cambiar colores de texto en PDP: buscar .pdp-dark-text mÃ¡s abajo.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Contenedor raÃ­z del PDP â€” sin overflow:hidden para que sticky funcione */
+.product-page {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Fondo fijo que cubre toda la pantalla â€” cambia de color segÃºn el producto (JS: pdpBg.style.background) */
+.pdp-bg {
+  position: fixed;
+  inset: 0;
+  /* full viewport coverage â€” no split, no stripe */
+  z-index: 0;
+  transition: background 0.6s ease;
+  pointer-events: none;
+}
+
+/* Grid principal de 3 columnas (narrativa | lata | compra) â€” colapsa a 1 columna en â‰¤900px */
+.pdp-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* left narrative | center can | right purchase */
+  min-height: 100vh;
+  padding-top: 50px;
+  /* espacio debajo de la marquee, sin header */
+  max-width: 1600px;
+  margin: 0 auto;
+  /* NO background here â€” the fixed .pdp-bg behind handles it */
+}
+
+/* â”€â”€â”€ ZONA 1: COLUMNA IZQUIERDA â€” Contenido editorial con scroll â”€â”€â”€ */
+/* Todo el texto en blanco. Contiene: ilustraciÃ³n hero, tagline, specs, acordeones */
+.pdp-col-left {
+  padding: var(--space-8) var(--space-6) var(--space-8) var(--space-10);
+  color: var(--color-white);
+  /* white text throughout */
+}
+
+/* Hero illustration â€” large, filling the column */
+/* Bloque centrado que aloja la ilustraciÃ³n principal del producto; garantiza una altura mÃ­nima para que la zona nunca colapse */
+.pdp-hero-illust {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-6) 0 var(--space-2);
+  min-height: 560px;
+}
+
+/* Imagen de la ilustraciÃ³n hÃ©roe; respeta proporciones originales, limita la altura mÃ¡xima y aÃ±ade sombra difuminada */
+.pdp-hero-illust__img {
+  width: 1100px;
+  max-width: 300%;
+  max-height: 1260px;
+  /* bigger illustration matching video */
+  object-fit: contain;
+  filter: drop-shadow(0 12px 48px rgba(0, 0, 0, 0.22));
+}
+
+/* Tagline â€” white, bold display font */
+/* Eslogan del producto en tipografÃ­a display, mayÃºsculas y centrado; ligeramente transparente para no competir con el nombre */
+.pdp-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+/* Specs row â€” white values in bold display font */
+/* Fila de especificaciones del producto (ABV, temperatura, sabor) en 3 columnas iguales; separada por bordes punteados arriba y abajo */
+.pdp-specs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  text-align: center;
+  padding: var(--space-6) 0;
+  margin-bottom: var(--space-6);
+  border-top: 2px dashed rgba(255, 255, 255, 0.25);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.25);
+}
+
+/* Celda individual de especificaciÃ³n: apila el valor y su etiqueta en columna, centrados */
+.pdp-specs-row__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Valor numÃ©rico grande de la especificaciÃ³n (ej: "8.0%") en tipografÃ­a display con peso mÃ¡ximo */
+.pdp-specs-row__value {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 48px);
+  /* large, matches video */
+  font-weight: 900;
+  line-height: 1;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* Etiqueta descriptiva pequeÃ±a bajo el valor (ej: "ALCOHOL %"); muy tenue para no competir con el dato */
+.pdp-specs-row__label {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* "Para tomarla cuandoâ€¦" â€” bloque de momentos/maridaje */
+.pdp-moments {
+  border-top: 2px dashed rgba(255, 255, 255, 0.25);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.25);
+  padding: var(--space-6) 0;
+  margin-top: var(--space-6);
+}
+
+.pdp-moments__label {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.pdp-moments__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  justify-items: center;
+}
+
+/* Primer pill: ocupa las 2 columnas, centrado */
+.pdp-moment:first-child {
+  grid-column: 1 / -1;
+}
+
+.pdp-moment {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 40px;
+  transform: rotate(-0.4deg);
+  transition: transform 0.3s ease, background 0.3s ease;
+  white-space: nowrap;
+}
+
+.pdp-moment:nth-child(2) {
+  transform: rotate(0.5deg);
+  justify-self: end;
+}
+
+.pdp-moment:nth-child(3) {
+  transform: rotate(-0.3deg);
+  justify-self: start;
+}
+
+.pdp-moment:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(0deg) translateY(-2px);
+}
+
+.pdp-moment__icon {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  color: var(--color-white);
+  opacity: 0.85;
+}
+
+.pdp-moment__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.pdp-moment__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.pdp-moment__title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: var(--color-white);
+}
+
+.pdp-moment__sub {
+  font-size: 10px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+}
+
+.pdp-dark-text .pdp-moments {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.pdp-dark-text .pdp-moments__label {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.pdp-dark-text .pdp-moment {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.pdp-dark-text .pdp-moment:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.pdp-dark-text .pdp-moment__icon {
+  color: #1a1a1a;
+}
+
+.pdp-dark-text .pdp-moment__title {
+  color: #1a1a1a;
+}
+
+.pdp-dark-text .pdp-moment__sub {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 900px) {
+  .pdp-moments__grid {
+    gap: 8px;
+  }
+
+  .pdp-moment {
+    white-space: normal;
+    padding: 8px 14px 8px 12px;
+  }
+
+  .pdp-moment:nth-child(2),
+  .pdp-moment:nth-child(3) {
+    justify-self: center;
+  }
+
+  .pdp-moment,
+  .pdp-moment:nth-child(2),
+  .pdp-moment:nth-child(3) {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .pdp-moments__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdp-moment:first-child,
+  .pdp-moment:nth-child(2),
+  .pdp-moment:nth-child(3) {
+    justify-self: center;
+  }
+}
+
+/* Accordions â€” white, display font for headers */
+/* SecciÃ³n de acordeÃ³n con separador punteado blanco en la parte superior; sin margen inferior para que los acordeones se apilen sin hueco */
+.pdp-accordion {
+  border-top: 2px dashed rgba(255, 255, 255, 0.25);
+  margin-bottom: 0;
+}
+
+/* BotÃ³n disparador del acordeÃ³n: ocupa el ancho completo, tipografÃ­a display en mayÃºsculas, sin bordes ni fondo visible */
+.pdp-accordion__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) 0;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-white);
+  transition: color var(--transition-fast);
+}
+
+/* Estado hover del disparador: reduce la opacidad del texto para seÃ±alar interactividad */
+.pdp-accordion__trigger:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Icono chevron del acordeÃ³n con transiciÃ³n de rotaciÃ³n suave y trazo blanco */
+.pdp-accordion__icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  stroke: white;
+}
+
+/* Gira el icono 180Â° cuando el acordeÃ³n estÃ¡ en estado abierto */
+.pdp-accordion__trigger.active .pdp-accordion__icon {
+  transform: rotate(180deg);
+}
+
+/* Contenido colapsado del acordeÃ³n; usa max-height animado para simular apertura y cierre suaves */
+.pdp-accordion__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.4s ease;
+  padding: 0;
+}
+
+/* Estado abierto del acordeÃ³n: expande el contenido a altura mÃ¡xima y aÃ±ade padding inferior */
+.pdp-accordion__content.open {
+  max-height: 1000px;
+  padding-bottom: var(--space-6);
+}
+
+/* PÃ¡rrafo de texto dentro del acordeÃ³n: tipografÃ­a display en mayÃºsculas con interlineado amplio y opacidad reducida */
+.pdp-accordion__content p {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 1.4vw, 18px);
+  font-weight: 700;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Geeky info grid */
+/* Lista vertical de datos tÃ©cnicos del producto con espaciado uniforme entre filas */
+.pdp-geeky-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Fila individual de dato tÃ©cnico; alinea el bullet decorativo y el valor en baseline */
+.pdp-geeky-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: 13px;
+}
+
+/* Bullet decorativo circular (â—‰) generado antes de cada dato tÃ©cnico; pequeÃ±o y muy tenue */
+.pdp-geeky-item::before {
+  content: 'â—‰';
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* Etiqueta del dato tÃ©cnico oculta visualmente; se mantiene en el DOM solo con fines semÃ¡nticos */
+.pdp-geeky-item__label {
+  display: none;
+}
+
+/* Valor del dato tÃ©cnico en tipografÃ­a display, mayÃºsculas y blanco semitransparente */
+.pdp-geeky-item__value {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 1.3vw, 16px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.82);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Bottom illustration */
+/* Contenedor de la ilustraciÃ³n decorativa al final de la columna izquierda; centrada con padding vertical generoso */
+.pdp-bottom-illust {
+  padding: var(--space-10) 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Imagen de la ilustraciÃ³n inferior; respeta proporciones, limita la altura mÃ¡xima y aplica sombra suave */
+.pdp-bottom-illust__img {
+  max-width: 100%;
+  max-height: 400px;      /* reducido desde 560px — ilustración chica más compacta */
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.18));
+}
+
+/* En desktop, cuando el producto tiene ilustración, la columna izquierda
+   se desplaza 20px a la derecha — excepto la ilustración hero principal */
+@media (min-width: 901px) {
+  /* Toda la columna izquierda (ilustración + texto) se corre 20px a la derecha.
+     La columna central (lata) no se toca — sigue centrada en su celda del grid. */
+  .pdp-has-illust .pdp-col-left {
+    padding-left: calc(var(--space-10) + 20px);
+  }
+}
+
+/* â”€â”€â”€ ZONA 2: COLUMNA CENTRAL â€” Imagen de la lata (sticky) â”€â”€â”€ */
+/* Se queda fija mientras la columna izquierda hace scroll. Sin fondo propio. */
+
+
+/* Contenedor sticky de la lata; permanece visible y anclado mientras la columna izquierda hace scroll */
+.pdp-can-sticky {
+  position: sticky;
+  top: 50px;
+  /* anclado debajo de la marquee */
+  height: fit-content;
+  padding: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Sello "EdiciÃ³n limitada / Receta Ãºnica" estampado sobre la lata */
+.pdp-stamp {
+  position: absolute;
+  top: 8%;
+  left: 4%;
+  width: 26%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  transform: rotate(-12deg);
+  opacity: 0.92;
+  z-index: 5;
+  filter: drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.08));
+  animation: pdpStampIn 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4) 0.3s both;
+}
+
+.pdp-stamp[hidden] {
+  display: none;
+}
+
+.pdp-stamp__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes pdpStampIn {
+  0% {
+    opacity: 0;
+    transform: rotate(-12deg) scale(1.6);
+  }
+
+  60% {
+    opacity: 0.92;
+    transform: rotate(-12deg) scale(0.92);
+  }
+
+  100% {
+    opacity: 0.92;
+    transform: rotate(-12deg) scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .pdp-stamp {
+    width: 30%;
+    top: 6%;
+    left: 2%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdp-stamp {
+    animation: none;
+  }
+}
+
+/* Can image â€” large and centered, the visual hero of the page */
+/* Imagen principal de la lata con sombra profunda y transiciÃ³n suave para la interacciÃ³n hover */
+.pdp-can-img {
+  width: 650px;
+  max-width: none;
+  height: auto;
+  max-height: 110vh;
+  filter: drop-shadow(2rem 2rem 2.5rem rgba(0, 0, 0, 0.28));
+  transition: transform 0.4s ease;
+  transform-origin: center center;
+}
+
+/* Al pasar el cursor, la lata escala levemente y rota para dar sensaciÃ³n de vida */
+.pdp-can-img:hover {
+  transform: scale(1.05) rotate(-1deg);
+}
+
+/* â”€â”€â”€ ZONA 3: COLUMNA DERECHA â€” Panel de compra (sticky) â”€â”€â”€ */
+/* Breadcrumbs, nombre, precio, packs, cantidad, botÃ³n Add to Cart. Sin fondo propio. */
+.pdp-col-right {
+  /* No background! Transparent â€” unified with the rest */
+  transform: translateX(-60px);
+  /* Desplaza la columna ligeramente para dar espacio a los packs */
+}
+
+/* Panel de compra sticky; permanece anclado, tiene scroll interno si el contenido desborda la altura de pantalla */
+.pdp-sticky-panel {
+  position: sticky;
+  top: 50px;
+  /* anclado debajo de la marquee */
+  height: fit-content;
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  padding: var(--space-20) var(--space-8) var(--space-8) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Breadcrumbs â€” white */
+/* NavegaciÃ³n de migas de pan en la parte superior del panel; texto pequeÃ±o en mayÃºsculas con espaciado de letras */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11px;
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Enlace de miga de pan: blanco al 50% de opacidad con transiciÃ³n de color al pasar el cursor */
+.breadcrumbs a {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color var(--transition-fast);
+}
+
+/* Estado hover del enlace de miga de pan: pasa a blanco completo */
+.breadcrumbs a:hover {
+  color: var(--color-white);
+}
+
+/* Separador "/" entre elementos de la ruta de navegaciÃ³n; blanco muy tenue */
+.breadcrumbs__separator {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 2px;
+}
+
+/* PÃ¡gina actual en las migas de pan: ligeramente mÃ¡s visible con peso medio */
+.breadcrumbs__current {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Product name â€” white, very large display font */
+/* Nombre principal del producto: tipografÃ­a display extra-grande, lÃ­nea muy comprimida (0.92), en blanco y mayÃºsculas */
+.pdp-product-name {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5.5vw, 80px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  color: var(--color-white);
+}
+
+/* Product subtitle â€” white, smaller */
+/* SubtÃ­tulo del tipo de producto (ej: "MOSAIC NEW ENGLAND DOUBLE IPA"); blanco semitransparente */
+.pdp-product-type {
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.4vw, 18px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-5);
+}
+
+/* Price â€” white */
+/* Fila contenedora del precio y la indicaciÃ³n de IVA; alineada en baseline para que los tamaÃ±os diferentes convivan bien */
+.pdp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+/* Precio del producto en tipografÃ­a display grande con peso mÃ¡ximo */
+.pdp-price {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 900;
+  color: var(--color-white);
+}
+
+/* Texto indicador del IVA incluido junto al precio; pequeÃ±o, en mayÃºsculas y semitransparente */
+.pdp-price-tax {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Pack Selector â€” white outlined pills */
+/* Selector de formato de compra (unidad / 6-pack / 12-pack / 24-pack); ocupa el ancho completo del panel */
+.pack-selector {
+  margin-bottom: var(--space-5);
+  width: 100%;
+}
+
+/* Etiqueta "PACKAGE CONTENTS" del selector; texto pequeÃ±o en mayÃºsculas y color muy tenue */
+.pack-selector__label {
+  font-size: 11px;
+  font-weight: var(--font-weight-extrabold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Contenedor flex de las pÃ­ldoras de opciÃ³n de pack; permite salto de lÃ­nea si el espacio es insuficiente */
+.pack-selector__options {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+/* PÃ­ldora individual de opciÃ³n de pack: borde semitransparente sobre fondo transparente, en mayÃºsculas */
+.pack-option {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Estado hover de la pÃ­ldora: borde y texto se vuelven mÃ¡s opacos para confirmar la interacciÃ³n */
+.pack-option:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  color: var(--color-white);
+}
+
+/* OpciÃ³n de pack seleccionada: fondo blanco sÃ³lido con texto negro para mÃ¡xima visibilidad */
+.pack-option.active {
+  background: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+}
+
+/* Quantity label â€” white */
+/* Etiqueta "QUANTITY" del selector de cantidad; texto pequeÃ±o en mayÃºsculas y color muy tenue */
+.pdp-qty-label {
+  font-size: 11px;
+  font-weight: var(--font-weight-extrabold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Cart row: quantity + add to cart side by side */
+/* Fila que agrupa horizontalmente el selector de cantidad y el botÃ³n de aÃ±adir al carrito */
+.pdp-cart-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* Contenedor del selector de cantidad; no se encoge en el flex row para mantener los botones visibles */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Fila de controles de cantidad: botÃ³n menos, nÃºmero y botÃ³n mÃ¡s, centrados verticalmente */
+.quantity-selector__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* BotÃ³n circular de Â±1 para la cantidad; borde semitransparente, fondo transparente y cursor pointer */
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: var(--font-weight-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+/* Estado hover del botÃ³n de cantidad: borde blanco completo y fondo blanco sutil */
+.quantity-btn:hover {
+  border-color: var(--color-white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* NÃºmero de unidades seleccionadas; tipografÃ­a display centrada con ancho mÃ­nimo para evitar saltos de layout */
+.quantity-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  min-width: 28px;
+  text-align: center;
+  color: var(--color-white);
+}
+
+/* Add to Cart â€” white bg, black text (stands out on colored bg) */
+/* BotÃ³n principal de compra; fondo blanco con texto negro para contraste mÃ¡ximo sobre el fondo de color, ocupa el espacio restante */
+.add-to-cart-btn {
+  flex: 1;
+  padding: 15px var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-black);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  /* isolation: isolate â†’ stacking context aislado para que ::before z-index:-1
+     quede detrÃ¡s del texto y SVG pero arriba del background del botÃ³n */
+  isolation: isolate;
+  transition: color 0.18s ease, border-radius 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+}
+
+.add-to-cart-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-green);
+  clip-path: polygon(0 120%, -20% 120%, -20% 120%);
+  transition: clip-path 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.add-to-cart-btn:hover::before {
+  clip-path: polygon(0 0, 120% 0, 120% 120%, 0 120%);
+}
+
+.add-to-cart-btn:hover {
+  color: var(--color-white);
+  border-radius: 5px;
+  transform: rotate(-0.8deg) scale(1.02);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+  animation: buyBtnStamp 0.26s cubic-bezier(0.2, 0.9, 0.3, 1.4) forwards;
+}
+
+/* Icono SVG del carrito dentro del botÃ³n de compra; tamaÃ±o fijo para alineaciÃ³n consistente */
+.add-to-cart-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== Related Products ===== */
+/* SecciÃ³n de productos relacionados al final de la pÃ¡gina; sobre el fondo claro del sitio con z-index superior al PDP */
+.related-products {
+  position: relative;
+  z-index: 2;
+  padding: var(--space-16) var(--space-6) calc(var(--space-16) + 40px);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+/* Textura madera/papel sutil sobre el fondo de la estanterÃ­a */
+.related-products::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 320px 320px;
+  mix-blend-mode: overlay;
+  opacity: 0.22;
+  z-index: 0;
+}
+
+/* LÃ­nea del "estante" â€” borde inferior dashed que simula la madera */
+.related-products::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 60px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 2px dashed rgba(255, 255, 255, 0.25);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Contenedor interno de los productos relacionados con ancho mÃ¡ximo centrado */
+.related-products__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* TÃ­tulo de la secciÃ³n de productos relacionados; tamaÃ±o display adaptable, centrado y en mayÃºsculas */
+.related-products__title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+  margin-bottom: var(--space-10);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* Carrusel horizontal de productos relacionados con scroll snap; oculta el scrollbar en Firefox e IE */
+.related-products__carousel {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--space-4);
+}
+
+/* Oculta el scrollbar en navegadores WebKit (Chrome, Safari) para el carrusel */
+.related-products__carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tarjeta de producto dentro del carrusel: ancho fijo sin encogimiento, altura mÃ­nima y snap al inicio de cada tarjeta */
+.related-products__carousel .product-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  min-height: 360px;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+/* === ESTANTERÃA DE BAR â€” desktop only (â‰¥901px) ===
+   Cards con alturas variables y micro-rotaciones tipo botellas
+   desalineadas en el estante del bar de los hermanos. */
+@media (min-width: 901px) {
+  .related-products__carousel {
+    align-items: flex-end;
+    padding-top: 40px;
+    padding-bottom: var(--space-8);
+  }
+
+  .related-products__carousel .product-card:nth-child(1) {
+    transform: translateY(0) rotate(-1.8deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(2) {
+    transform: translateY(-18px) rotate(1.2deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(3) {
+    transform: translateY(6px) rotate(-0.6deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(4) {
+    transform: translateY(-26px) rotate(2deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(5) {
+    transform: translateY(-4px) rotate(-1.2deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(6) {
+    transform: translateY(-14px) rotate(0.8deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(7) {
+    transform: translateY(10px) rotate(-2deg);
+  }
+
+  .related-products__carousel .product-card:nth-child(8) {
+    transform: translateY(-10px) rotate(1.4deg);
+  }
+
+  .related-products__carousel .product-card:hover {
+    transform: translateY(-22px) rotate(0deg) scale(1.03);
+    z-index: 3;
+  }
+}
+
+/* â”€â”€â”€ TEMA OSCURO DEL PDP (.pdp-dark-text) â”€â”€â”€
+   Cuando el fondo del producto es claro, JS agrega .pdp-dark-text
+   al body y todos los textos blancos pasan a oscuro automÃ¡ticamente.
+   Cada selector aquÃ­ invierte el color de su equivalente en la secciÃ³n normal.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Columna izquierda: texto editorial completo a oscuro */
+.pdp-dark-text .pdp-col-left {
+  color: var(--color-gray-800);
+  /* Texto principal oscuro en vez de blanco */
+}
+
+/* Tagline del producto a oscuro con opacidad */
+.pdp-dark-text .pdp-tagline {
+  color: rgba(0, 0, 0, 0.75);
+  /* Tagline oscuro semitransparente */
+}
+
+/* Bordes de la fila de specs a oscuro sutil */
+.pdp-dark-text .pdp-specs-row {
+  border-top-color: rgba(0, 0, 0, 0.15);
+  /* Bordes oscuros sutiles */
+  border-bottom-color: rgba(0, 0, 0, 0.15);
+  /* Bordes oscuros sutiles */
+}
+
+/* Valores de specs (ABV, temp, sabores) a oscuro */
+.pdp-dark-text .pdp-specs-row__value {
+  color: var(--color-gray-800);
+  /* Valores oscuros y legibles */
+}
+
+/* Etiquetas de specs a oscuro con opacidad */
+.pdp-dark-text .pdp-specs-row__label {
+  color: rgba(0, 0, 0, 0.55);
+  /* Etiquetas oscuras semitransparentes */
+}
+
+/* Borde del accordion a oscuro */
+.pdp-dark-text .pdp-accordion {
+  border-top-color: rgba(0, 0, 0, 0.15);
+  /* Bordes del accordion oscuros */
+}
+
+/* TÃ­tulo del accordion (My Story, Geeky Info) a oscuro */
+.pdp-dark-text .pdp-accordion__trigger {
+  color: var(--color-gray-800);
+  /* TÃ­tulos de secciÃ³n oscuros */
+}
+
+/* Icono del accordion a oscuro */
+.pdp-dark-text .pdp-accordion__icon {
+  color: rgba(0, 0, 0, 0.5);
+  /* Flechas del accordion oscuras */
+}
+
+/* Contenido del accordion a oscuro */
+.pdp-dark-text .pdp-accordion__content p {
+  color: rgba(0, 0, 0, 0.7);
+  /* Texto del contenido oscuro */
+}
+
+/* Grid de datos tÃ©cnicos (geeky) a oscuro */
+.pdp-dark-text .pdp-geeky-item {
+  color: rgba(0, 0, 0, 0.75);
+  /* Items tÃ©cnicos oscuros */
+}
+
+.pdp-dark-text .pdp-geeky-item__label {
+  color: rgba(0, 0, 0, 0.4);
+  /* Etiquetas tÃ©cnicas oscuras suaves */
+}
+
+.pdp-dark-text .pdp-geeky-item__value {
+  color: rgba(0, 0, 0, 0.82);
+  /* Valores tÃ©cnicos oscuros y legibles */
+}
+
+/* Breadcrumbs a oscuro */
+.pdp-dark-text .breadcrumbs a {
+  color: rgba(0, 0, 0, 0.5);
+  /* Links de breadcrumbs oscuros */
+}
+
+.pdp-dark-text .breadcrumbs a:hover {
+  color: rgba(0, 0, 0, 0.8);
+  /* Hover mÃ¡s oscuro */
+}
+
+.pdp-dark-text .breadcrumbs__separator {
+  color: rgba(0, 0, 0, 0.3);
+  /* Separadores oscuros suaves */
+}
+
+.pdp-dark-text .breadcrumbs__current {
+  color: rgba(0, 0, 0, 0.65);
+  /* Breadcrumb actual oscuro */
+}
+
+/* Nombre del producto: el color dinÃ¡mico (inline style) del JS tiene prioridad */
+.pdp-dark-text .pdp-product-name {
+  color: var(--color-gray-800);
+  /* Fallback si no hay accentColor */
+}
+
+/* Subtipo del producto a oscuro */
+.pdp-dark-text .pdp-product-type {
+  color: rgba(0, 0, 0, 0.6);
+  /* SubtÃ­tulo oscuro */
+}
+
+/* Precio a oscuro */
+.pdp-dark-text .pdp-price {
+  color: var(--color-gray-800);
+  /* Precio oscuro e impactante */
+}
+
+/* Texto de impuesto a oscuro */
+.pdp-dark-text .pdp-price-tax {
+  color: rgba(0, 0, 0, 0.5);
+  /* Texto de impuesto oscuro sutil */
+}
+
+/* Etiqueta del pack selector a oscuro */
+.pdp-dark-text .pack-selector__label {
+  color: rgba(0, 0, 0, 0.55);
+  /* Etiqueta oscura */
+}
+
+/* Opciones de pack a oscuro con hovers dinÃ¡micos */
+.pdp-dark-text .pack-option {
+  color: rgba(0, 0, 0, 0.85);
+  /* Texto de opciones oscuro */
+  border-color: rgba(0, 0, 0, 0.25);
+  /* Bordes oscuros sutiles */
+  background: transparent;
+  /* Fondo limpio para el hover */
+}
+
+.pdp-dark-text .pack-option:hover {
+  border-color: rgba(0, 0, 0, 0.7);
+  /* Hover: borde mÃ¡s marcado */
+  background: rgba(0, 0, 0, 0.08);
+  /* Hover: fondo sutil oscuro */
+  color: var(--color-gray-800);
+  /* Hover: texto negro sÃ³lido */
+}
+
+.pdp-dark-text .pack-option.active {
+  background: var(--color-gray-800);
+  /* Activo: fondo negro sÃ³lido */
+  color: var(--color-white);
+  /* Activo: texto blanco sobre negro */
+  border-color: var(--color-gray-800);
+  /* Activo: borde negro sÃ³lido */
+}
+
+/* Etiqueta de cantidad a oscuro */
+.pdp-dark-text .pdp-qty-label {
+  color: rgba(0, 0, 0, 0.55);
+  /* Etiqueta de cantidad oscura */
+}
+
+/* Botones de cantidad a oscuro con hovers dinÃ¡micos */
+.pdp-dark-text .quantity-btn {
+  color: var(--color-gray-800);
+  /* Botones +/- oscuros */
+  border-color: rgba(0, 0, 0, 0.25);
+  /* Bordes oscuros */
+  background: transparent;
+  /* Fondo limpio para el hover */
+}
+
+.pdp-dark-text .quantity-btn:hover {
+  border-color: var(--color-gray-800);
+  /* Hover: borde negro sÃ³lido */
+  background: rgba(0, 0, 0, 0.1);
+  /* Hover: fondo sutil oscuro */
+  color: var(--color-gray-800);
+  /* Hover: texto negro */
+}
+
+/* Valor de cantidad a oscuro */
+.pdp-dark-text .quantity-value {
+  color: var(--color-gray-800);
+  /* NÃºmero de cantidad oscuro */
+}
+
+/* BotÃ³n Add to Cart invertido: fondo negro con texto blanco, visible y contrastado */
+.pdp-dark-text .add-to-cart-btn {
+  background: var(--color-gray-800) !important;
+  /* Fondo negro sÃ³lido â€” !important para ganar al estilo base blanco */
+  color: var(--color-white) !important;
+  /* Texto blanco sobre botÃ³n negro */
+  border-color: var(--color-gray-800);
+  /* Borde negro sÃ³lido */
+}
+
+.pdp-dark-text .add-to-cart-btn:hover {
+  background: var(--color-green) !important;
+  /* Hover: verde como en el tema original */
+  color: var(--color-white) !important;
+  /* Hover: texto negro sobre verde */
+  border-color: var(--color-green);
+  /* Hover: borde verde */
+  transform: translateY(-2px);
+  /* Hover: sube como en el original */
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  /* Hover: sombra como en el original */
+}
+
+/* Accordion trigger hover dinÃ¡mico */
+.pdp-dark-text .pdp-accordion__trigger:hover {
+  color: rgba(0, 0, 0, 0.6);
+  /* Hover: texto oscuro mÃ¡s suave */
+}
+
+/* Breadcrumbs hover dinÃ¡mico */
+.pdp-dark-text .breadcrumbs a:hover {
+  color: var(--color-gray-800);
+  /* Hover: texto negro sÃ³lido */
+}
+
+/* TÃ­tulo de productos relacionados a oscuro */
+.pdp-dark-text .related-products__title {
+  color: var(--color-gray-800);
+  /* TÃ­tulo de relacionados oscuro */
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PDP ENTRY ANIMATIONS â€” Cuando el body tiene .pdp-anim-ready se
+   disparan en cascada. Sin clase = estado oculto inicial (no flash).
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+/* Estado inicial â€” todo oculto, listo para animar */
+body:not(.pdp-anim-ready) .pdp-bg {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+body:not(.pdp-anim-ready) .pdp-can-img {
+  opacity: 0;
+  transform: translateY(80px) scale(0.85) rotate(-8deg);
+}
+
+body:not(.pdp-anim-ready) .pdp-stamp {
+  opacity: 0;
+  transform: scale(2) rotate(-30deg);
+}
+
+body:not(.pdp-anim-ready) .pdp-hero-illust__img {
+  opacity: 0;
+  transform: translateX(-60px) rotate(-6deg);
+}
+
+body:not(.pdp-anim-ready) .pdp-tagline {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+body:not(.pdp-anim-ready) .pdp-specs-row__item {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+body:not(.pdp-anim-ready) .pdp-accordion {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+body:not(.pdp-anim-ready) .pdp-moments {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+body:not(.pdp-anim-ready) .breadcrumbs {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+body:not(.pdp-anim-ready) .pdp-product-name {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+body:not(.pdp-anim-ready) .pdp-product-type {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+body:not(.pdp-anim-ready) .pdp-price-row {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+body:not(.pdp-anim-ready) .pack-selector {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+body:not(.pdp-anim-ready) .pdp-qty-label {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+body:not(.pdp-anim-ready) .pdp-cart-row {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+/* â”€â”€â”€ Estado animado â€” body.pdp-anim-ready â”€â”€â”€ */
+
+/* 0. Fondo: fade + zoom in muy sutil */
+body.pdp-anim-ready .pdp-bg {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+}
+
+/* 1. LATA CENTRAL â€” la estrella. Vuela desde abajo con leve giro */
+body.pdp-anim-ready .pdp-can-img {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+  transition: opacity 0.7s ease 0.15s,
+    transform 1.1s cubic-bezier(0.18, 0.9, 0.28, 1.15) 0.15s;
+}
+
+/* 2. Sello "EDICIÃ“N LIMITADA" â€” aparece despuÃ©s de la lata, como un estampado */
+body.pdp-anim-ready .pdp-stamp {
+  opacity: 0.92;
+  transform: scale(1) rotate(-12deg);
+  transition: opacity 0.4s ease 0.95s,
+    transform 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) 0.95s;
+}
+
+/* 3. IlustraciÃ³n top-left â€” fade + slide desde la izquierda */
+body.pdp-anim-ready .pdp-hero-illust__img {
+  opacity: 1;
+  transform: translateX(0) rotate(0deg);
+  transition: opacity 0.9s ease 0.35s,
+    transform 1s cubic-bezier(0.2, 0.85, 0.3, 1.05) 0.35s;
+}
+
+/* 4. Tagline + specs (columna izquierda) â€” stagger ascendente */
+body.pdp-anim-ready .pdp-tagline {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease 0.55s, transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.05) 0.55s;
+}
+
+body.pdp-anim-ready .pdp-specs-row__item {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+}
+
+body.pdp-anim-ready .pdp-specs-row__item:nth-child(1) {
+  transition-delay: 0.65s;
+}
+
+body.pdp-anim-ready .pdp-specs-row__item:nth-child(2) {
+  transition-delay: 0.74s;
+}
+
+body.pdp-anim-ready .pdp-specs-row__item:nth-child(3) {
+  transition-delay: 0.83s;
+}
+
+/* Acordeones, moments y bottom-illust: scroll-triggered.
+   Permanecen ocultos hasta que IntersectionObserver aÃ±ade .pdp-in-view. */
+body.pdp-anim-ready .pdp-accordion:not(.pdp-in-view),
+body.pdp-anim-ready .pdp-moments:not(.pdp-in-view) {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+body.pdp-anim-ready .pdp-accordion.pdp-in-view,
+body.pdp-anim-ready .pdp-moments.pdp-in-view {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+}
+
+.pdp-bottom-illust {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+}
+
+.pdp-bottom-illust.pdp-in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.9s ease, transform 1s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+}
+
+/* 5. Panel derecho (sticky) â€” todo entra deslizando desde la derecha en cascada */
+body.pdp-anim-ready .breadcrumbs {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease 0.30s, transform 0.55s ease 0.30s;
+}
+
+body.pdp-anim-ready .pdp-product-name {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.6s ease 0.40s, transform 0.75s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.40s;
+}
+
+body.pdp-anim-ready .pdp-product-type {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.55s ease 0.50s, transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.50s;
+}
+
+body.pdp-anim-ready .pdp-price-row {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.55s ease 0.60s, transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.60s;
+}
+
+body.pdp-anim-ready .pack-selector {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.55s ease 0.72s, transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.72s;
+}
+
+body.pdp-anim-ready .pdp-qty-label {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.5s ease 0.84s, transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.84s;
+}
+
+body.pdp-anim-ready .pdp-cart-row {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.55s ease 0.92s, transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.92s;
+}
+
+/* Reduced motion: deshabilitar todas las transiciones de entrada */
+@media (prefers-reduced-motion: reduce) {
+
+  body:not(.pdp-anim-ready) .pdp-bg,
+  body:not(.pdp-anim-ready) .pdp-can-img,
+  body:not(.pdp-anim-ready) .pdp-stamp,
+  body:not(.pdp-anim-ready) .pdp-hero-illust__img,
+  body:not(.pdp-anim-ready) .pdp-tagline,
+  body:not(.pdp-anim-ready) .pdp-specs-row__item,
+  body:not(.pdp-anim-ready) .pdp-accordion,
+  body:not(.pdp-anim-ready) .pdp-moments,
+  body:not(.pdp-anim-ready) .breadcrumbs,
+  body:not(.pdp-anim-ready) .pdp-product-name,
+  body:not(.pdp-anim-ready) .pdp-product-type,
+  body:not(.pdp-anim-ready) .pdp-price-row,
+  body:not(.pdp-anim-ready) .pack-selector,
+  body:not(.pdp-anim-ready) .pdp-qty-label,
+  body:not(.pdp-anim-ready) .pdp-cart-row {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* â”€â”€â”€ PDP Subnav (mismo estilo .shop-subnav que el index) â€” oculta hasta scroll â”€â”€â”€ */
+/* En la PDP: oculto hasta que IntersectionObserver agrega .is-visible */
+body:has(.product-page) .shop-subnav.pdp-subnav {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 18px);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+}
+
+body:has(.product-page) .shop-subnav.pdp-subnav.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+/* En todas las demás páginas: siempre visible en desktop, scroll-up en mobile */
+@media screen and (min-width: 901px) {
+  .shop-subnav.pdp-subnav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+  }
+
+  /* Locales y Nosotros: ocultar botón de búsqueda — no tienen contenido buscable */
+  body.page-locales #searchBtn,
+  body.page-nosotros #searchBtn {
+    display: none;
+  }
+
+  /* Locales y Nosotros: ocultar al scroll down, mostrar al scroll up */
+  body.page-locales .shop-subnav.pdp-subnav,
+  body.page-nosotros .shop-subnav.pdp-subnav {
+    transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+  }
+
+  body.page-locales.subnav-desktop-hidden .shop-subnav.pdp-subnav,
+  body.page-nosotros.subnav-desktop-hidden .shop-subnav.pdp-subnav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -120%);
+  }
+
+  /* Desktop — ocultar subnav al scroll down en TODAS las páginas */
+  body.subnav-desktop-hidden .shop-subnav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -120%);
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ FIN DE ESTILOS PDP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   16. ANIMACIONES
+   fadeInUp: las tarjetas de producto aparecen de abajo hacia arriba
+   con delays escalonados (0.02s entre cada una, hasta 8 cards).
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* â”€â”€â”€â”€â”€ Animaciones especiales para la view "cervezas" â”€â”€â”€â”€â”€
+   Cuando body tiene .view-cans-anim, las cards entran con un efecto
+   mÃ¡s dramÃ¡tico: fade + slide-up + escala + leve rotaciÃ³n random. */
+@keyframes cansCardEntry {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) scale(0.85) rotate(var(--card-rot, -2deg));
+    filter: blur(6px);
+  }
+
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
+/* Cards en cans view: arrancan invisibles. Animan cuando entran en viewport
+   (clase .card-in-view aÃ±adida por IntersectionObserver en JS). */
+body.view-cans-anim .product-card {
+  opacity: 0;
+  animation: none;
+}
+
+body.view-cans-anim .product-card.card-in-view {
+  animation: cansCardEntry 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05) both;
+}
+
+body.view-cans-anim .product-card:nth-child(2n) {
+  --card-rot: 2deg;
+}
+
+body.view-cans-anim .product-card:nth-child(3n) {
+  --card-rot: -1.5deg;
+}
+
+/* â”€â”€â”€â”€â”€ Entrada del banner dyn-hero â”€â”€â”€â”€â”€
+   Lata vuela desde la derecha, texto entra con stagger. */
+@keyframes dynHeroCanFlyIn {
+  0% {
+    opacity: 0;
+    transform: translateX(120%) rotate(18deg) scale(0.85);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes dynHeroTextIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dynHeroNameIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+    letter-spacing: -0.04em;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    letter-spacing: 0;
+  }
+}
+
+.dyn-hero--anim .dyn-hero__can {
+  animation: dynHeroCanFlyIn 1.1s cubic-bezier(0.2, 0.85, 0.3, 1.05) both;
+}
+
+.dyn-hero--anim .dyn-hero__eyebrow {
+  animation: dynHeroTextIn 0.7s ease both;
+  animation-delay: 0.25s;
+}
+
+.dyn-hero--anim .dyn-hero__name {
+  animation: dynHeroNameIn 0.85s cubic-bezier(0.2, 0.85, 0.3, 1.05) both;
+  animation-delay: 0.4s;
+}
+
+.dyn-hero--anim .dyn-hero__desc {
+  animation: dynHeroTextIn 0.7s ease both;
+  animation-delay: 0.6s;
+}
+
+.dyn-hero--anim .dyn-hero__cta {
+  animation: dynHeroTextIn 0.7s ease both;
+  animation-delay: 0.75s;
+}
+
+.product-card:nth-child(1) {
+  animation-delay: 0.02s;
+}
+
+.product-card:nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.product-card:nth-child(3) {
+  animation-delay: 0.10s;
+}
+
+.product-card:nth-child(4) {
+  animation-delay: 0.14s;
+}
+
+.product-card:nth-child(5) {
+  animation-delay: 0.18s;
+}
+
+.product-card:nth-child(6) {
+  animation-delay: 0.22s;
+}
+
+.product-card:nth-child(7) {
+  animation-delay: 0.26s;
+}
+
+.product-card:nth-child(8) {
+  animation-delay: 0.30s;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-16) var(--space-6);
+  font-size: 20px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-400);
+}
+
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   17. RESPONSIVE â€” Breakpoints del sitio
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   â‰¤1200px: Tablet landscape â€” grilla 3 columnas, PDP ajustes menores
+   â‰¤900px:  Tablet portrait â€” PDP 1 columna, sidebar 220px, promos 50%
+   â‰¤640px:  MÃ³vil â€” grilla 2 columnas, sidebar apilado, carrito 100%
+   â‰¤380px:  MÃ³vil pequeÃ±o â€” ajustes de fuentes y alturas mÃ­nimas
+   â‰¥1201px: Desktop grande â€” tarjetas mÃ¡s altas, imÃ¡genes mÃ¡s grandes
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* â”€â”€â”€ Tablet landscape (â‰¤1200px) â€” grilla de 3 columnas â”€â”€â”€ */
+@media screen and (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* â”€â”€â”€ PDP: Tablet landscape (1200px - 901px) â”€â”€â”€ */
+@media screen and (max-width: 1200px) and (min-width: 901px) {
+
+  /* Reduce el desplazamiento de la columna derecha para que no se solape con la lata en pantallas medianas */
+  .pdp-col-right {
+    transform: translateX(-20px);
+    /* Menos desplazamiento que en desktop grande para evitar solapamiento */
+  }
+
+  /* La lata se amplÃ­a masivamente para combatir padding transparente */
+  .pdp-can-img {
+    width: 500px;
+    /* Ampliado para tablet landscape */
+    max-width: none;
+  }
+}
+
+/* â”€â”€â”€ Tablet portrait (â‰¤900px) â€” PDP + Shop mezclados â”€â”€â”€ */
+@media screen and (max-width: 900px) {
+
+  /* â”€â”€â”€ INICIO ESTILOS PDP (â‰¤900px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* El grid pasa a una sola columna; las tres zonas se apilan verticalmente */
+  .pdp-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Anula el desplazamiento horizontal de desktop porque en una columna no tiene sentido */
+  .pdp-col-right {
+    transform: none;
+    /* Resetea el translateX de desktop para que nada se salga de pantalla */
+  }
+
+  /* Reduce el padding de la columna izquierda para aprovechar mejor el espacio en pantallas estrechas */
+  .pdp-col-left {
+    padding: var(--space-6) var(--space-6) var(--space-4);
+    /* Padding equilibrado para tablet */
+  }
+
+  /* Mueve la columna de la lata al inicio para que aparezca primero en el orden visual */
+  .pdp-col-center {
+    order: -1;
+    /* La lata aparece arriba de todo en tablet */
+    position: relative;
+    /* Contexto de posiciÃ³n para que quede encima de la ilustraciÃ³n */
+    z-index: 2;
+    /* La lata siempre por encima de la ilustraciÃ³n de fondo */
+  }
+
+  /* La columna de info se coloca segunda, justo debajo de la lata */
+  .pdp-col-right {
+    order: 0;
+    /* La info de compra va justo despuÃ©s de la lata */
+  }
+
+  /* La columna editorial (historia, specs) va al final en tablet */
+  .pdp-col-left {
+    order: 1;
+    /* El contenido editorial se mueve al final */
+  }
+
+  /* En tablet la lata deja de ser sticky y se centra con padding generoso */
+  .pdp-can-sticky {
+    position: relative;
+    top: auto;
+    padding: var(--space-10) var(--space-4) var(--space-6);
+    /* MÃ¡s aire arriba para separar del header */
+    min-height: 420px;
+    /* Altura mÃ­nima para dar espacio a la lata y la ilustraciÃ³n de fondo */
+  }
+
+  /* La lata es grande y protagonista, centrada sobre la ilustraciÃ³n de fondo */
+  .pdp-can-img {
+    max-height: 600px;
+    /* Lata grande y protagonista */
+    width: 500px;
+    /* Forzado a ser inmenso */
+    max-width: none;
+    /* Ancho que se salga del contenedor si es necesario */
+  }
+
+  /* La ilustraciÃ³n hero se posiciona absolutamente detrÃ¡s de la lata, replicando el efecto de desktop */
+  .pdp-hero-illust {
+    position: absolute;
+    /* Sale del flujo para colocarse detrÃ¡s de la lata */
+    top: 0;
+    /* Se ancla al inicio del layout (detrÃ¡s de la zona de la lata) */
+    left: 0;
+    /* Ocupa desde la izquierda */
+    right: 0;
+    /* Hasta la derecha */
+    z-index: 1;
+    /* Por debajo de la lata (z-index: 2) */
+    min-height: unset;
+    /* Ya no necesita altura mÃ­nima al estar fuera del flujo */
+    pointer-events: none;
+    /* No interfiere con clics sobre la lata ni otros elementos */
+    justify-content: flex-end;
+    /* Empuja la imagen hacia la derecha, como en desktop */
+    overflow: visible;
+    /* Permite que la ilustraciÃ³n se desborde como en desktop */
+    padding: var(--space-16) 0 0;
+    /* Padding superior para alinear con la lata */
+  }
+
+  /* La imagen de la ilustraciÃ³n se muestra parcialmente a la derecha, detrÃ¡s de la lata */
+  .pdp-hero-illust__img {
+    max-width: 85%;
+    /* Ocupa la mayor parte del ancho para envolver la lata como en desktop */
+    max-height: 480px;
+    /* Grande para que el efecto sea impactante */
+    opacity: 1;
+    /* Misma opacidad que en desktop, sin reducir */
+    transform: translateX(5%);
+    /* Ligeramente a la derecha, como en desktop */
+    filter: drop-shadow(0 12px 48px rgba(0, 0, 0, 0.15));
+    /* Sombra mÃ¡s sutil que en desktop */
+  }
+
+  /* La ilustraciÃ³n inferior tambiÃ©n se ajusta al espacio de tablet */
+  .pdp-bottom-illust__img {
+    max-height: 300px;
+    /* Reduce la altura de la ilustraciÃ³n del fondo en tablet */
+  }
+
+  /* El panel de compra pierde el sticky, se centra y respira con padding equilibrado */
+  .pdp-sticky-panel {
+    position: relative;
+    top: auto;
+    max-height: none;
+    padding: var(--space-4) var(--space-8);
+    /* Padding horizontal amplio para centrar bien el contenido */
+    align-items: center;
+    /* Centra horizontalmente todos los elementos del panel */
+    text-align: center;
+    /* Texto centrado para el layout de una columna */
+  }
+
+  /* El nombre del producto se adapta al ancho de tablet */
+  .pdp-product-name {
+    font-size: clamp(36px, 7vw, 56px);
+    /* TamaÃ±o fluido que escala bien en tablet */
+  }
+
+  /* El precio se ajusta proporcionalmente en tablet */
+  .pdp-price {
+    font-size: clamp(28px, 5vw, 40px);
+    /* Precio mÃ¡s contenido pero aÃºn impactante */
+  }
+
+  /* Centra la fila del carrito (cantidad + botÃ³n) en el layout centrado */
+  .pdp-cart-row {
+    justify-content: center;
+    /* Centra los controles de compra */
+    max-width: 420px;
+    /* Limita el ancho para que no se estire demasiado */
+    margin: 0 auto;
+    /* Centra el bloque completo */
+  }
+
+  /* El botÃ³n add to cart ocupa un ancho razonable en tablet */
+  .add-to-cart-btn {
+    min-width: 200px;
+    /* Ancho mÃ­nimo para que el botÃ³n sea fÃ¡cil de tocar */
+  }
+
+  /* Centra las migas de pan en el layout de una columna */
+  .breadcrumbs {
+    justify-content: center;
+    /* Migas de pan centradas en tablet */
+  }
+
+  /* Centra las opciones de pack cuando el panel pasa a layout centrado */
+  .pack-selector__options {
+    justify-content: center;
+    /* Pack options centradas */
+  }
+
+  /* El selector de pack se ajusta al layout centrado */
+  .pack-selector {
+    display: flex;
+    /* Flex para poder centrar el contenido */
+    flex-direction: column;
+    /* Apila label y opciones verticalmente */
+    align-items: center;
+    /* Centra todo el bloque del selector */
+  }
+
+  /* La etiqueta de cantidad tambiÃ©n se centra */
+  .pdp-qty-label {
+    text-align: center;
+    /* Centra "QUANTITY" en el layout de una columna */
+    width: 100%;
+    /* Ocupa todo el ancho para que el centrado funcione */
+  }
+
+  /* Los specs se adaptan mejor al ancho de tablet */
+  .pdp-specs-row {
+    gap: var(--space-4);
+    /* Reduce el gap entre specs para tablet */
+  }
+
+  /* Los valores de specs se ajustan al espacio de tablet */
+  .pdp-specs-row__value {
+    font-size: clamp(24px, 4vw, 36px);
+    /* TamaÃ±o fluido que no desborda en tablet */
+  }
+
+  /* El carrusel de relacionados se adapta al ancho de tablet */
+  .related-products {
+    padding: var(--space-10) var(--space-4);
+    /* Menos padding lateral en tablet */
+  }
+
+  /* â”€â”€â”€ FIN ESTILOS PDP (â‰¤900px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* â”€â”€â”€ INICIO ESTILOS INDEX/SHOP (â‰¤900px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* El shop-wrapper reduce la sidebar para tablet */
+  .shop-wrapper {
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-8);
+    padding: 0 var(--space-6) var(--space-16);
+  }
+
+  /* Subnav pill â€” tablet: alineada con floating-actions */
+  .shop-subnav {
+    padding: 5px;
+    top: 84px;
+    max-width: calc(100% - 24px);
+  }
+
+  .shop-subnav__inner {
+    justify-content: flex-start;
+    padding-left: 0;
+  }
+
+  .shop-subnav__link {
+    font-size: 20px;
+    padding: 6px 20px;
+  }
+
+  /* Las promo cards pasan a 50% del ancho (2 visibles a la vez) */
+  .promo-card {
+    flex: 0 0 calc(50% - var(--space-6) / 2);
+    height: 400px;
+  }
+
+  .promo-card__title {
+    font-size: 32px;
+  }
+
+  .promo-card__btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  /* Home promos reduce padding lateral */
+  .home-promos {
+    padding: 0 var(--space-6) var(--space-10);
+  }
+
+  /* Las category cards reducen alturas fijas para tablet */
+  .cat-card:nth-child(1) {
+    height: 340px;
+    margin-top: 40px;
+  }
+
+  .cat-card:nth-child(2) {
+    height: 420px;
+    margin-top: 0;
+  }
+
+  .cat-card:nth-child(3) {
+    height: 320px;
+    margin-top: 80px;
+  }
+
+  /* Home categories reduce padding */
+  .home-categories {
+    padding: var(--space-6) var(--space-6) var(--space-16);
+  }
+
+  /* Cart drawer se adapta al ancho de tablet */
+  .cart-drawer {
+    max-width: 400px;
+  }
+
+  /* â”€â”€â”€ FIN ESTILOS INDEX/SHOP (â‰¤900px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  .footer__grid {
+    gap: var(--space-6);
+  }
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MÃ“VIL/TABLET â€” Subnav abajo, aparece al hacer scroll UP
+   (va despuÃ©s del bloque â‰¤900px para anular top:84px)
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+@media screen and (max-width: 900px) {
+
+  /* Subnav justo debajo del logo+botones, oculto hasta scroll-up */
+  .shop-subnav {
+    top: 120px !important;
+    bottom: auto !important;
+    left: 50%;
+    transform: translate(-50%, -200%);
+    max-width: calc(100% - 16px);
+    padding: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.2, 0.85, 0.3, 1.05), opacity 0.3s ease;
+  }
+
+  body.subnav-mobile-visible .shop-subnav {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .shop-subnav__inner {
+    justify-content: flex-start;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .shop-subnav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shop-subnav__link {
+    font-size: 13px;
+    padding: 7px 12px;
+    white-space: nowrap;
+  }
+}
+
+/* â”€â”€â”€ MÃ³vil (â‰¤640px) â€” grilla 2 columnas, layout 1 columna â”€â”€â”€ */
+@media screen and (max-width: 640px) {
+  :root {
+    --header-height: 60px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-3) var(--space-20);
+  }
+
+  .product-card {
+    min-height: 300px;
+    border-radius: var(--radius-xl);
+    gap: var(--space-3);
+  }
+
+  .product-card__image {
+    height: 120px;
+  }
+
+  .product-card__info {
+    padding: 0 var(--space-3) var(--space-3);
+  }
+
+  .product-card__name {
+    font-size: 16px;
+  }
+
+  .product-card__subtitle {
+    font-size: 10px;
+  }
+
+  .product-card__buy-btn {
+    padding: var(--space-2) var(--space-4);
+    font-size: 13px;
+  }
+
+  /* â”€â”€â”€ MÃ³vil/Tablet: logo + botones alineados al mismo centro vertical â”€â”€â”€ */
+  .floating-logo {
+    top: 52px;
+    left: 8px;
+    width: 70px;
+    height: 70px;
+    padding: 6px;
+  }
+
+  .floating-actions {
+    top: 65px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .floating-actions__btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .filters {
+    padding: var(--space-3) var(--space-3);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .floating-nav {
+    bottom: var(--space-4);
+  }
+
+  .floating-nav__link {
+    padding: var(--space-2) var(--space-3);
+    font-size: 14px;
+  }
+
+  .hero__title {
+    padding: 0 var(--space-3);
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  .footer__newsletter-form {
+    flex-direction: column;
+  }
+
+  /* â”€â”€â”€ INICIO ESTILOS PDP (â‰¤640px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* Evita el scroll horizontal causado por la lata ampliada */
+  html,
+  body,
+  .product-page {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+
+  .pdp-col-center {
+    overflow: hidden;
+    /* Recorta la lata sin empujar el layout */
+  }
+
+  /* Reduce el padding de la columna izquierda al mÃ­nimo en mÃ³vil */
+  .pdp-col-left {
+    padding: var(--space-4) var(--space-4) var(--space-3);
+    /* Padding compacto para aprovechar espacio en mÃ³vil */
+  }
+
+  /* La lata se centra con espacio generoso para que domine la primera mitad de la pantalla */
+  .pdp-can-sticky {
+    padding: var(--space-6) var(--space-3) var(--space-4);
+    /* Padding equilibrado para centrar la lata */
+    min-height: 548px;
+    /* +20% respecto al valor anterior (456px) para acomodar la lata aÃºn mÃ¡s grande */
+  }
+
+  /* La lata ocupa medio mÃ³vil: grande y protagonista como en desktop */
+  .pdp-can-img {
+    max-height: 828px;
+    /* +15% mÃ¡s */
+    width: 525px;
+    /* +15% de 456px */
+    max-width: none;
+  }
+
+  /* La ilustraciÃ³n de fondo se ajusta al tamaÃ±o del viewport mÃ³vil */
+  .pdp-hero-illust {
+    padding: var(--space-10) 0 0;
+    /* Menos padding superior que en tablet */
+  }
+
+  /* En mÃ³vil la ilustraciÃ³n se ajusta al espacio mÃ¡s reducido pero mantiene el efecto */
+  .pdp-hero-illust__img {
+    max-height: 547px;
+    /* +20% respecto al valor anterior (456px) â€” ilustraciÃ³n grande detrÃ¡s de la lata */
+    max-width: 100%;
+    /* +20% respecto al valor anterior (96%) â€” ocupa todo el ancho disponible */
+    opacity: 1;
+    /* Misma opacidad que en desktop, sin reducir */
+    transform: translateX(20%);
+    /* Desplazada a la derecha, se corta sin generar scroll */
+  }
+
+  /* La ilustraciÃ³n inferior tambiÃ©n se compacta en mÃ³vil */
+  .pdp-bottom-illust__img {
+    max-height: 200px;
+    /* MÃ¡s pequeÃ±a para no alargar demasiado el scroll */
+  }
+
+  /* El nombre del producto mÃ¡s grande e impactante en mÃ³vil */
+  .pdp-product-name {
+    font-size: 52px;
+    /* Grande y protagonista */
+    line-height: 0.92;
+  }
+
+  /* El subtipo de producto se ajusta a mÃ³vil */
+  .pdp-product-type {
+    font-size: 13px;
+    /* SubtÃ­tulo mÃ¡s pequeÃ±o para no competir con el nombre */
+  }
+
+  /* El precio se adapta al espacio de mÃ³vil */
+  .pdp-price {
+    font-size: 32px;
+    /* Precio impactante pero proporcionado al viewport */
+  }
+
+  /* El panel de compra usa flexbox con wrap para reorganizar los bloques con order */
+  .pdp-sticky-panel {
+    padding: var(--space-3) var(--space-4);
+    /* Padding compacto pero suficiente para respirar */
+    align-items: center;
+    /* Centra todos los elementos del panel */
+    text-align: center;
+    /* Texto centrado en el layout de una columna */
+    flex-wrap: wrap;
+    /* Permite reorganizar los hijos con order */
+  }
+
+  /* El precio va solo en su propia fila, centrado y destacado */
+  .pdp-price-row {
+    order: 1;
+    /* Precio va primero en el bloque de compra */
+    width: 100%;
+    /* Ocupa todo el ancho para quedar solo en su fila */
+    margin-bottom: var(--space-3);
+    /* SeparaciÃ³n antes de la fila de cantidad+botÃ³n */
+    justify-content: center;
+    /* Centra el precio */
+  }
+
+  /* La etiqueta "Quantity" se oculta porque la cantidad ya estÃ¡ junto al botÃ³n */
+  .pdp-qty-label {
+    display: none;
+    /* Se oculta porque el selector de cantidad va junto al botÃ³n add to cart */
+  }
+
+  /* Cantidad y botÃ³n add to cart juntos en la misma fila */
+  .pdp-cart-row {
+    order: 2;
+    /* Va despuÃ©s del precio */
+    flex-direction: row;
+    /* Cantidad y botÃ³n en la misma fila, juntos */
+    gap: var(--space-3);
+    /* Espacio entre cantidad y botÃ³n */
+    max-width: 100%;
+    /* Ocupa todo el ancho disponible */
+    margin-bottom: var(--space-3);
+    /* SeparaciÃ³n antes de los packs */
+    justify-content: center;
+    /* Centra la fila de cantidad+botÃ³n */
+  }
+
+  /* Los packs van debajo de la fila cantidad+botÃ³n */
+  .pack-selector {
+    order: 3;
+    /* Packs despuÃ©s de cantidad+botÃ³n */
+    width: 100%;
+    /* Ocupa todo el ancho */
+    margin-bottom: var(--space-2);
+    /* SeparaciÃ³n al final */
+  }
+
+  /* El botÃ³n add to cart se expande para llenar el espacio junto a la cantidad */
+  .add-to-cart-btn {
+    flex: 1;
+    /* Ocupa todo el espacio restante junto al selector de cantidad */
+    min-width: unset;
+    /* Anula el min-width de tablet */
+    padding: 14px var(--space-4);
+    /* Padding cÃ³modo para el dedo */
+  }
+
+  /* Las opciones de pack se ajustan con gap menor para caber en mÃ³vil */
+  .pack-selector__options {
+    gap: var(--space-1);
+    /* Gap mÃ¡s compacto entre pills de pack */
+  }
+
+  /* Cada opciÃ³n de pack se hace mÃ¡s compacta en mÃ³vil */
+  .pack-option {
+    padding: 6px 14px;
+    /* Pills mÃ¡s pequeÃ±as para que entren todas en una lÃ­nea */
+    font-size: 12px;
+    /* Texto mÃ¡s pequeÃ±o pero aÃºn legible */
+  }
+
+  /* Los botones de cantidad se reducen un poco en mÃ³vil */
+  .quantity-btn {
+    width: 36px;
+    /* Botones un poco mÃ¡s pequeÃ±os */
+    height: 36px;
+    /* Mantiene la proporciÃ³n cuadrada */
+  }
+
+  /* Los specs se comprimen para caber en el ancho de mÃ³vil */
+  .pdp-specs-row {
+    gap: var(--space-2);
+    /* Gap mÃ­nimo entre columnas de specs */
+    padding: var(--space-4) 0;
+    /* Menos padding vertical */
+  }
+
+  /* Los valores de specs se ajustan al ancho reducido */
+  .pdp-specs-row__value {
+    font-size: clamp(20px, 5vw, 28px);
+    /* TamaÃ±o fluido que no desborda en mÃ³vil */
+  }
+
+  /* Los textos de acordeÃ³n se ajustan para mÃ³vil */
+  .pdp-accordion__trigger {
+    font-size: 18px;
+    /* TamaÃ±o fijo legible para los disparadores de acordeÃ³n */
+  }
+
+  /* El contenido del acordeÃ³n My Story mÃ¡s grande para mejor lectura en mÃ³vil */
+  .pdp-accordion__content p {
+    font-size: 19px;
+    /* Texto mÃ¡s grande para facilitar la lectura en mÃ³vil */
+  }
+
+  /* Los datos tÃ©cnicos de Geeky Info mÃ¡s grandes para mejor lectura en mÃ³vil */
+  .pdp-geeky-item__value {
+    font-size: 18px;
+    /* Valores tÃ©cnicos mÃ¡s grandes y legibles en mÃ³vil */
+  }
+
+  /* Los relacionados tienen menos padding lateral en mÃ³vil */
+  .related-products {
+    padding: var(--space-8) var(--space-3);
+    /* Padding mÃ­nimo para maximizar espacio de carrusel */
+  }
+
+  /* Reduce el ancho de la tarjeta en el carrusel para caber en mÃ³vil */
+  .related-products__carousel .product-card {
+    flex: 0 0 220px;
+    /* Tarjetas mÃ¡s estrechas para el carrusel en mÃ³vil */
+  }
+
+  /* â”€â”€â”€ FIN ESTILOS PDP (â‰¤640px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* â”€â”€â”€ INICIO ESTILOS INDEX/SHOP (â‰¤640px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* El marquee se compacta para mÃ³vil */
+  .top-marquee {
+    height: 34px;
+    font-size: 12px;
+  }
+
+  /* Logo flotante mÃ¡s compacto en mÃ³vil */
+  .floating-logo {
+    top: 40px;
+    /* 34px marquee + 6px gap */
+    left: 10px;
+    width: 82px;
+    height: 82px;
+    padding: 8px;
+  }
+
+  .floating-logo__text {
+    font-size: 14px;
+  }
+
+  .floating-logo__text span {
+    font-size: 9px;
+  }
+
+  /* Floating actions â€” alineadas verticalmente con el logo (centro = 87px) */
+  .floating-actions {
+    top: 65px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .floating-actions__btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* El shop-wrapper colapsa a columna Ãºnica â€” sidebar arriba del grid */
+  .shop-wrapper {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: 0 var(--space-3) var(--space-12);
+  }
+
+  /* El sidebar deja de ser sticky y se apila arriba del grid */
+  .shop-sidebar {
+    position: relative;
+    top: auto;
+  }
+
+  /* El hero title se reduce en mÃ³vil */
+  .hero__title {
+    font-size: clamp(48px, 12vw, 72px);
+  }
+
+  /* El tÃ­tulo del shop home tambiÃ©n se reduce */
+  .hero__title--home {
+    font-size: clamp(40px, 10vw, 70px);
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero__title--home .home-title-mala {
+    font-size: clamp(36px, 9vw, 60px);
+  }
+
+  .hero__title--home .home-title-moda {
+    margin-top: 0;
+    font-size: clamp(20px, 5vw, 32px);
+    padding: 6px 12px;
+  }
+
+  /* Subnav pill â€” mobile: ya es fixed/centrada, alineada con floating-actions */
+  .shop-subnav {
+    padding: 5px;
+    top: 66px;
+    max-width: calc(100% - 24px);
+  }
+
+  .shop-subnav__inner {
+    justify-content: flex-start;
+    /* INICIO siempre visible al inicio del scroll */
+    gap: var(--space-3);
+  }
+
+  .shop-subnav__link {
+    font-size: 19px;
+    padding: 6px 16px;
+  }
+
+  /* Los filtros se reorganizan en fila horizontal en mÃ³vil */
+  .filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .filters__group {
+    width: 100%;
+  }
+
+  .filters__categories {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-btn {
+    font-size: 13px;
+    padding: 4px 0;
+  }
+
+
+  /* El cart drawer ocupa todo el ancho en mÃ³vil */
+  .cart-drawer {
+    max-width: 100%;
+  }
+
+  /* El tÃ­tulo del carrito se reduce */
+  .cart-drawer__title {
+    font-size: 24px;
+  }
+
+  /* El subtotal se ajusta en mÃ³vil */
+  .cart-drawer__subtotal span:last-child {
+    font-size: 26px;
+  }
+
+  /* Las promo cards ocupan 100% del ancho en mÃ³vil â€” 1 visible a la vez */
+  .promo-card {
+    flex: 0 0 100%;
+    height: 340px;
+    padding: var(--space-6);
+  }
+
+  .promo-card__title {
+    font-size: 28px;
+  }
+
+  .promo-card__btn {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  /* Home promos reduce padding lateral */
+  .home-promos {
+    padding: 0 var(--space-3) var(--space-8);
+  }
+
+  .home-promos__inner {
+    gap: 0;
+    scroll-snap-type: x mandatory;
+  }
+
+  .promo-card {
+    scroll-snap-align: center;
+  }
+
+  /* Las category cards se simplifican con altura uniforme */
+  .home-categories {
+    padding: var(--space-4) var(--space-3) var(--space-12);
+  }
+
+  .home-categories__title {
+    margin-bottom: var(--space-6);
+    white-space: normal;
+    font-size: clamp(28px, 7vw, 48px);
+  }
+
+  .cat-card:nth-child(1) {
+    height: 280px;
+    margin-top: 0;
+  }
+
+  .cat-card:nth-child(2) {
+    height: 280px;
+    margin-top: 0;
+  }
+
+  .cat-card:nth-child(3) {
+    height: 280px;
+    margin-top: 0;
+  }
+
+  .cat-card__name {
+    font-size: 16px;
+  }
+
+  .cat-card__label-buy {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  /* El floating nav se compacta mÃ¡s en mÃ³vil */
+  .floating-nav__link {
+    padding: var(--space-1) var(--space-3);
+    font-size: 13px;
+  }
+
+  /* â”€â”€â”€ FIN ESTILOS INDEX/SHOP (â‰¤640px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+}
+
+/* â”€â”€â”€ MÃ³vil pequeÃ±o (â‰¤380px) â”€â”€â”€ */
+@media screen and (max-width: 380px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
+  .product-card__image {
+    height: 100px;
+  }
+
+  .product-card__name {
+    font-size: 14px;
+  }
+
+  /* â”€â”€â”€ INICIO ESTILOS INDEX/SHOP (â‰¤380px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /* La subnav se comprime mÃ¡s en pantallas muy pequeÃ±as */
+  .shop-subnav__link {
+    font-size: 14px;
+    padding: 5px 12px;
+  }
+
+  /* El hero title se reduce mÃ¡s */
+  .hero__title {
+    font-size: clamp(40px, 11vw, 56px);
+  }
+
+  /* Las promo cards a ancho completo en mÃ³vil pequeÃ±o */
+  .promo-card {
+    flex: 0 0 100%;
+    height: 300px;
+    padding: var(--space-4);
+  }
+
+  .promo-card__title {
+    font-size: 24px;
+  }
+
+  /* Las category cards mÃ¡s bajas */
+  .cat-card:nth-child(1),
+  .cat-card:nth-child(2),
+  .cat-card:nth-child(3) {
+    height: 240px;
+  }
+
+  /* Los botones del cart drawer se apilan verticalmente */
+  .cart-drawer__actions {
+    flex-direction: column;
+  }
+
+  .cart-drawer__subtotal span:last-child {
+    font-size: 22px;
+  }
+
+  /* Los filtros con fuente mÃ¡s pequeÃ±a */
+  .filter-btn {
+    font-size: 12px;
+  }
+
+  /* â”€â”€â”€ FIN ESTILOS INDEX/SHOP (â‰¤380px) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   18. DESKTOP GRANDE (â‰¥1201px)
+   Tarjetas de producto mÃ¡s altas, imÃ¡genes mÃ¡s grandes, mÃ¡s espaciado.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@media screen and (min-width: 1201px) {
+  .product-card__image {
+    height: 200px;
+  }
+
+  .product-card__name {
+    font-size: 24px;
+  }
+
+  .product-card__subtitle {
+    font-size: 13px;
+  }
+
+  .product-card {
+    min-height: 440px;
+    border-radius: var(--radius-3xl);
+    gap: var(--space-8);
+  }
+
+  .product-card__image-wrapper {
+    padding-top: var(--space-10);
+  }
+
+  .product-card__info {
+    padding: 0 var(--space-5) var(--space-5);
+  }
+
+  .product-card__bottom {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .product-card__buy-btn {
+    width: auto;
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   19. ELEMENTOS DE LA HOME
+   TÃ­tulo dinÃ¡mico con colores (HOT/COOL/NOW), tarjetas promo con
+   scroll horizontal, y tarjetas de categorÃ­a con alturas escalonadas.
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* TÃ­tulo HOME con palabras coloreadas â€” HOT (rojo tachado), COOL (azul gradiente), NOW (negro) */
+.hero__title--home {
+  display: block;
+  padding-bottom: 24px;
+}
+
+/* Imagen "La Mala Fama Está de Moda" — reemplaza el texto en hero */
+.home-title-picture {
+  display: block;
+}
+
+.home-title-img {
+  display: block;
+  width: 100%;        /* ocupa todo el ancho del contenedor (sidebar) */
+  height: auto;       /* alto proporcional — se controla desde el ancho del sidebar */
+}
+
+/* En desktop la home usa una columna más ancha para la imagen */
+body.view-home .shop-wrapper {
+  grid-template-columns: 366px 1fr;   /* 366px → imagen queda ~434px alto */
+}
+
+/* En tablet (≤900px) también se amplía un poco */
+@media (max-width: 900px) {
+  body.view-home .shop-wrapper {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.home-title-mala {
+  color: transparent;
+  -webkit-text-stroke: 3px var(--color-black);
+  letter-spacing: 0.02em;
+  line-height: 0.85;
+  display: flex;
+  font-size: clamp(50px, 7vw, 90px);
+}
+
+.home-title-moda {
+  color: var(--color-white);
+  background: var(--color-green);
+  padding: 8px 24px;
+  display: inline-block;
+  transform: rotate(-3deg);
+  margin-top: 10px;
+  box-shadow: 12px 12px 0px var(--color-black);
+  border: 4px solid var(--color-black);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-size: clamp(30px, 4.5vw, 55px);
+}
+
+/* =====================================================
+   BLOQUE HERO MÓVIL — imagen responsive
+   Solo aplica en pantallas ≤ 640px (celulares)
+   ===================================================== */
+@media screen and (max-width: 640px) {
+
+  .hero__title--home {
+    padding-bottom: 16px;
+  }
+
+  /* En móvil la imagen ocupa todo el ancho disponible (el sidebar colapsa a columna única) */
+  .home-title-img {
+    width: 100%;
+  }
+
+  body.view-home .shop-wrapper {
+    grid-template-columns: 1fr;   /* en móvil vuelve a columna única */
+  }
+
+}
+
+/* =====================================================
+   HOME — ANIMACIONES DE ENTRADA (debajo del hero)
+   Se activan con body.view-home-anim.
+   Los elementos empiezan invisibles y animan al entrar
+   al viewport (clase .home-in-view agregada por JS).
+   ===================================================== */
+
+/* Tarjetas de producto en home */
+body.view-home-anim .product-card {
+  opacity: 0;
+  animation: none;
+}
+body.view-home-anim .product-card.home-in-view {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* Tarjetas promo */
+body.view-home-anim .promo-card {
+  opacity: 0;
+  animation: none;
+}
+body.view-home-anim .promo-card.home-in-view {
+  animation: fadeInUp 0.55s ease both;
+}
+
+/* Título de categorías */
+body.view-home-anim .home-categories__title {
+  opacity: 0;
+}
+body.view-home-anim .home-categories__title.home-in-view {
+  animation: fadeInUp 0.45s ease both;
+}
+
+/* Tarjetas de categoría */
+body.view-home-anim .cat-card {
+  opacity: 0;
+}
+body.view-home-anim .cat-card.home-in-view {
+  animation: fadeInUp 0.5s ease both;
+}
+
+/* Imagen "LA MALA FAMA ESTÁ DE MODA" — solo mobile, entra después del hero */
+@keyframes homeHeroTitleIn {
+  from { opacity: 0; transform: scale(0.88) translateY(28px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (max-width: 900px) {
+  body.view-home-anim .hero__title--home {
+    animation: homeHeroTitleIn 0.7s cubic-bezier(0.2, 0.85, 0.3, 1.1) 1.1s both;
+  }
+}
+
+/* â”€â”€â”€ Tarjetas promo (carrusel horizontal) â”€â”€â”€
+   3 tarjetas con imagen de fondo, tÃ­tulo y botÃ³n. En mÃ³vil: 1 visible con snap.
+   Para cambiar cantidad visible: modificar flex-basis en .promo-card (33.333%)
+   Auto-scroll cada 3s manejado por JS (initCarouselAutoScroll en app.js) */
+.home-promos {
+  width: 100%;
+  padding: 0 var(--space-8) var(--space-12);
+  margin-top: calc(-1 * var(--space-4));
+}
+
+.home-promos__inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  gap: var(--space-6);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--space-6);
+  /* space for optional shadow or scroll area */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.home-promos__inner::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
+
+.promo-card {
+  position: relative;
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  height: 480px;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-8);
+  text-decoration: none;
+  flex: 0 0 calc(33.333% - var(--space-6) * 2 / 3);
+  scroll-snap-align: start;
+}
+
+.promo-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.promo-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 60%);
+  z-index: 2;
+}
+
+.promo-card:hover .promo-card__bg {
+  transform: scale(1.05);
+}
+
+.promo-card__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.promo-card__title {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 0.95;
+  font-weight: 900;
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+}
+
+.promo-card__btn {
+  display: inline-block;
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+}
+
+.promo-card:hover .promo-card__btn {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+/* Promo cards â€” 1 sola visible en mÃ³vil, auto-scroll cada 3s */
+@media screen and (max-width: 640px) {
+  .home-promos__inner {
+    gap: 0;
+    scroll-snap-type: x mandatory;
+  }
+
+  .promo-card {
+    flex: 0 0 100%;
+    height: 340px;
+    scroll-snap-align: center;
+  }
+
+  .promo-card__title {
+    font-size: 28px;
+  }
+
+  .promo-card__btn {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .promo-card {
+    flex: 0 0 100%;
+    height: 300px;
+  }
+
+  .promo-card__title {
+    font-size: 24px;
+  }
+}
+
+/* â”€â”€â”€ Tarjetas de categorÃ­a (IPA, Stout, etc.) â”€â”€â”€
+   Grid de 3 columnas con alturas escalonadas para efecto visual dinÃ¡mico.
+   Cada tarjeta tiene imagen de fondo con gradiente oscuro y etiqueta-pÃ­ldora.
+   En â‰¤1024px colapsa a 1 columna sin escalonado. */
+.home-categories {
+  width: 100%;
+  padding: var(--space-6) var(--space-8) var(--space-20);
+  background: var(--color-bg);
+}
+
+.home-categories__inner {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.home-categories__title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 84px);
+  font-weight: 900;
+  color: #2b52b3;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #2b52b3;
+  text-transform: uppercase;
+  line-height: 0.9;
+  white-space: nowrap;
+  margin-bottom: var(--space-8);
+}
+
+.home-categories__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.cat-card {
+  position: relative;
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-6);
+  text-decoration: none;
+}
+
+.cat-card:nth-child(1) {
+  height: 460px;
+  margin-top: 60px;
+}
+
+.cat-card:nth-child(2) {
+  height: 560px;
+  margin-top: 0;
+}
+
+.cat-card:nth-child(3) {
+  height: 420px;
+  margin-top: 120px;
+}
+
+.cat-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%);
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.cat-card:hover::after {
+  opacity: 0.8;
+}
+
+.cat-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.cat-card:hover .cat-card__bg {
+  transform: scale(1.05);
+}
+
+.cat-card__label-wrapper {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-black);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.cat-card__label-buy {
+  color: var(--color-black);
+  background: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.cat-card__name {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  text-transform: uppercase;
+  padding-right: 16px;
+  line-height: 1;
+}
+
+@media (max-width: 1024px) {
+  .home-categories__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Las category cards pierden el stagger vertical al apilar en 1 columna */
+  .cat-card:nth-child(1) {
+    margin-top: 0;
+  }
+
+  .cat-card:nth-child(2) {
+    margin-top: 0;
+  }
+
+  .cat-card:nth-child(3) {
+    margin-top: 0;
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   20. CAJÃ“N DE CARRITO (Cart Drawer)
+   Panel deslizable desde la derecha (max-width 440px, 100% en mÃ³vil).
+   Incluye: header, barra de envÃ­o gratis, lista de items, mensaje
+   personal, footer con subtotal, descuento volumen, tÃ©rminos y botones.
+   Se abre/cierra con la clase .active via JS (toggleCart en app.js).
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.cart-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  max-width: 520px;
+  background: #f8f8f8;
+  z-index: 10001;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+}
+
+.cart-drawer.active {
+  transform: translateX(0);
+}
+
+.cart-drawer__header {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-drawer__title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-black);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.cart-drawer__close {
+  background: transparent;
+  color: var(--color-black);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.cart-drawer__close:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.cart-drawer__shipping {
+  padding: 0 var(--space-6) var(--space-6);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.cart-drawer__shipping-text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+  color: var(--color-black);
+  text-align: center;
+}
+
+.cart-drawer__shipping-text strong {
+  font-weight: 900;
+}
+
+.cart-drawer__shipping-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.cart-drawer__shipping-progress {
+  height: 100%;
+  background: var(--color-black);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-normal), background var(--transition-normal);
+}
+
+.cart-drawer__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.cart-empty-message {
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-gray-500);
+  margin-top: var(--space-10);
+}
+
+.cart-drawer__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-white);
+  padding: 12px 14px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.cart-item__image {
+  width: 56px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.cart-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item__size {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--color-black);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.cart-item__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item .quantity-selector {
+  border: 1px solid var(--color-black);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cart-item .quantity-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: var(--color-black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cart-item .quantity-value {
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  min-width: 22px;
+  text-align: center;
+}
+
+.cart-item .quantity-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cart-item__remove {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-gray-100);
+  color: var(--color-gray-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.cart-item__remove:hover {
+  background: var(--color-gray-300);
+  color: var(--color-black);
+}
+
+.cart-item__price {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--color-black);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cart-drawer__personal-message {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cart-drawer__personal-message label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: #B55DF5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cart-drawer__personal-message textarea {
+  width: 100%;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: #EBE5F1;
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--color-black);
+  resize: none;
+  min-height: 80px;
+}
+
+.cart-drawer__personal-message textarea:focus {
+  outline: 2px solid #B55DF5;
+}
+
+.cart-message-help {
+  font-size: 10px;
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+}
+
+.cart-drawer__footer {
+  background: var(--color-white);
+  padding: var(--space-6);
+  border-top: 1px solid var(--color-gray-200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cart-drawer__subtotal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--color-black);
+}
+
+.cart-drawer__subtotal span:first-child {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray-500);
+}
+
+.cart-drawer__subtotal span:last-child {
+  font-size: 32px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--color-black);
+}
+
+.cart-drawer__volume-discount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fff;
+  border: 2px dashed rgba(196, 30, 30, 0.35);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  color: #c41e1e;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  gap: 12px;
+  line-height: 1.3;
+}
+
+.cart-drawer__volume-discount span {
+  color: #c41e1e !important;
+  font-weight: 900;
+  font-size: 20px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.cart-drawer__terms {
+  margin-top: var(--space-2);
+  display: flex;
+  justify-content: center;
+}
+
+.cart-drawer__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  position: relative;
+}
+
+.cart-drawer__checkbox-label input {
+  opacity: 0;
+  position: absolute;
+}
+
+.checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #00B181;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  margin-top: 2px;
+}
+
+.cart-drawer__checkbox-label input:checked+.checkbox-custom {
+  background: #00B181;
+}
+
+.cart-drawer__checkbox-label input:checked+.checkbox-custom::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.terms-text {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-black);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.terms-text a {
+  text-decoration: underline;
+}
+
+.cart-drawer__actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.cart-drawer__shop-btn,
+.cart-drawer__checkout-btn {
+  flex: 1;
+  padding: 16px 0;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.cart-drawer__shop-btn {
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1.5px solid var(--color-black);
+}
+
+.cart-drawer__shop-btn:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.cart-drawer__checkout-btn {
+  background: #2b52b3;
+  color: var(--color-white);
+  border: 1.5px solid transparent;
+}
+
+.cart-drawer__checkout-btn:disabled {
+  background: var(--color-gray-200);
+  color: var(--color-gray-400);
+  cursor: not-allowed;
+}
+
+.cart-drawer__checkout-btn:hover:not(:disabled) {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.cart-drawer__payments {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-gray-500);
+  margin-top: var(--space-4);
+  font-family: var(--font-family);
+}
+
+.cart-drawer__payments span {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.cart-drawer__payment-icons img {
+  height: 24px;
+  margin: 0 auto;
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   21. SISTEMA DE AUTENTICACIÃ“N Y USUARIO
+   Creado dinÃ¡micamente por auth.js. Incluye:
+   - BotÃ³n flotante de usuario (arriba-derecha, junto a bÃºsqueda/carrito)
+   - Dropdown con info de usuario y opciones
+   - Modal de login/registro con tabs y formularios
+   - Drawer de historial de pedidos
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* BotÃ³n flotante de usuario â€” posiciÃ³n fija arriba-derecha */
+.floating-user {
+  position: fixed;
+  top: 50px;
+  right: 80px;
+  z-index: 1001;
+}
+
+.floating-user__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.floating-user__btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.floating-user__indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  background: #38a169;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Dropdown de usuario â€” menÃº desplegable con nombre, email y opciones */
+.user-dropdown {
+  position: fixed;
+  top: 105px;
+  right: 80px;
+  z-index: 1002;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px 0;
+  min-width: 240px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+}
+
+.user-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-dropdown__header {
+  padding: 8px 20px 14px;
+}
+
+.user-dropdown__name {
+  display: block;
+  color: var(--color-black);
+  font-weight: 800;
+  font-size: 15px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+.user-dropdown__email {
+  display: block;
+  color: var(--color-gray-500);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.user-dropdown__divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 6px 0;
+}
+
+.user-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 20px;
+  background: none;
+  border: none;
+  color: var(--color-gray-600);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+
+.user-dropdown__item:hover {
+  background: #f5f5f5;
+  color: var(--color-black);
+}
+
+/* Modal de autenticaciÃ³n â€” login y registro con tabs, formularios y validaciÃ³n */
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.auth-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(234, 234, 234, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.auth-modal__content {
+  position: relative;
+  width: 90%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 32px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.auth-modal.active .auth-modal__content {
+  transform: translateY(0);
+}
+
+.auth-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: #333;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.auth-modal__close:hover {
+  background: #e0e0e0;
+  color: #000;
+}
+
+.auth-modal__tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.auth-modal__tab {
+  flex: 1;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  color: #999;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+
+.auth-modal__tab.active {
+  color: #000;
+  border-bottom-color: var(--color-green);
+}
+
+.auth-modal__tab:hover:not(.active) {
+  color: #666;
+}
+
+.auth-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.auth-modal__error {
+  color: #e53e3e;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 0;
+  transition: all 0.2s;
+}
+
+.auth-modal__error:empty {
+  display: none;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-field label {
+  font-family: var(--font-family);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  color: #000;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.auth-field input:focus {
+  border-color: #000;
+  background: #fff;
+}
+
+.auth-field input::placeholder {
+  color: #bbb;
+}
+
+.auth-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.auth-modal__submit {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 16px;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.auth-modal__submit:hover:not(:disabled) {
+  background: #2b52b3;
+  transform: translateY(-1px);
+}
+
+.auth-modal__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Drawer de pedidos â€” historial de compras del usuario, desliza desde la derecha */
+.orders-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(234, 234, 234, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.orders-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.orders-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 1999;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08);
+}
+
+.orders-drawer.active {
+  transform: translateX(0);
+}
+
+.orders-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-drawer__header h3 {
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.orders-drawer__close {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: #333;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.orders-drawer__close:hover {
+  background: #e0e0e0;
+  color: #000;
+}
+
+.orders-drawer__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+}
+
+.orders-loading,
+.orders-empty {
+  text-align: center;
+  color: var(--color-gray-500);
+  font-size: 14px;
+  padding: 40px 20px;
+  line-height: 1.6;
+}
+
+.order-card {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order-card__id {
+  color: var(--color-black);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.order-card__date {
+  color: var(--color-gray-500);
+  font-size: 12px;
+}
+
+.order-card__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.order-card__item {
+  background: #eee;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--color-gray-700);
+}
+
+.order-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-card__total {
+  color: var(--color-black);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.order-card__status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+.order-card__status.status--approved {
+  background: #f0faf4;
+  color: #38a169;
+}
+
+.order-card__status.status--pending {
+  background: #fef5e7;
+  color: #ed8936;
+}
+
+/* Responsive del sistema auth â€” tablet y mÃ³vil */
+@media screen and (max-width: 960px) {
+  .floating-user {
+    top: 48px;
+    right: 68px;
+  }
+
+  .user-dropdown {
+    top: 100px;
+    right: 68px;
+  }
+}
+
+/* Auth responsive â€” mÃ³vil */
+@media screen and (max-width: 640px) {
+  .floating-user {
+    top: 42px;
+    right: 60px;
+  }
+
+  .floating-user__btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .floating-user__btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .user-dropdown {
+    top: 90px;
+    right: 12px;
+    left: auto;
+    min-width: 200px;
+  }
+
+  .auth-modal__content {
+    padding: 2rem 1.5rem;
+    margin: 16px;
+    max-height: 85vh;
+  }
+
+  .auth-field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .orders-drawer {
+    width: 100vw;
+    max-width: 100vw;
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   22. BEER PICKER â€” Selector de cervezas para packs
+   Componente usado en la pÃ¡gina de packs (pack.html) para armar
+   un pack personalizado. Incluye:
+   - 3 slots visuales para las cervezas seleccionadas
+   - Grilla de cervezas disponibles para elegir
+   - Contador y estados (completo, disabled)
+   - Soporte para tema claro/oscuro via .pdp-dark-text
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+.beer-picker {
+  margin-bottom: var(--space-5);
+  width: 100%;
+}
+
+.beer-picker__label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+.pdp-dark-text .beer-picker__label {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* 3 selected slots */
+.beer-picker__selected {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.beer-slot {
+  width: 80px;
+  height: 100px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.pdp-dark-text .beer-slot {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.beer-slot.filled {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.pdp-dark-text .beer-slot.filled {
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.beer-slot__empty {
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 300;
+}
+
+.pdp-dark-text .beer-slot__empty {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.beer-slot__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.beer-slot__remove {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  z-index: 2;
+}
+
+.beer-picker__counter {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pdp-dark-text .beer-picker__counter {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.beer-picker__counter.complete {
+  color: #38a169;
+}
+
+/* Available beers grid */
+.beer-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px;
+  scrollbar-width: thin;
+}
+
+.beer-pick-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.pdp-dark-text .beer-pick-card {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.beer-pick-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.pdp-dark-text .beer-pick-card:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.beer-pick-card.selected {
+  border-color: #38a169;
+  background: rgba(56, 161, 105, 0.15);
+}
+
+.beer-pick-card.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.beer-pick-card__img {
+  width: 60px;
+  height: 75px;
+  object-fit: contain;
+  margin: 0 auto 6px;
+  display: block;
+}
+
+.beer-pick-card__name {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.pdp-dark-text .beer-pick-card__name {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Cart beer tags for custom packs */
+.cart-item__beers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.cart-item__beer-tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 2px 8px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .beer-picker__grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 260px;
+  }
+
+  .beer-slot {
+    width: 70px;
+    height: 88px;
+  }
+
+  .beer-pick-card__img {
+    width: 50px;
+    height: 62px;
+  }
+}
+
+
+/* =====================================================================
+   CART TOAST â€” NotificaciÃ³n de "agregado al carrito"
+   ===================================================================== */
+
+.mf-cart-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 99998;
+  width: 320px;
+  background: rgba(10, 10, 10, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 3px solid #2b52b3;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 6px 20px rgba(0, 0, 0, 0.4);
+  /* Estado inicial: fuera de pantalla a la derecha */
+  transform: translateX(calc(100% + 40px));
+  opacity: 0;
+  transition: transform 0.38s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.28s ease;
+}
+
+.mf-cart-toast--in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.mf-cart-toast--out {
+  transform: translateX(calc(100% + 40px));
+  opacity: 0;
+  transition: transform 0.34s cubic-bezier(0.5, 0, 1, 0.7), opacity 0.26s ease;
+}
+
+/* Barra de progreso */
+.mf-cart-toast__progress {
+  height: 3px;
+  width: 100%;
+  background: #2b52b3;
+  transform-origin: left;
+}
+
+/* BotÃ³n cerrar */
+.mf-cart-toast__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  z-index: 1;
+}
+
+.mf-cart-toast__close:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Cuerpo: imagen + info */
+.mf-cart-toast__body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 36px 10px 14px;
+}
+
+.mf-cart-toast__img {
+  flex-shrink: 0;
+  width: 50px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mf-cart-toast__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.55));
+}
+
+.mf-cart-toast__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mf-cart-toast__added {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2b52b3;
+  margin: 0 0 3px;
+}
+
+.mf-cart-toast__name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 4px;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+}
+
+.mf-cart-toast__detail {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* Total del carrito */
+.mf-cart-toast__total {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 4px 0 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mf-cart-toast__total strong {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 800;
+}
+
+/* CTA "IR A PAGAR" */
+.mf-cart-toast__cta {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 0 14px 14px;
+  padding: 10px 16px;
+  background: #2b52b3;
+  color: #ffffff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.18s ease, transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.4), box-shadow 0.18s ease;
+}
+
+/* Fill animado: span real, no pseudo-elemento (z-index 100% confiable) */
+.mf-cart-toast__cta-fill {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  clip-path: polygon(0 110%, -10% 110%, -10% 110%);
+  transition: clip-path 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.mf-cart-toast__cta-text {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.mf-cart-toast__cta:hover .mf-cart-toast__cta-fill {
+  clip-path: polygon(0 0, 110% 0, 110% 110%, 0 110%);
+}
+
+.mf-cart-toast__cta:hover {
+  color: #000;
+  transform: rotate(-0.6deg) scale(1.03);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* Mobile: ancho completo */
+@media (max-width: 420px) {
+  .mf-cart-toast {
+    right: 10px;
+    left: 10px;
+    bottom: 14px;
+    width: auto;
+  }
+}

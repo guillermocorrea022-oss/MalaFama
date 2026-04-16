@@ -1,0 +1,27 @@
+{
+  "name": "beer-prueba---copia---copia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "seed-admin": "node server/seed-admin.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.8.0",
+    "compression": "^1.8.1",
+    "connect-sqlite3": "^0.9.16",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mercadopago": "^2.12.0",
+    "nodemailer": "^8.0.3"
+  }
+}

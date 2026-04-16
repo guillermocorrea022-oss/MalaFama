@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/loader.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cervecería Mala Fama — Cerveza artesanal uruguaya. Comprá online nuestras cervezas.">
+  <meta property="og:title" content="Shop | Cervecería Mala Fama">
+  <meta property="og:description" content="Cerveza artesanal uruguaya sin filtrar, sin pasteurizar. Comprá online y recibí en todo Uruguay.">
+  <meta property="og:image" content="img/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shop | Cervecería Mala Fama">
+  <meta name="twitter:description" content="Cerveza artesanal uruguaya sin filtrar, sin pasteurizar.">
+  <link rel="canonical" href="https://cervezamalafama.com/">
+  <title>Shop | Cervecería Mala Fama</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+
+  <!-- Age Gate -->
+  <div class="age-gate hidden" id="ageGate">
+    <div class="age-gate__content">
+      <h1 class="age-gate__title">¿Tenés<br>18 años<br>o más?</h1>
+      <div class="age-gate__buttons">
+        <button class="age-gate__btn" id="ageYes" onclick="dismissAgeGate()">
+          <div style="width: 240px; height: 320px; background: linear-gradient(135deg, #2D1B69, #1a0d3d); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+              <path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h1a4 4 0 0 1 0 8H3z"/>
+              <line x1="6" y1="4" x2="6" y2="20"/>
+              <line x1="18" y1="4" x2="18" y2="20"/>
+              <line x1="6" y1="12" x2="18" y2="12"/>
+            </svg>
+          </div>
+          <span class="age-gate__btn-label">Sí</span>
+        </button>
+        <button class="age-gate__btn" id="ageNo" onclick="window.location.href='https://www.google.com'">
+          <div style="width: 240px; height: 320px; background: linear-gradient(135deg, #e8e8e8, #f5f5f5); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="1">
+              <circle cx="12" cy="8" r="5"/>
+              <path d="M3 21v-2a7 7 0 0 1 14 0v2"/>
+            </svg>
+          </div>
+          <span class="age-gate__btn-label">No</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Marquee -->
+  <div class="top-marquee">
+    <div class="top-marquee__track">
+      <span>ENVÍO GRATIS EN COMPRAS MAYORES A $2.000</span>
+      <span>15% OFF CON ITAÚ VOLAR</span>
+      <span>CERVEZA ARTESANAL URUGUAYA</span>
+      <span>15% OFF LLEVANDO +16 LATAS</span>
+    </div>
+  </div>
+
+  <!-- Logo flotante arriba-izquierda -->
+  <a href="index.html" class="floating-logo" aria-label="Inicio">
+    <img src="img/logo.png" alt="Mala Fama Brewing" class="floating-logo__img">
+  </a>
+
+  <!-- Buscar + Carrito flotante arriba-derecha -->
+  <div class="floating-actions">
+    <button class="floating-actions__btn" id="searchBtn" aria-label="Buscar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <button class="floating-actions__btn" id="cartBtn" aria-label="Cart">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3c.5 0 2.8-.2 3.5.3s1 1.8 1.3 2.7l3.2 12c.3 1 .8 1.8 1.9 2s2.2.1 3.2.1h7.2c1.2 0 2-.6 2.3-1.7L27 9.5c.2-.8.1-1.6-.8-1.8-.6-.1-1.2 0-1.8 0H8.5"/>
+        <circle cx="12" cy="27" r="1.8" stroke-width="2"/>
+        <circle cx="23" cy="27" r="1.8" stroke-width="2"/>
+        <path d="M10 22.5c1-.1 4.2.2 5.5.1 2-.1 5.5.2 7.5-.1"/>
+      </svg>
+      <span class="floating-cart__badge" id="cartBadge" style="display:none">0</span>
+    </button>
+  </div>
+
+  <!-- Shop Sub-Navigation -->
+  <nav class="shop-subnav">
+    <div class="shop-subnav__inner">
+      <a href="#" class="shop-subnav__link" data-view="home">INICIO</a>
+      <a href="#" class="shop-subnav__link active" data-view="cans">CERVEZAS</a>
+      <a href="#" class="shop-subnav__link" data-view="valuepacks">PACKS</a>
+      <a href="#" class="shop-subnav__link" data-view="specials">ESPECIALES</a>
+      <a href="#" class="shop-subnav__link" data-view="merch">MERCH</a>
+      <a href="#" class="shop-subnav__link" data-view="archive">SIN STOCK</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HOME HERO — Manifiesto Malafama (aparece solo en view "home")
+       Arquitectura multi-capa: foto de canillas + degradado + grano
+       + manifiesto tipográfico + firma MALAFAMA + sello del cacique
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="home-hero" id="homeHero" style="display:none;">
+    <!-- Capa 0: foto fullbleed -->
+    <div class="home-hero__bg" id="homeHeroBg">
+      <img src="img/local/canillas.jpg" alt="" class="home-hero__bg-img" decoding="async" fetchpriority="high">
+    </div>
+    <!-- Capa 1: degradado oscuro para legibilidad del texto -->
+    <div class="home-hero__vignette"></div>
+    <!-- Capa 2: textura grano (coherente con resto del sitio) -->
+    <div class="home-hero__grain"></div>
+
+    <!-- Capa 3: contenido editorial (izquierda) -->
+    <div class="home-hero__content">
+      <p class="home-hero__eyebrow">CERVECERÍA · FUNDADA EN 2016</p>
+
+      <div class="home-hero__signature" aria-label="Mala Fama">
+        <span class="home-hero__signature-word">MALA</span><span class="home-hero__signature-word home-hero__signature-word--accent">FAMA</span>
+      </div>
+
+      <p class="home-hero__manifesto" id="homeHeroHeadline">
+        <span class="home-hero__line">Cuatro hermanos,</span>
+        <span class="home-hero__line">una pasión,</span>
+        <span class="home-hero__line">y la cerveza que queríamos tomar nosotros.</span>
+      </p>
+
+      <div class="home-hero__ctas">
+        <a href="#" class="home-hero__cta home-hero__cta--primary" data-view-switch="cans">
+          <span>VER LAS CERVEZAS</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="nosotros.html" class="home-hero__cta home-hero__cta--ghost">
+          Conocé la historia →
+        </a>
+      </div>
+
+      <!-- Mini stats / pilares -->
+      <ul class="home-hero__pillars" aria-label="Pilares Malafama">
+        <li><strong>4</strong> hermanos</li>
+        <li><strong>Sin</strong> filtrar</li>
+        <li><strong>Barrica</strong> viva</li>
+        <li><strong>Montevideo </strong>&amp; Punta Del Este</li>
+      </ul>
+    </div>
+
+    <!-- Capa 4: retrato charrúa angulado (centro-derecha) -->
+    <div class="home-hero__portrait" aria-hidden="true" id="homeHeroPortrait">
+      <img src="img/logo-historia/retrato.png" alt="" class="home-hero__portrait-img">
+    </div>
+
+    <!-- Capa 5: indicador de scroll -->
+    <div class="home-hero__scroll" aria-hidden="true">
+      <span>SEGUÍ BAJANDO</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- Dynamic Hero — rotates featured beers with illustrations (aparece solo en view "cervezas") -->
+  <section class="dyn-hero" id="dynHero" style="display:none;">
+    <div class="dyn-hero__bg-illustration" id="heroIllustration"></div>
+    <div class="dyn-hero__content">
+      <div class="dyn-hero__text">
+        <span class="dyn-hero__eyebrow" id="heroEyebrow">NEW ENGLAND IPA · 6.5%</span>
+        <h2 class="dyn-hero__name" id="heroName">La Santa</h2>
+        <p class="dyn-hero__desc" id="heroDesc">New England IPA especial para St. Patricks. Single Hop Mosaic.</p>
+        <div class="dyn-hero__notes" id="heroNotes"></div>
+        <a href="#" class="dyn-hero__cta" id="heroCta">VER DETALLES</a>
+      </div>
+      <div class="dyn-hero__can">
+        <img src="" alt="" id="heroCan" class="dyn-hero__can-img">
+      </div>
+    </div>
+    <div class="dyn-hero__dots" id="heroDots"></div>
+  </section>
+
+  <div class="shop-wrapper" id="shopWrapper">
+    <aside class="shop-sidebar">
+      <!-- Hero -->
+      <section class="hero">
+        <h1 class="hero__title" id="heroTitle">CERVEZAS</h1>
+      </section>
+
+      <!-- Filters -->
+      <div class="filters" id="filtersBar">
+        <div class="filters__group">
+          <h4 class="filters__group-title"></h4>
+          <div class="filters__categories" id="containerFilters">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+
+        <div class="filters__group">
+          <h4 class="filters__group-title"></h4>
+          <div class="filters__categories" id="categoryFilters">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Product Grid -->
+    <main class="product-grid" id="productGrid">
+      <!-- Generated by JS -->
+    </main>
+  </div>
+
+  <section class="home-promos" id="homePromos" style="display: none;">
+    <div class="home-promos__inner">
+      <a href="pack.html" class="promo-card">
+        <div class="promo-card__bg" style="background-image: url('./img/index/temp-birras.png');"></div>
+        <div class="promo-card__content">
+          <h3 class="promo-card__title">TEMPORADA<br>DE BIRRAS!</h3>
+          <div class="promo-card__btn">ARMÁ TU PROPIO PACK</div>
+        </div>
+      </a>
+      <a href="#" class="promo-card" data-promo-view="specials" onclick="event.preventDefault(); switchToView('specials');">
+        <div class="promo-card__bg" style="background-image: url('./img/index/barricas.png');"></div>
+        <div class="promo-card__content">
+          <h3 class="promo-card__title">SELECCIÓN BARRICA</h3>
+          <div class="promo-card__btn">DESCUBRÍ NUESTRAS BARRICAS</div>
+        </div>
+      </a>
+      <a href="#" class="promo-card" data-promo-view="merch" onclick="event.preventDefault(); switchToView('merch');">
+        <div class="promo-card__bg" style="background-image: url('./img/index/vesti-mala-fama.png');"></div>
+        <div class="promo-card__content">
+          <h3 class="promo-card__title">LUCÍ<br>MALA FAMA</h3>
+          <div class="promo-card__btn">VER MERCH</div>
+        </div>
+      </a>
+      <a href="#" class="promo-card" data-promo-view="cans" onclick="event.preventDefault(); switchToView('cans');">
+        <div class="promo-card__bg" style="background-image: url('./img/index/recien-salidas.png');"></div>
+        <div class="promo-card__content">
+          <h3 class="promo-card__title">RECIÉN<br>SALIDAS</h3>
+          <div class="promo-card__btn">VER NOVEDADES</div>
+        </div>
+      </a>
+      <a href="restaurant.html" class="promo-card">
+        <div class="promo-card__bg" style="background-image: url('./img/index/visita-nuestroslocales.png');"></div>
+        <div class="promo-card__content">
+          <h3 class="promo-card__title">VISITÁ<br>NUESTROS LOCALES</h3>
+          <div class="promo-card__btn">RESERVÁ TU MESA</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-categories" id="homeCategories" style="display: none;">
+    <div class="home-categories__inner">
+      <h2 class="home-categories__title">EXPLORÁ NUESTRAS CATEGORÍAS</h2>
+      <div class="home-categories__grid">
+        <a href="#" class="cat-card" onclick="event.preventDefault(); switchToView('valuepacks');">
+          <div class="cat-card__bg" style="background-image: url('./img/index/valuepacks.png');"></div>
+          <div class="cat-card__label-wrapper">
+            <span class="cat-card__label-buy">VER</span>
+            <span class="cat-card__name">VALUEPACKS</span>
+          </div>
+        </a>
+        <a href="#" class="cat-card" onclick="event.preventDefault(); switchToView('cans');">
+          <div class="cat-card__bg" style="background-image: url('./img/index/cervezas.png');"></div>
+          <div class="cat-card__label-wrapper">
+            <span class="cat-card__label-buy">VER</span>
+            <span class="cat-card__name">CERVEZAS</span>
+          </div>
+        </a>
+        <a href="#" class="cat-card" onclick="event.preventDefault(); switchToView('specials');">
+          <div class="cat-card__bg" style="background-image: url('./img/index/anejadas.png');"></div>
+          <div class="cat-card__label-wrapper">
+            <span class="cat-card__label-buy">VER</span>
+            <span class="cat-card__name">ESPECIALES</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Isla flotante inferior — navegación principal -->
+  <nav class="floating-nav" id="floatingNav">
+    <a href="restaurant.html" class="floating-nav__link">Locales</a>
+    <a href="nosotros.html" class="floating-nav__link">Sobre nosotros</a>
+    <a href="restaurant.html#reservas" class="floating-nav__link floating-nav__link--primary">RESERVAR MESA</a>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <!-- Logo -->
+      <div class="footer__logo-wrap">
+        <img src="img/logo-original/logo-footer.png" alt="Mala Fama" class="footer__logo-img">
+      </div>
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <span class="footer__newsletter-eyebrow">Club Mala Fama</span>
+        <h2 class="footer__newsletter-title">SUMATE A LA <em>MALA FAMA</em></h2>
+        <p class="footer__newsletter-sub">Novedades, lanzamientos, ediciones limitadas y 10% OFF en tu próxima compra. Cero spam, pura cerveza.</p>
+        <form class="footer__newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='¡BIENVENIDO!'; setTimeout(()=>{this.querySelector('button').textContent='SUSCRIBIRME'; this.querySelector('input').value='';},2500);">
+          <input type="email" class="footer__newsletter-input" placeholder="tu@email.com" required>
+          <button type="submit" class="footer__newsletter-btn">Suscribirme</button>
+        </form>
+      </div>
+
+      <!-- Grid principal -->
+      <div class="footer__grid">
+        <!-- Brand -->
+        <div class="footer__brand">
+          <img src="img/logo.png" alt="Mala Fama" class="footer__brand-logo">
+          <p class="footer__brand-tagline"><strong>Cerveza artesanal uruguaya.</strong> Sin filtrar, sin pasteurizar, con mala fama desde siempre.</p>
+        </div>
+
+        <!-- Navegación -->
+        <div>
+          <h3 class="footer__section-title">Tienda</h3>
+          <a href="index.html?view=cans" class="footer__link">Cervezas</a>
+          <a href="index.html?view=valuepacks" class="footer__link">Packs</a>
+          <a href="index.html?view=specials" class="footer__link">Especiales</a>
+          <a href="index.html?view=merch" class="footer__link">Merch</a>
+        </div>
+
+        <!-- Compañía -->
+        <div>
+          <h3 class="footer__section-title">Compañía</h3>
+          <a href="nosotros.html" class="footer__link">Nuestra historia</a>
+          <a href="restaurant.html" class="footer__link">Locales</a>
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__link">Contacto</a>
+          
+        </div>
+
+        <!-- Locales -->
+        <div>
+          <h3 class="footer__section-title">Locales</h3>
+          <div class="footer__location">
+            <div class="footer__location-name">Montevideo</div>
+            <span class="footer__location-addr">Maldonado 1970</span>
+            <a href="tel:+59897313349" class="footer__location-phone">+598 97 313 349</a>
+            <a href="https://www.instagram.com/cerveceria_malafama/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @cerveceria_malafama
+            </a>
+          </div>
+          <div class="footer__location">
+            <div class="footer__location-name">Punta del Este</div>
+            <span class="footer__location-addr">Pedragosa Sierra 20100</span>
+            <a href="tel:+59892150847" class="footer__location-phone">+598 92 150 847</a>
+            <a href="https://www.instagram.com/malafama_puntadeleste/" target="_blank" rel="noopener" class="footer__location-ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @malafama_puntadeleste
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wordmark gigante -->
+      <div class="footer__wordmark" aria-hidden="true">MALA FAMA</div>
+
+      <!-- Bottom -->
+      <div class="footer__bottom">
+        <span>&copy; 2026 Cervecería Mala Fama · Uruguay</span>
+        <span class="footer__bottom-disclaimer">Bebé con responsabilidad · Prohibida la venta a menores de 18 años</span>
+        <div class="footer__bottom-links">
+          <a href="mailto:ventas@cervezamalafama.com" class="footer__bottom-link">ventas@cervezamalafama.com</a>
+          <a href="#" class="footer__bottom-link">Términos</a>
+          <a href="#" class="footer__bottom-link">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer Overlay -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">TU CARRITO</h2>
+      <button class="cart-drawer__close" id="cartCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div class="cart-drawer__shipping">
+      <div class="cart-drawer__shipping-text" id="shippingText">ENVÍO GRATIS A PARTIR DE $U 2.000</div>
+      <div class="cart-drawer__shipping-bar">
+        <div class="cart-drawer__shipping-progress" id="shippingProgress"></div>
+      </div>
+    </div>
+
+    <div class="cart-drawer__scroll">
+      <div class="cart-drawer__items" id="cartItemsContainer">
+        <!-- Injected by JS -->
+      </div>
+      
+      <div class="cart-drawer__personal-message">
+        <label for="cartMessage">AGREGÁ UN MENSAJE PERSONAL</label>
+        <textarea id="cartMessage" placeholder="ESCRIBÍ TU MENSAJE ACÁ..." maxlength="120"></textarea>
+        <p class="cart-message-help">POR EJEMPLO, SI ES UN REGALO. MÁXIMO 120 CARACTERES.</p>
+      </div>
+    </div>
+
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__subtotal">
+        <span>TOTAL</span>
+        <span id="cartSubtotal">$U 0</span>
+      </div>
+      
+      <div class="cart-drawer__terms">
+        <label class="cart-drawer__checkbox-label">
+          <input type="checkbox" id="cartTermsCheck">
+          <span class="checkbox-custom"></span>
+          <span class="terms-text">ACEPTO LOS <a href="#">TÉRMINOS Y CONDICIONES</a> Y DECLARO SER MAYOR DE 18 AÑOS.</span>
+        </label>
+      </div>
+
+      <div class="cart-drawer__actions">
+        <button class="cart-drawer__shop-btn" id="continueShoppingBtn">
+          SEGUIR COMPRANDO
+        </button>
+        <button class="cart-drawer__checkout-btn" id="checkoutBtn" disabled>
+          FINALIZAR COMPRA
+        </button>
+      </div>
+
+      <div class="cart-drawer__payments">
+        <span>Pago seguro en Uruguay con:</span>
+        <div class="cart-drawer__payment-icons">
+          <span style="display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span style="background:rgba(232,0,45,0.1);border:1px solid rgba(232,0,45,0.25);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#e8002d;letter-spacing:0.04em;">OCA</span>
+            <span style="background:rgba(255,122,0,0.1);border:1px solid rgba(255,122,0,0.25);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#ff7a00;letter-spacing:0.04em;">ITAÚ</span>
+            <span style="background:rgba(26,65,185,0.1);border:1px solid rgba(26,65,185,0.25);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#1a41b9;letter-spacing:0.04em;">VISA</span>
+            <span style="background:rgba(235,0,27,0.08);border:1px solid rgba(235,0,27,0.2);border-radius:6px;padding:4px 10px;font-size:0.72rem;font-weight:800;color:#eb001b;letter-spacing:0.04em;">MASTERCARD</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay__content">
+      <button class="search-overlay__close" id="searchCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="search-overlay__input-wrap">
+        <svg class="search-overlay__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-overlay__input" id="searchInput" placeholder="Buscar cervezas, estilos, sabores..." autocomplete="off">
+      </div>
+      <div class="search-overlay__results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cervecería Mala Fama",
+    "url": "https://cervezamalafama.com",
+    "logo": "img/logo.png",
+    "description": "Cervecería artesanal uruguaya fundada en 2016 por cuatro hermanos. Cerveza sin filtrar, sin pasteurizar, sin clarificantes.",
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Maldonado 1970",
+        "addressLocality": "Montevideo",
+        "addressCountry": "UY"
+      },
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Pedragosa Sierra 20100",
+        "addressLocality": "Punta del Este",
+        "addressCountry": "UY"
+      }
+    ],
+    "telephone": ["+598 97 313 349", "+598 92 150 847"],
+    "email": "hola@cervezamalafama.com",
+    "sameAs": [
+      "https://www.instagram.com/cervezamalafama/",
+      "https://www.facebook.com/cervezamalafama/"
+    ]
+  }
+  </script>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
