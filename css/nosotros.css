@@ -1254,3 +1254,34 @@
   /* margin-top negativo reduce el aire sobre las cartas en mÃ³vil */
   .nos-card { width: 200px; height: 312px; }
 }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   ANIMATION GATE — Hero animations paused until loader exits
+   (.mf-page-ready is added to body by loader.js after slide-out)
+   ───────────────────────────────────────────────────────────────── */
+.nos-hero__bg,
+.nos-hero__content {
+  animation-play-state: paused;
+}
+
+@media (min-width: 901px) {
+  .nos-hero__year-bg,
+  .nos-hero__right,
+  .nos-hero__pillars {
+    animation-play-state: paused;
+  }
+}
+
+body.mf-page-ready .nos-hero__bg,
+body.mf-page-ready .nos-hero__content {
+  animation-play-state: running;
+}
+
+@media (min-width: 901px) {
+  body.mf-page-ready .nos-hero__year-bg,
+  body.mf-page-ready .nos-hero__right,
+  body.mf-page-ready .nos-hero__pillars {
+    animation-play-state: running;
+  }
+}

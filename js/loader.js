@@ -84,6 +84,10 @@
     loader.classList.add('mf-loader--up');
     setTimeout(function () {
       if (loader.parentNode) loader.parentNode.removeChild(loader);
+      // Liberar animaciones de hero DESPUÉS de que el loader desaparece,
+      // así el usuario las ve completas y no tapadas.
+      document.body.classList.add('mf-page-ready');
+      window.dispatchEvent(new CustomEvent('mf:page-ready'));
     }, 550);
   }
 
@@ -119,7 +123,7 @@
   // Lista de archivos HTML internos del sitio
   var INTERNAL_PAGES = [
     'index.html', 'product.html', 'checkout.html', 'pack.html',
-    'merch.html', 'nosotros.html'
+    'merch.html', 'nosotros.html', 'restaurant.html'
   ];
 
   function isInternalHTMLLink(href) {

@@ -1411,3 +1411,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   ANIMATION GATE — Hero animations paused until loader exits
+   (.mf-page-ready is added to body by loader.js after slide-out)
+   ───────────────────────────────────────────────────────────────── */
+@media (min-width: 901px) {
+  .loc-hero__content,
+  .loc-hero__year-bg,
+  .loc-hero__right,
+  .loc-hero__pillars {
+    animation-play-state: paused;
+  }
+
+  body.mf-page-ready .loc-hero__content,
+  body.mf-page-ready .loc-hero__year-bg,
+  body.mf-page-ready .loc-hero__right,
+  body.mf-page-ready .loc-hero__pillars {
+    animation-play-state: running;
+  }
+}

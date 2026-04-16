@@ -2184,12 +2184,23 @@
       portraitReset.style.opacity = '';
     }
     // Dispara la animación de entrada (clase .home-hero--ready)
+    // Espera a que el loader termine de salir para que el usuario vea las animaciones completas.
     el.classList.remove('home-hero--ready');
-    // Reflow → re-trigger CSS transitions
-    void el.offsetWidth;
-    requestAnimationFrame(function() {
-      el.classList.add('home-hero--ready');
-    });
+    void el.offsetWidth; // reflow
+    function triggerHeroAnim() {
+      el.classList.remove('home-hero--ready');
+      void el.offsetWidth;
+      requestAnimationFrame(function() {
+        el.classList.add('home-hero--ready');
+      });
+    }
+    if (document.body.classList.contains('mf-page-ready')) {
+      // Loader ya desapareció → animar de una
+      triggerHeroAnim();
+    } else {
+      // Loader todavía visible → esperar que termine de salir
+      window.addEventListener('mf:page-ready', triggerHeroAnim, { once: true });
+    }
     if (homeHeroInitialized) return;
     homeHeroInitialized = true;
 
