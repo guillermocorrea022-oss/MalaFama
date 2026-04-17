@@ -30,6 +30,9 @@
       if (actionsContainer) {
         actionsContainer.appendChild(userBtn);
       } else {
+        // Sin .floating-actions (ej. checkout) — lo inyectamos oculto para que
+        // el resto de auth.js siga funcionando sin mostrar un botón suelto.
+        userBtn.style.display = 'none';
         document.body.appendChild(userBtn);
       }
     } else if (!document.getElementById('userIndicator')) {

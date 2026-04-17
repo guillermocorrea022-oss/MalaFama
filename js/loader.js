@@ -192,4 +192,162 @@
     }, 480);
   };
 
+  // ─── 6. Gesto Swipe-Back (estilo iOS) ───
+  // Arrastrar desde el borde izquierdo hacia la derecha → history.back()
+  // Feedback visual: la página se desliza hacia la derecha siguiendo el dedo.
+  // Solo en mobile + si hay página anterior en el history.
+  (function initSwipeBack() {
+    var EDGE_WIDTH = 28;       // px desde el borde izquierdo para iniciar el gesto
+    var TRIGGER_RATIO = 0.30;  // debe arrastrar al menos 30% del ancho para disparar
+    var MIN_VELOCITY = 0.35;   // px/ms para disparar por velocidad (flick corto)
+
+    var startX = 0, startY = 0, startT = 0;
+    var currentX = 0;
+    var active = false;
+    var dragging = false;   // pasó del umbral inicial → ya sabemos que es swipe-back
+    var finished = false;
+
+    function isTouchMobile() {
+      return ('ontouchstart' in window || navigator.maxTouchPoints > 0) &&
+             window.matchMedia('(max-width: 900px)').matches;
+    }
+
+    // Crear overlay una sola vez — velo oscuro que se va aclarando a medida que sale la página
+    var overlay = null;
+    function ensureOverlay() {
+      if (overlay) return overlay;
+      overlay = document.createElement('div');
+      overlay.id = 'mfSwipeOverlay';
+      overlay.style.cssText = [
+        'position:fixed','inset:0','z-index:2147483646',
+        'background:#000','opacity:0','pointer-events:none',
+        'will-change:opacity'
+      ].join(';');
+      document.body.appendChild(overlay);
+      return overlay;
+    }
+
+    function setTransform(x) {
+      var root = document.documentElement;
+      root.style.transform = x > 0 ? 'translate3d(' + x + 'px,0,0)' : '';
+      root.style.transition = 'none';
+      // Velo: a medida que la página sale, el fondo queda más oscuro (siguiente página visible)
+      if (overlay) {
+        var w = window.innerWidth || 1;
+        overlay.style.opacity = String(Math.min(0.35, (x / w) * 0.45));
+      }
+    }
+
+    function resetTransform(animated) {
+      var root = document.documentElement;
+      root.style.transition = animated ? 'transform 0.22s ease-out' : 'none';
+      root.style.transform = '';
+      if (overlay) {
+        overlay.style.transition = animated ? 'opacity 0.22s ease-out' : 'none';
+        overlay.style.opacity = '0';
+      }
+      setTimeout(function () {
+        root.style.transition = '';
+        root.style.transform = '';
+        if (overlay && overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay);
+          overlay = null;
+        }
+      }, animated ? 240 : 0);
+    }
+
+    function completeAndGoBack() {
+      if (finished) return;
+      finished = true;
+      var root = document.documentElement;
+      root.style.transition = 'transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1)';
+      root.style.transform = 'translate3d(100%, 0, 0)';
+      if (overlay) {
+        overlay.style.transition = 'opacity 0.28s ease-out';
+        overlay.style.opacity = '0';
+      }
+      // Pequeño delay para que se vea la animación antes de navegar
+      setTimeout(function () {
+        window.history.back();
+        // Fallback: si por alguna razón history.back no navegó (bfcache bugs),
+        // resetear el transform tras 600ms
+        setTimeout(function () {
+          resetTransform(false);
+          finished = false;
+        }, 600);
+      }, 180);
+    }
+
+    function onStart(e) {
+      if (!isTouchMobile()) return;
+      if (window.history.length <= 1) return; // no hay atrás
+      if (document.getElementById('mfLoader')) return; // loader visible → ignorar
+      var t = e.touches ? e.touches[0] : e;
+      if (t.clientX > EDGE_WIDTH) return;
+      startX = t.clientX;
+      startY = t.clientY;
+      startT = Date.now();
+      currentX = startX;
+      active = true;
+      dragging = false;
+      finished = false;
+    }
+
+    function onMove(e) {
+      if (!active) return;
+      var t = e.touches ? e.touches[0] : e;
+      var dx = t.clientX - startX;
+      var dy = t.clientY - startY;
+
+      // Si aún no estamos arrastrando, decidir si este gesto es swipe-back o scroll
+      if (!dragging) {
+        if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) {
+          // Movimiento predominante vertical → cancelar (dejar que scrollee)
+          active = false;
+          return;
+        }
+        if (dx < 8) return; // aún no nos comprometemos
+        dragging = true;
+        ensureOverlay();
+      }
+
+      // Ya estamos arrastrando: prevenir scroll horizontal nativo y mover la página
+      if (e.cancelable) e.preventDefault();
+      var x = Math.max(0, dx);
+      currentX = t.clientX;
+      setTransform(x);
+    }
+
+    function onEnd() {
+      if (!active) return;
+      var dx = currentX - startX;
+      var dt = Date.now() - startT;
+      var velocity = dt > 0 ? dx / dt : 0;
+      var threshold = window.innerWidth * TRIGGER_RATIO;
+      active = false;
+
+      if (!dragging) return; // nunca pasamos del umbral, nada que resetear
+
+      if (dx > threshold || velocity > MIN_VELOCITY) {
+        completeAndGoBack();
+      } else {
+        resetTransform(true);
+      }
+      dragging = false;
+    }
+
+    function onCancel() {
+      if (!active) return;
+      active = false;
+      if (dragging) resetTransform(true);
+      dragging = false;
+    }
+
+    // passive:false en touchmove para poder llamar preventDefault
+    document.addEventListener('touchstart', onStart, { passive: true });
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd, { passive: true });
+    document.addEventListener('touchcancel', onCancel, { passive: true });
+  })();
+
 })();

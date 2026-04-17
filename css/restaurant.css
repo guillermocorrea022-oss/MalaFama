@@ -825,8 +825,15 @@
   border: 2px solid var(--color-navy, #1d2357);
   border-radius: 16px;
   background: #fff;
+  color: var(--color-navy, #1d2357);
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
   cursor: pointer;
   transition: all 0.2s;
+}
+.bk-location-btn .bk-location-btn__name {
+  color: var(--color-navy, #1d2357);
 }
 .bk-location-btn:hover {
   background: var(--color-navy, #1d2357);
@@ -1237,7 +1244,8 @@
     min-height: 480px;
     align-items: center;
   }
-  /* Contenido: columna centrada con espacio inferior para pillars */
+  /* Contenido: columna centrada con espacio inferior para pillars.
+     padding-top igual al bottom para que el título quede centrado en el alto del hero. */
   .loc-hero__content {
     position: relative;
     z-index: 2;
@@ -1245,7 +1253,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0 1rem 96px;
+    padding: 96px 1rem 96px;
     width: 100%;
   }
   /* Centrar el h1 inline-flex dentro del wrapper */

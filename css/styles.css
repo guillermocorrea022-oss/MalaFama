@@ -3406,12 +3406,28 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 
 /* TÃ­tulo de la secciÃ³n de productos relacionados; tamaÃ±o display adaptable, centrado y en mayÃºsculas */
 .related-products__title {
-  font-size: clamp(24px, 3vw, 36px);
-  font-weight: var(--font-weight-extrabold);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 900;
   text-align: center;
   margin-bottom: var(--space-10);
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  position: relative;
+  padding-bottom: 0.6em;
+}
+.related-products__title::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 0.15em;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 4px;
+  background: #2b52b3;
+  border-radius: 2px;
 }
 
 /* Carrusel horizontal de productos relacionados con scroll snap; oculta el scrollbar en Firefox e IE */
@@ -6948,5 +6964,244 @@ body.view-home-anim .cat-card.home-in-view {
     left: 10px;
     bottom: 14px;
     width: auto;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   GESTURES.JS — Quick Actions Sheet (long-press en product card)
+   Bottom sheet estilo iOS con 3 acciones: Ver / Agregar / Compartir
+   ═════════════════════════════════════════════════════════════════════ */
+.mf-quick-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+}
+.mf-quick-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.28s ease-out;
+  pointer-events: auto;
+}
+.mf-quick-sheet__panel {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 8px 14px 14px;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.25);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.32s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+  pointer-events: auto;
+  /* respetar safe area del iPhone */
+  padding-bottom: calc(14px + env(safe-area-inset-bottom));
+}
+.mf-quick-sheet--open .mf-quick-sheet__backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+.mf-quick-sheet--open .mf-quick-sheet__panel {
+  transform: translate3d(0, 0, 0);
+}
+.mf-quick-sheet__handle {
+  width: 44px;
+  height: 5px;
+  background: #d0d0d0;
+  border-radius: 3px;
+  margin: 4px auto 12px;
+}
+.mf-quick-sheet__preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 4px 14px;
+  border-bottom: 1px solid #ececec;
+}
+.mf-quick-sheet__img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+.mf-quick-sheet__info { min-width: 0; flex: 1; }
+.mf-quick-sheet__name {
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #111;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mf-quick-sheet__sub {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.mf-quick-sheet__price {
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: #111;
+}
+.mf-quick-sheet__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 14px 0 8px;
+}
+.mf-quick-sheet__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 4px;
+  background: #f3f3f3;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #111;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mf-quick-sheet__btn:active {
+  background: #e7e7e7;
+  transform: scale(0.97);
+}
+.mf-quick-sheet__btn svg { color: #111; }
+.mf-quick-sheet__cancel {
+  width: 100%;
+  padding: 13px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #666;
+  margin-top: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mf-quick-sheet__cancel:active {
+  background: #f3f3f3;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   GESTURES.JS — Disable pull-to-refresh en shop (mobile)
+   Sin cambios visuales: solo evita que el scroll-up "arriba de todo"
+   recargue la página.
+   ═════════════════════════════════════════════════════════════════════ */
+html, body {
+  overscroll-behavior-y: contain;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   GESTURES.JS — Botón Compartir en la PDP (product.html)
+   Inline junto al título, usa navigator.share() nativo del celular
+   ═════════════════════════════════════════════════════════════════════ */
+.pdp-title-row {
+  position: relative;
+}
+.pdp-title-row .pdp-product-name {
+  /* el título renderiza igual que antes, sin constrain de flex */
+}
+.pdp-share-btn {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: currentColor;
+  opacity: 0.45;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+.pdp-share-btn:hover {
+  opacity: 0.85;
+}
+.pdp-share-btn:active {
+  transform: scale(0.9);
+  opacity: 1;
+}
+.pdp-share-btn svg { display: block; width: 18px; height: 18px; }
+@media (max-width: 900px) {
+  .pdp-share-btn {
+    top: 6px;
+    width: 30px;
+    height: 30px;
+  }
+  .pdp-share-btn svg { width: 16px; height: 16px; }
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   HOME HERO — Mobile: hero full-viewport + navbar oculto arriba
+   Protagonismo del local, retrato aparece solo al scrollear.
+   Solo mobile (≤900px). No afecta desktop.
+   ═════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* Hero ocupa toda la vista con aire */
+  body.view-home .home-hero,
+  body.view-home .home-hero__content {
+    min-height: 100svh;
+  }
+
+  /* Ocultar pillars "4 hermanos", "Sin filtrar", "Barrica viva" — dejar solo Montevideo & PDE */
+  body.view-home .home-hero__pillars li:nth-child(-n+3) {
+    display: none !important;
+  }
+
+  /* Pillar de locales: centrado sin el border-top dashed (ya no tiene compañía) */
+  body.view-home .home-hero__pillars {
+    border-top: none;
+    padding-top: 8px;
+    justify-content: center;
+  }
+
+  /* Retrato: más abajo para que no entre en juego al primer vistazo.
+     Sigue apareciendo al scrollear gracias a .portrait-in-view en JS. */
+  body.view-home .home-hero__portrait,
+  body.view-home .home-hero--ready .home-hero__portrait {
+    bottom: -40px !important;
+  }
+
+  /* Subnav (INICIO/CERVEZAS/PACKS/ESPECIALES) oculto al tope del hero home.
+     Override del comportamiento mobile genérico que lo mostraba en y≤40. */
+  body.view-home:not(.subnav-revealed) .shop-subnav {
+    transform: translate(-50%, -200%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  /* Cuando el scroll cruza el threshold del hero, el JS agrega .subnav-revealed
+     y acá volvemos a mostrar el subnav con la animación normal. */
+  body.view-home.subnav-revealed .shop-subnav {
+    transform: translate(-50%, 0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 }
