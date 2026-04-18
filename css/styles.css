@@ -6492,6 +6492,230 @@ body.view-home-anim .cat-card.home-in-view {
   color: #ed8936;
 }
 
+/* ============================================
+   BEER PASSPORT — dentro del drawer Mi Cuenta
+   ============================================ */
+.passport {
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 18px 16px 20px;
+  margin-bottom: 24px;
+}
+
+.passport__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 12px;
+}
+.passport__eyebrow {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  color: #2b52b3;
+}
+.passport__title {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 26px;
+  line-height: 1;
+  margin-top: 3px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.passport__count {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.passport__count-num {
+  font-weight: 900;
+  font-size: 32px;
+  color: #fff;
+  line-height: 1;
+}
+.passport__count-total {
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+}
+
+.passport__progress {
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.passport__progress-bar {
+  height: 100%;
+  background: #2b52b3;
+  border-radius: 2px;
+  transition: width .5s ease;
+}
+
+/* Grid de pegatines — 4 columnas fijas */
+.passport__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Cada pegatín */
+.passport__stamp {
+  border-radius: 6px;
+  border: 2px dashed rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px 6px;
+  gap: 4px;
+  transition: border-color .2s;
+}
+.passport__stamp.is-stamped {
+  border: 2px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Figura contenedora de la imagen + sello PROBADA */
+.passport__stamp-fig {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.passport__stamp-fig img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
+  /* Estado vacío: muy fantasma */
+  filter: grayscale(1) brightness(0.2);
+  transition: filter .3s;
+}
+.passport__stamp.is-stamped .passport__stamp-fig img {
+  /* Estado probada: ilustración a full color */
+  filter: none;
+}
+
+/* Sello de tinta "PROBADA" — aparece solo cuando is-stamped */
+.passport__stamp-ink {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-22deg);
+  z-index: 2;
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(43,82,179,0.82);
+  border: 2px solid #2b52b3;
+  padding: 2px 7px;
+  border-radius: 2px;
+  opacity: 0.9;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+
+/* Nombre de la cerveza */
+.passport__stamp-name {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-align: center;
+  color: rgba(255,255,255,0.85);
+  margin: 0;
+}
+.passport__stamp.is-empty .passport__stamp-name { color: rgba(255,255,255,0.3); }
+
+/* Subtítulo (estilo) */
+.passport__stamp-sub {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+  text-align: center;
+}
+.passport__stamp.is-stamped .passport__stamp-sub { color: #2b52b3; }
+
+.passport__loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.passport__reward {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 2px solid #2b52b3;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+}
+.passport__reward strong {
+  display: block;
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+  color: #fff;
+}
+.passport__reward code {
+  background: #2b52b3;
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: 2px;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 11px;
+}
+.passport__reward-hint {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Sección títulos dentro del drawer */
+.orders-section__title {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-black, #0e0e0e);
+  margin: 4px 0 14px;
+}
+
 /* Responsive del sistema auth â€” tablet y mÃ³vil */
 @media screen and (max-width: 960px) {
   .floating-user {

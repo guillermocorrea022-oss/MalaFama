@@ -422,6 +422,65 @@ app.get('/api/orders', requireAuth, (req, res) => {
   res.json({ orders: parsed });
 });
 
+// ---------- BEER PASSPORT ----------
+// Devuelve la grilla de estilos de cerveza y cuáles el usuario ya probó.
+// Se considera "probado" cuando el usuario tiene al menos un pedido aprobado
+// que contiene un producto de ese estilo.
+app.get('/api/passport', requireAuth, (req, res) => {
+  try {
+    // Cervezas coleccionables del pasaporte — cada una con su ilustración
+    const COLLECTIBLES = [
+      { id: 3,   name: 'Tas Loco',        subtitle: 'NEIPA',           img: 'img/ilustraciones/tas-loco.png' },
+      { id: 1,   name: 'La Santa',        subtitle: 'New England IPA', img: 'img/ilustraciones/la-santa.png' },
+      { id: 2,   name: 'A Lo Bestia',     subtitle: 'Sour',            img: 'img/ilustraciones/a-lo-bestia.png' },
+      { id: 4,   name: 'Renegada',        subtitle: 'Pale Ale',        img: 'img/ilustraciones/renegada.png' },
+      { id: 5,   name: 'Alboroto',        subtitle: 'West Coast IPA',  img: 'img/ilustraciones/Alboroto.png' },
+      { id: 100, name: 'Despelote V',     subtitle: 'Imperial Stout',  img: 'img/latas/despelote-v.webp' },
+      { id: 9,   name: 'Que los Indios',  subtitle: 'Barrel Aged Sour',img: 'img/ilustraciones/que-los-indios-de-su-pueblo-se-gobiernen-por-si-solos-1.png' },
+      { id: 6,   name: 'Guidaí',          subtitle: 'Amber Lager',     img: 'img/latas/guidai.webp' },
+    ];
+
+    // Órdenes del usuario (incluimos pending porque la cerveza se consume antes de la aprobación final)
+    const orders = db.getOrdersByUser(req.session.userId) || [];
+    const valid = orders.filter(o => ['approved','pending_transfer','pending_cash','nuevo'].includes(o.status));
+
+    // Qué IDs compró y cuándo por primera vez
+    const firstBought = {};
+    for (const o of valid) {
+      let items;
+      try { items = JSON.parse(o.items_json || '[]'); } catch { items = []; }
+      for (const it of items) {
+        const pid = Number(it.id);
+        if (!firstBought[pid] || o.created_at < firstBought[pid]) {
+          firstBought[pid] = o.created_at;
+        }
+      }
+    }
+
+    const beers = COLLECTIBLES.map(b => ({
+      id:        b.id,
+      name:      b.name,
+      subtitle:  b.subtitle,
+      img:       b.img,
+      stamped:   b.id in firstBought,
+      stampedAt: firstBought[b.id] || null
+    }));
+
+    const stamped = beers.filter(b => b.stamped).length;
+    const total   = beers.length;
+    const reward  = {
+      unlocked:    stamped >= total,
+      code:        stamped >= total ? 'PASAPORTE-COMPLETO' : null,
+      description: 'Cerveza gratis o 20% off en tu próxima compra al probar todas.'
+    };
+
+    res.json({ beers, stamped, total, reward });
+  } catch (err) {
+    console.error('[Passport] Error:', err);
+    res.status(500).json({ error: 'No pudimos calcular tu pasaporte' });
+  }
+});
+
 app.post('/api/checkout', async (req, res) => {
   try {
     const { paymentMethod, customer, items, totalUYU, card, shipping, shippingMethod, shippingCost } = req.body;
@@ -717,6 +776,32 @@ app.get('/api/admin/recent-orders', requireAdmin, (req, res) => {
   }
 });
 
+// ----- INSIGHTS: métricas de negocio reales -----
+// Cliente nuevo vs recurrente, top producto que convierte, horario pico,
+// fuentes de tráfico (requiere ?src=ig|qr|google en URLs de entrada — guardado en tabla traffic_hits)
+app.get('/api/admin/insights', requireAdmin, (req, res) => {
+  try {
+    const days = Math.min(parseInt(req.query.days) || 30, 365);
+    const insights = db.getBusinessInsights(days);
+    res.json({ days, ...insights });
+  } catch (error) {
+    console.error('Admin insights error:', error);
+    res.status(500).json({ success: false, error: 'Error al calcular insights' });
+  }
+});
+
+// Tracking de fuentes de tráfico (llamado desde landing al cargar con ?src=)
+app.post('/api/track-source', (req, res) => {
+  try {
+    const src = (req.body && req.body.src) || '';
+    if (!src) return res.json({ ok: true });
+    db.recordTrafficHit(String(src).slice(0, 40));
+    res.json({ ok: true });
+  } catch (e) {
+    res.json({ ok: true }); // nunca rompe el site
+  }
+});
+
 // ----- Orders -----
 
 app.get('/api/admin/orders', requireAdmin, (req, res) => {
@@ -937,6 +1022,27 @@ app.put('/api/admin/products/:id/price', requireAdmin, (req, res) => {
   } catch (error) {
     console.error('Admin update price error:', error);
     res.status(500).json({ success: false, error: 'Error al actualizar precio' });
+  }
+});
+
+app.put('/api/admin/products/bulk-price', requireAdmin, (req, res) => {
+  try {
+    const { pct } = req.body;
+    if (typeof pct !== 'number' || isNaN(pct) || pct === 0 || pct < -90 || pct > 500) {
+      return res.status(400).json({ success: false, error: 'Porcentaje inválido (rango: -90 a +500)' });
+    }
+    // Solo cervezas — excluir merch, valuepack y pack
+    const BEER_STYLES = ['ipa','neipa','apa','sour','stout','lager','barrel-aged'];
+    const beerIds = [...new Set(
+      PRODUCTS.filter(p => p && BEER_STYLES.includes(p.style)).map(p => p.id)
+    )];
+    if (beerIds.length === 0) return res.status(400).json({ success: false, error: 'No hay productos de cerveza' });
+    const multiplier = 1 + pct / 100;
+    const updated = db.bulkUpdatePrices(multiplier, beerIds);
+    res.json({ success: true, updated, pct });
+  } catch (error) {
+    console.error('Bulk price error:', error);
+    res.status(500).json({ success: false, error: 'Error al actualizar precios' });
   }
 });
 

@@ -105,6 +105,15 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now')),
     UNIQUE(location, date)
   );
+
+  CREATE TABLE IF NOT EXISTS traffic_hits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_traffic_hits_src_date ON traffic_hits(source, created_at);
+  CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
+  CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
 `);
 
 // Seed default venue capacities
@@ -323,6 +332,15 @@ function toggleProductActive(productId, active) {
 function updateProductPrice(productId, priceUYU) {
   db.prepare("UPDATE product_stock SET price_uyu = ?, updated_at = datetime('now') WHERE product_id = ?").run(priceUYU, productId);
 }
+function bulkUpdatePrices(multiplier, productIds) {
+  if (!productIds || productIds.length === 0) return 0;
+  const placeholders = productIds.map(() => '?').join(',');
+  const result = db.prepare(
+    `UPDATE product_stock SET price_uyu = ROUND(price_uyu * ?, 0), updated_at = datetime('now')
+     WHERE product_id IN (${placeholders})`
+  ).run(multiplier, ...productIds);
+  return result.changes;
+}
 function getLowStockProducts(threshold = 10) {
   return db.prepare('SELECT * FROM product_stock WHERE stock < ? AND active = 1').all(threshold);
 }
@@ -412,6 +430,130 @@ function getBookingById(bookingId) {
   return db.prepare('SELECT * FROM bookings WHERE booking_id = ?').get(bookingId);
 }
 
+// ===== Traffic & Business Insights =====
+function recordTrafficHit(source) {
+  try {
+    db.prepare('INSERT INTO traffic_hits (source) VALUES (?)').run(source);
+  } catch (e) { /* no-op */ }
+}
+
+/**
+ * Métricas de negocio reales para el dashboard admin.
+ * @param {number} days - ventana de análisis (ej. 30 o 7)
+ */
+function getBusinessInsights(days = 30) {
+  const since = `datetime('now','-${Number(days) | 0} days')`;
+
+  // 1) Clientes nuevos vs recurrentes en la ventana
+  //    - Nuevo: user_id cuya PRIMERA orden ocurrió dentro de la ventana
+  //    - Recurrente: user_id con orden en la ventana pero con orden previa anterior
+  const customerBreakdown = db.prepare(`
+    WITH user_first_order AS (
+      SELECT user_id, MIN(created_at) AS first_at
+      FROM orders
+      WHERE user_id IS NOT NULL
+      GROUP BY user_id
+    ),
+    users_in_window AS (
+      SELECT DISTINCT o.user_id
+      FROM orders o
+      WHERE o.user_id IS NOT NULL
+        AND o.created_at >= ${since}
+    )
+    SELECT
+      SUM(CASE WHEN ufo.first_at >= ${since} THEN 1 ELSE 0 END) AS nuevos,
+      SUM(CASE WHEN ufo.first_at <  ${since} THEN 1 ELSE 0 END) AS recurrentes
+    FROM users_in_window uw
+    JOIN user_first_order ufo ON ufo.user_id = uw.user_id
+  `).get() || { nuevos: 0, recurrentes: 0 };
+
+  const guestOrders = db.prepare(`
+    SELECT COUNT(*) AS c FROM orders WHERE user_id IS NULL AND created_at >= ${since}
+  `).get().c || 0;
+
+  // 2) Producto top (cantidad total y facturación)
+  //    Los items viven en items_json (JSON array). Extraemos con JS.
+  const windowOrders = db.prepare(
+    `SELECT items_json, total_uyu, created_at FROM orders WHERE created_at >= ${since}`
+  ).all();
+
+  const productAgg = {}; // key: product id/name  -> { name, qty, revenue }
+  const hourAgg = {};    // 0..23 -> count
+  const weekdayAgg = {}; // 0..6  -> count (0=dom)
+
+  for (const o of windowOrders) {
+    let items = [];
+    try { items = JSON.parse(o.items_json || '[]'); } catch {}
+    for (const it of items) {
+      const key = it.id != null ? `id:${it.id}` : (it.name || 'prod');
+      const qty = Number(it.quantity || it.qty || 1);
+      const price = Number(it.price || it.priceUYU || 0) * qty;
+      if (!productAgg[key]) productAgg[key] = { id: it.id, name: it.name || 'Producto', qty: 0, revenue: 0 };
+      productAgg[key].qty += qty;
+      productAgg[key].revenue += price;
+    }
+    // hora del día (local server time — approximation)
+    const d = new Date(o.created_at.replace(' ', 'T') + 'Z');
+    if (!isNaN(d.getTime())) {
+      const h = d.getUTCHours();
+      hourAgg[h] = (hourAgg[h] || 0) + 1;
+      const wd = d.getUTCDay();
+      weekdayAgg[wd] = (weekdayAgg[wd] || 0) + 1;
+    }
+  }
+
+  const topProducts = Object.values(productAgg)
+    .sort((a, b) => b.qty - a.qty)
+    .slice(0, 5);
+
+  // 3) Horario pico (hora con más pedidos)
+  const hours = [];
+  for (let h = 0; h < 24; h++) hours.push({ hour: h, count: hourAgg[h] || 0 });
+  const peakHour = hours.reduce((acc, cur) => cur.count > acc.count ? cur : acc, { hour: 0, count: 0 });
+
+  // 4) Fuentes de tráfico (últimos X días)
+  const traffic = db.prepare(`
+    SELECT source, COUNT(*) AS hits
+    FROM traffic_hits
+    WHERE created_at >= ${since}
+    GROUP BY source
+    ORDER BY hits DESC
+  `).all();
+
+  const totalHits = traffic.reduce((s, t) => s + t.hits, 0);
+  const trafficWithPct = traffic.map(t => ({
+    source: t.source,
+    hits: t.hits,
+    pct: totalHits > 0 ? Math.round(t.hits / totalHits * 1000) / 10 : 0
+  }));
+
+  // 5) Ticket promedio y conversión (aproximada: órdenes / hits)
+  const totalsRow = db.prepare(
+    `SELECT COUNT(*) AS orders_count, COALESCE(SUM(total_uyu),0) AS revenue FROM orders WHERE created_at >= ${since}`
+  ).get();
+  const avgTicket = totalsRow.orders_count > 0 ? totalsRow.revenue / totalsRow.orders_count : 0;
+  const approxConversion = totalHits > 0 ? (totalsRow.orders_count / totalHits) * 100 : null;
+
+  return {
+    customers: {
+      nuevos: customerBreakdown.nuevos || 0,
+      recurrentes: customerBreakdown.recurrentes || 0,
+      invitados: guestOrders
+    },
+    topProducts,
+    peakHour,
+    hours,
+    weekdays: Object.entries(weekdayAgg).map(([wd, c]) => ({ wd: Number(wd), count: c })),
+    traffic: trafficWithPct,
+    totals: {
+      orders: totalsRow.orders_count,
+      revenue: totalsRow.revenue,
+      avgTicket,
+      approxConversion
+    }
+  };
+}
+
 // ===== Exports =====
 module.exports = {
   db,
@@ -422,10 +564,12 @@ module.exports = {
   // Orders
   saveOrder, getOrdersByUser, getAllOrders, getOrderById, updateOrderStatus, getOrderStats, getDailyRevenue,
   // Stock
-  getAllProductStock, getProductStock, updateProductStock, toggleProductActive, updateProductPrice, getLowStockProducts, processCheckoutStock,
+  getAllProductStock, getProductStock, updateProductStock, toggleProductActive, updateProductPrice, bulkUpdatePrices, getLowStockProducts, processCheckoutStock,
   // Bookings
   saveBooking, getAllBookings, updateBookingStatus, getBookingById, getBookingsByDate,
   // Capacity
   getVenueCapacity, setVenueCapacity, getCapacityAdjustment, setCapacityAdjustment,
-  getBookedGuests, getAvailableCapacity, getBookedSlots
+  getBookedGuests, getAvailableCapacity, getBookedSlots,
+  // Insights
+  recordTrafficHit, getBusinessInsights
 };

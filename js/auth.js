@@ -123,18 +123,45 @@
     `;
     document.body.appendChild(modal);
 
-    // 4. Orders drawer
+    // 4. Orders drawer (incluye Beer Passport arriba de los pedidos)
     const ordersDrawer = document.createElement('div');
     ordersDrawer.id = 'ordersDrawer';
     ordersDrawer.innerHTML = `
       <div class="orders-overlay" id="ordersOverlay"></div>
       <div class="orders-drawer" id="ordersDrawerPanel">
         <div class="orders-drawer__header">
-          <h3>Mis Pedidos</h3>
+          <h3>Mi Cuenta</h3>
           <button class="orders-drawer__close" id="ordersCloseBtn">&times;</button>
         </div>
         <div class="orders-drawer__content" id="ordersContent">
-          <div class="orders-loading">Cargando pedidos...</div>
+          <!-- Beer Passport -->
+          <section class="passport" id="beerPassport" aria-label="Beer Passport">
+            <div class="passport__head">
+              <div>
+                <div class="passport__eyebrow">Beer Passport</div>
+                <h4 class="passport__title">TU COLECCIÓN</h4>
+              </div>
+              <div class="passport__count">
+                <span class="passport__count-num" id="passportStampedNum">0</span>
+                <span class="passport__count-total" id="passportTotalNum">/ 0</span>
+              </div>
+            </div>
+            <div class="passport__progress">
+              <div class="passport__progress-bar" id="passportProgress" style="width:0%"></div>
+            </div>
+            <div class="passport__grid" id="passportGrid">
+              <div class="passport__loading">Cargando pasaporte…</div>
+            </div>
+            <div class="passport__reward" id="passportReward" style="display:none"></div>
+          </section>
+
+          <!-- Mis pedidos -->
+          <section class="orders-section" aria-label="Mis pedidos">
+            <h4 class="orders-section__title">MIS PEDIDOS</h4>
+            <div id="ordersList">
+              <div class="orders-loading">Cargando pedidos...</div>
+            </div>
+          </section>
         </div>
       </div>
     `;
@@ -377,6 +404,7 @@
     panel.classList.add('active');
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    loadPassport();
     loadOrders();
   }
 
@@ -388,8 +416,55 @@
     document.body.style.overflow = '';
   }
 
+  async function loadPassport() {
+    const grid       = document.getElementById('passportGrid');
+    const progress   = document.getElementById('passportProgress');
+    const stampedNum = document.getElementById('passportStampedNum');
+    const totalNum   = document.getElementById('passportTotalNum');
+    const reward     = document.getElementById('passportReward');
+    if (!grid) return;
+
+    try {
+      const res = await fetch('/api/passport');
+      if (!res.ok) throw new Error('no auth');
+      const data = await res.json();
+      const { beers = [], stamped = 0, total = 0, reward: rw } = data;
+
+      stampedNum.textContent = stamped;
+      totalNum.textContent   = '/ ' + total;
+      progress.style.width   = total > 0 ? Math.round(stamped / total * 100) + '%' : '0%';
+
+      grid.innerHTML = beers.map(b => `
+        <div class="passport__stamp ${b.stamped ? 'is-stamped' : 'is-empty'}"
+             title="${b.name}${b.stamped ? ' — ¡Probada!' : ''}">
+          <div class="passport__stamp-fig">
+            <img src="${b.img}" alt="${b.name}" loading="lazy">
+            ${b.stamped ? '<span class="passport__stamp-ink">PROBADA</span>' : ''}
+          </div>
+          <p class="passport__stamp-name">${b.name}</p>
+          <p class="passport__stamp-sub">${b.subtitle}</p>
+        </div>
+      `).join('');
+
+      if (rw && rw.unlocked) {
+        reward.style.display = 'block';
+        reward.innerHTML = `
+          <strong>🏆 ¡Pasaporte completo!</strong>
+          <span>Usá el código <code>${rw.code}</code> en tu próxima compra.</span>
+        `;
+      } else {
+        const falta = total - stamped;
+        reward.style.display = 'block';
+        reward.innerHTML = falta === 0 ? '' :
+          `<span class="passport__reward-hint">Te ${falta === 1 ? 'falta 1 cerveza' : `faltan ${falta} cervezas`} para desbloquear un cupón.</span>`;
+      }
+    } catch (e) {
+      grid.innerHTML = '<div class="passport__loading">No pudimos cargar tu pasaporte.</div>';
+    }
+  }
+
   async function loadOrders() {
-    const content = document.getElementById('ordersContent');
+    const content = document.getElementById('ordersList') || document.getElementById('ordersContent');
     content.innerHTML = '<div class="orders-loading">Cargando pedidos...</div>';
 
     try {
@@ -470,10 +545,31 @@
     });
   }
 
+  // ===== Traffic source tracking (?src=ig|qr|google|fb|wapp) =====
+  // Se registra una sola vez por sesión — evita inflar números por reloads.
+  function trackTrafficSource() {
+    try {
+      const url = new URL(window.location.href);
+      const rawSrc = url.searchParams.get('src');
+      if (!rawSrc) return;
+      const src = rawSrc.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+      if (!src) return;
+      const already = sessionStorage.getItem('mf_src_tracked');
+      if (already === src) return;
+      sessionStorage.setItem('mf_src_tracked', src);
+      fetch('/api/track-source', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ src })
+      }).catch(() => {});
+    } catch (e) { /* no-op */ }
+  }
+
   // ===== Init =====
   function initAuth() {
     injectAuthUI();
     initAuthEvents();
+    trackTrafficSource();
     checkSession().then(() => {
       // If on checkout page, pre-fill after checking session
       if (window.location.pathname.includes('checkout')) {

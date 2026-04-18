@@ -82,6 +82,74 @@
         <div class="chart-bars" id="revenueChart"></div>
       </div>
 
+      <!-- ===== BUSINESS INSIGHTS ===== -->
+      <div class="insights-wrap">
+        <div class="insights-head">
+          <h3>Métricas que importan</h3>
+          <div class="insights-window">
+            <label>Ventana:</label>
+            <select id="insightsDays" onchange="loadInsights()">
+              <option value="7">Últimos 7 días</option>
+              <option value="30" selected>Últimos 30 días</option>
+              <option value="90">Últimos 90 días</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="insights-grid">
+          <!-- Clientes nuevos vs recurrentes -->
+          <div class="insight-card">
+            <div class="insight-card__label">Clientes</div>
+            <div class="insight-split" id="insightCustomers">
+              <div class="insight-split__item is-new">
+                <div class="n" id="insightNew">0</div>
+                <div class="l">Nuevos</div>
+              </div>
+              <div class="insight-split__item is-ret">
+                <div class="n" id="insightReturning">0</div>
+                <div class="l">Recurrentes</div>
+              </div>
+              <div class="insight-split__item is-guest">
+                <div class="n" id="insightGuests">0</div>
+                <div class="l">Invitados</div>
+              </div>
+            </div>
+            <div class="insight-card__bar" id="insightCustomersBar"></div>
+          </div>
+
+          <!-- Ticket promedio -->
+          <div class="insight-card">
+            <div class="insight-card__label">Ticket promedio</div>
+            <div class="insight-card__value" id="insightAvgTicket">$U 0</div>
+            <div class="insight-card__sub" id="insightOrdersCount">0 pedidos</div>
+          </div>
+
+          <!-- Horario pico -->
+          <div class="insight-card">
+            <div class="insight-card__label">Horario pico</div>
+            <div class="insight-card__value" id="insightPeakHour">—</div>
+            <div class="insight-card__sub" id="insightPeakSub">Cuando más entran</div>
+            <div class="insight-hours" id="insightHoursBars"></div>
+          </div>
+
+          <!-- Producto top -->
+          <div class="insight-card insight-card--wide">
+            <div class="insight-card__label">Productos que convierten</div>
+            <div class="insight-products" id="insightProducts">
+              <div class="insights-empty">Sin datos aún.</div>
+            </div>
+          </div>
+
+          <!-- Fuentes de tráfico -->
+          <div class="insight-card insight-card--wide">
+            <div class="insight-card__label">¿De dónde vienen?</div>
+            <div class="insight-sources" id="insightSources">
+              <div class="insights-empty">Sin datos aún. Agregá <code>?src=ig</code>, <code>?src=qr</code> o <code>?src=google</code> a tus links para empezar a medir.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="admin-table-container">
         <h3>Pedidos Recientes</h3>
         <table class="admin-table">
@@ -230,6 +298,22 @@
 
     <!-- ===== PRODUCTS TAB ===== -->
     <div id="tab-products" class="tab-panel">
+
+      <!-- Ajuste global de precios -->
+      <div class="bulk-price-bar">
+        <div class="bulk-price-bar__info">
+          <span class="bulk-price-bar__title">AJUSTE GLOBAL</span>
+          <span class="bulk-price-bar__desc">Subir o bajar el precio de todas las cervezas a la vez</span>
+        </div>
+        <div class="bulk-price-bar__controls">
+          <div class="bulk-price-input-wrap">
+            <input type="number" id="bulkPctInput" placeholder="ej: 15" min="-90" max="500" step="1">
+            <span class="bulk-price-pct">%</span>
+          </div>
+          <button class="btn-bulk-price" onclick="openBulkPriceModal()">APLICAR A CERVEZAS</button>
+        </div>
+      </div>
+
       <div class="admin-table-container">
         <table class="admin-table">
           <thead>
@@ -243,6 +327,30 @@
           </thead>
           <tbody id="productsTableBody"></tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Modal doble confirmación ajuste de precios -->
+    <div id="bulkPriceModal" class="bulk-modal" style="display:none" role="dialog" aria-modal="true">
+      <div class="bulk-modal__overlay" onclick="closeBulkPriceModal()"></div>
+      <div class="bulk-modal__box">
+        <div class="bulk-modal__head">
+          <div class="bulk-modal__icon">⚠️</div>
+          <div>
+            <h3 class="bulk-modal__title" id="bulkModalTitle"></h3>
+            <p class="bulk-modal__subtitle" id="bulkModalSubtitle"></p>
+          </div>
+        </div>
+        <div class="bulk-modal__table-wrap">
+          <table class="bulk-modal__table" id="bulkModalTable"></table>
+        </div>
+        <div class="bulk-modal__warning">
+          Esta acción modifica los precios en la base de datos. Revisá bien antes de confirmar.
+        </div>
+        <div class="bulk-modal__actions">
+          <button class="bulk-modal__cancel" onclick="closeBulkPriceModal()">CANCELAR</button>
+          <button class="bulk-modal__confirm" id="bulkModalConfirmBtn">SÍ, APLICAR AJUSTE</button>
+        </div>
       </div>
     </div>
 

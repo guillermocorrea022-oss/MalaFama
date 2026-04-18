@@ -144,10 +144,135 @@ async function loadDashboard() {
     // Recent orders
     renderRecentOrders(recentData.orders);
 
+    // Business insights
+    loadInsights();
+
   } catch (e) {
     console.error('Error loading dashboard:', e);
   }
 }
+
+// ===== BUSINESS INSIGHTS =====
+
+async function loadInsights() {
+  try {
+    const daysEl = document.getElementById('insightsDays');
+    const days = daysEl ? parseInt(daysEl.value) || 30 : 30;
+    const res = await fetch('/api/admin/insights?days=' + days);
+    if (!res.ok) return;
+    const data = await res.json();
+    renderInsights(data);
+  } catch (e) {
+    console.error('Error loading insights:', e);
+  }
+}
+
+function renderInsights(data) {
+  // 1) Customers
+  const nuevos = (data.customers && data.customers.nuevos) || 0;
+  const recurrentes = (data.customers && data.customers.recurrentes) || 0;
+  const invitados = (data.customers && data.customers.invitados) || 0;
+  const totalC = nuevos + recurrentes + invitados;
+  setText('insightNew', nuevos);
+  setText('insightReturning', recurrentes);
+  setText('insightGuests', invitados);
+
+  const bar = document.getElementById('insightCustomersBar');
+  if (bar) {
+    const pNew = totalC ? (nuevos / totalC) * 100 : 0;
+    const pRet = totalC ? (recurrentes / totalC) * 100 : 0;
+    const pGst = totalC ? (invitados / totalC) * 100 : 0;
+    bar.innerHTML = `
+      <div class="seg seg--new" style="width:${pNew}%" title="Nuevos ${nuevos}"></div>
+      <div class="seg seg--ret" style="width:${pRet}%" title="Recurrentes ${recurrentes}"></div>
+      <div class="seg seg--gst" style="width:${pGst}%" title="Invitados ${invitados}"></div>
+    `;
+  }
+
+  // 2) Ticket promedio
+  const t = data.totals || {};
+  setText('insightAvgTicket', formatCurrency(t.avgTicket || 0));
+  setText('insightOrdersCount', (t.orders || 0) + ' pedidos · ' + formatCurrency(t.revenue || 0));
+
+  // 3) Horario pico
+  const ph = data.peakHour || { hour: 0, count: 0 };
+  setText('insightPeakHour', ph.count > 0 ? pad2(ph.hour) + ':00' : '—');
+  setText('insightPeakSub', ph.count > 0 ? ph.count + ' pedidos en esa franja' : 'Sin datos aún');
+  const hoursEl = document.getElementById('insightHoursBars');
+  if (hoursEl && data.hours) {
+    const maxH = Math.max(1, ...data.hours.map(h => h.count));
+    hoursEl.innerHTML = data.hours.map(h => {
+      const pct = Math.max((h.count / maxH) * 100, h.count > 0 ? 6 : 0);
+      return `<div class="hbar" title="${pad2(h.hour)}:00 · ${h.count}">
+                <span class="hbar__fill" style="height:${pct}%"></span>
+              </div>`;
+    }).join('');
+  }
+
+  // 4) Top productos
+  const prodEl = document.getElementById('insightProducts');
+  if (prodEl) {
+    if (!data.topProducts || data.topProducts.length === 0) {
+      prodEl.innerHTML = '<div class="insights-empty">Sin datos aún.</div>';
+    } else {
+      const maxQ = Math.max(1, ...data.topProducts.map(p => p.qty));
+      prodEl.innerHTML = data.topProducts.map(p => {
+        const pct = Math.round((p.qty / maxQ) * 100);
+        return `
+          <div class="prod-row">
+            <div class="prod-row__name">${escapeHtml(p.name)}</div>
+            <div class="prod-row__bar"><span style="width:${pct}%"></span></div>
+            <div class="prod-row__qty">${p.qty} <span>uds</span></div>
+            <div class="prod-row__rev">${formatCurrency(p.revenue)}</div>
+          </div>`;
+      }).join('');
+    }
+  }
+
+  // 5) Fuentes de tráfico
+  const srcEl = document.getElementById('insightSources');
+  if (srcEl) {
+    const SOURCE_LABEL = {
+      ig: 'Instagram',
+      instagram: 'Instagram',
+      qr: 'QR en local',
+      google: 'Google / búsqueda',
+      fb: 'Facebook',
+      wapp: 'WhatsApp',
+      direct: 'Directo'
+    };
+    const SOURCE_COLOR = {
+      ig: '#E1306C',
+      instagram: '#E1306C',
+      qr: '#2b52b3',
+      google: '#4285f4',
+      fb: '#1877f2',
+      wapp: '#25d366',
+      direct: '#6b6b6b'
+    };
+    if (!data.traffic || data.traffic.length === 0) {
+      srcEl.innerHTML = '<div class="insights-empty">Sin datos aún. Agregá <code>?src=ig</code>, <code>?src=qr</code> o <code>?src=google</code> a tus links para empezar a medir.</div>';
+    } else {
+      srcEl.innerHTML = data.traffic.map(s => {
+        const label = SOURCE_LABEL[s.source] || s.source;
+        const color = SOURCE_COLOR[s.source] || '#2b52b3';
+        return `
+          <div class="src-row">
+            <div class="src-row__label"><span class="src-dot" style="background:${color}"></span>${escapeHtml(label)}</div>
+            <div class="src-row__bar"><span style="width:${s.pct}%;background:${color}"></span></div>
+            <div class="src-row__pct">${s.pct}%</div>
+            <div class="src-row__hits">${s.hits} hits</div>
+          </div>`;
+      }).join('');
+    }
+  }
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+function pad2(n) { return String(n).padStart(2, '0'); }
 
 function renderRevenueChart(revenue) {
   const chart = document.getElementById('revenueChart');
@@ -529,11 +654,14 @@ async function saveManualBooking() {
 
 // ===== PRODUCTS TAB =====
 
+let _cachedProducts = []; // para usar en el ajuste global
+
 async function loadProducts() {
   try {
     const res = await fetch('/api/admin/products');
     const data = await res.json();
-    renderProductsTable(data.products);
+    _cachedProducts = data.products || [];
+    renderProductsTable(_cachedProducts);
   } catch (e) {
     console.error('Error loading products:', e);
   }
@@ -628,6 +756,106 @@ async function updatePrice(productId, price) {
     const data = await res.json();
     if (!data.success) alert('Error: ' + (data.error || 'No se pudo actualizar'));
     else loadProducts();
+  } catch (e) {
+    alert('Error de conexión');
+  }
+}
+
+// ===== BULK PRICE =====
+
+const BEER_STYLES_SET = new Set(['ipa','neipa','apa','sour','stout','lager','barrel-aged']);
+
+function openBulkPriceModal() {
+  const raw = document.getElementById('bulkPctInput').value.trim();
+  const pct = parseFloat(raw);
+
+  if (raw === '' || isNaN(pct) || pct === 0) {
+    alert('Ingresá un porcentaje válido.\nEjemplo: 15 para subir 15%, -10 para bajar 10%.');
+    return;
+  }
+  if (pct < -90 || pct > 500) {
+    alert('El porcentaje debe estar entre -90% y +500%.');
+    return;
+  }
+
+  const beers = _cachedProducts.filter(p => BEER_STYLES_SET.has(p.style));
+  if (beers.length === 0) {
+    alert('No hay productos de cerveza cargados. Asegurate de estar en la pestaña Productos.');
+    return;
+  }
+
+  const sign      = pct > 0 ? '+' : '';
+  const multiplier = 1 + pct / 100;
+
+  document.getElementById('bulkModalTitle').textContent    = `Ajuste de precio: ${sign}${pct}%`;
+  document.getElementById('bulkModalSubtitle').textContent = `${beers.length} cervezas se van a ver afectadas. Revisá los nuevos precios:`;
+
+  document.getElementById('bulkModalTable').innerHTML = `
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio actual</th>
+        <th>Precio nuevo</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${beers.map(p => {
+        const newPrice = Math.round(p.priceUYU * multiplier);
+        const diff     = newPrice - p.priceUYU;
+        const diffStr  = (diff >= 0 ? '+' : '') + '$U ' + diff;
+        const cls      = diff >= 0 ? 'price-up' : 'price-down';
+        return `<tr>
+          <td>${escapeHtml(p.name)}</td>
+          <td>$U ${p.priceUYU}</td>
+          <td><strong>$U ${newPrice}</strong> <span class="${cls}">(${diffStr})</span></td>
+        </tr>`;
+      }).join('')}
+    </tbody>`;
+
+  // Cablear botón confirmar para este pct específico
+  const btn = document.getElementById('bulkModalConfirmBtn');
+  btn.onclick = () => confirmBulkPrice(pct);
+
+  document.getElementById('bulkPriceModal').style.display = 'flex';
+}
+
+function closeBulkPriceModal() {
+  document.getElementById('bulkPriceModal').style.display = 'none';
+}
+
+async function confirmBulkPrice(pct) {
+  const sign = pct > 0 ? '+' : '';
+  // Segunda confirmación — diálogo nativo como última barrera
+  const ok = confirm(
+    `⚠️  CONFIRMACIÓN FINAL\n\n` +
+    `¿Confirmar ajuste de ${sign}${pct}% en todos los precios de cerveza?\n\n` +
+    `Esta acción no se puede deshacer.`
+  );
+  if (!ok) return;
+
+  closeBulkPriceModal();
+
+  try {
+    const res = await fetch('/api/admin/products/bulk-price', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pct })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Feedback inline en la barra
+      const bar = document.querySelector('.bulk-price-bar');
+      let fb = bar.querySelector('.bulk-price-bar__ok');
+      if (!fb) { fb = document.createElement('span'); fb.className = 'bulk-price-bar__ok'; bar.appendChild(fb); }
+      fb.textContent = `✓ ${data.updated} precios actualizados (${sign}${pct}%)`;
+      setTimeout(() => fb.remove(), 5000);
+      // Limpiar input y refrescar tabla
+      document.getElementById('bulkPctInput').value = '';
+      loadProducts();
+    } else {
+      alert('Error: ' + (data.error || 'No se pudo aplicar el ajuste'));
+    }
   } catch (e) {
     alert('Error de conexión');
   }
