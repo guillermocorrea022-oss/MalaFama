@@ -1110,8 +1110,34 @@ app.get('/health', (req, res) => {
 // INICIO DEL SERVIDOR
 // =============================================
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Mala Fama Brewing server corriendo en http://127.0.0.1:${PORT}`);
   console.log(`Modo Plexo: ${PLEXO_ENV.toUpperCase()}`);
   console.log(`Entorno: ${process.env.NODE_ENV || 'development'}`);
+
+  // ── Seed admin desde variables de entorno (solo si están definidas) ──
+  // Setear ADMIN_SEED_EMAIL + ADMIN_SEED_PASSWORD en Railway para crear/actualizar
+  // el admin en la DB de producción. Una vez logueado, borrar esas vars.
+  if (process.env.ADMIN_SEED_EMAIL && process.env.ADMIN_SEED_PASSWORD) {
+    try {
+      const hash = await bcrypt.hash(process.env.ADMIN_SEED_PASSWORD, 10);
+      const existing = db.findUserByEmail(process.env.ADMIN_SEED_EMAIL);
+      if (existing) {
+        db.setUserAdmin(existing.id, true);
+        db.updateUserPassword(existing.id, hash);
+        console.log(`[admin-seed] ✓ Usuario actualizado como admin: ${process.env.ADMIN_SEED_EMAIL} (id: ${existing.id})`);
+      } else {
+        const user = db.createUser({
+          email: process.env.ADMIN_SEED_EMAIL,
+          passwordHash: hash,
+          firstName: 'Admin',
+          lastName: 'Mala Fama'
+        });
+        db.setUserAdmin(user.id, true);
+        console.log(`[admin-seed] ✓ Admin creado: ${process.env.ADMIN_SEED_EMAIL} (id: ${user.id})`);
+      }
+    } catch (e) {
+      console.error('[admin-seed] Error:', e.message);
+    }
+  }
 });
