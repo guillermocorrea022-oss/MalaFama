@@ -839,6 +839,7 @@
   background: var(--color-navy, #1d2357);
   color: #fff;
 }
+.bk-location-btn:hover .bk-location-btn__name { color: #fff; }
 .bk-location-btn:hover .bk-location-btn__cap { color: rgba(255,255,255,0.7); }
 .bk-location-btn__name {
   font-family: var(--font-family, sans-serif);
