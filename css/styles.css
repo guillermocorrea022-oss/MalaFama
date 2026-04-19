@@ -7393,10 +7393,15 @@ html, body {
    Solo mobile (≤900px). No afecta desktop.
    ═════════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  /* Hero ocupa toda la vista con aire */
+  /* Hero más alto: aire para el texto + retrato sin que se corte */
   body.view-home .home-hero,
   body.view-home .home-hero__content {
-    min-height: 100svh;
+    min-height: 115svh;
+  }
+
+  /* Empuja el texto del hero hacia arriba para dejarle espacio al retrato */
+  body.view-home .home-hero__content {
+    padding-bottom: 480px !important;
   }
 
   /* Ocultar pillars "4 hermanos", "Sin filtrar", "Barrica viva" — dejar solo Montevideo & PDE */
@@ -7411,11 +7416,13 @@ html, body {
     justify-content: center;
   }
 
-  /* Retrato: más abajo para que no entre en juego al primer vistazo.
+  /* Retrato: subido por encima del nav flotante, con aire arriba y abajo.
      Sigue apareciendo al scrollear gracias a .portrait-in-view en JS. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: -40px !important;
+    bottom: 180px !important;
+    width: 62vw !important;
+    max-width: 258px !important;
   }
 
   /* Subnav (INICIO/CERVEZAS/PACKS/ESPECIALES) oculto al tope del hero home.
