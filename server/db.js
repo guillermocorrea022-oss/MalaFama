@@ -346,14 +346,32 @@ function getLowStockProducts(threshold = 10) {
 }
 
 // Transactional stock decrement for checkout
+// Lanza StockError con { productId, productName, available, requested } cuando
+// falla, para que el frontend pueda mostrar exactamente cuántas unidades quedan.
+class StockError extends Error {
+  constructor(detail) {
+    super(`Stock insuficiente para ${detail.productName || detail.productId}`);
+    this.code = 'INSUFFICIENT_STOCK';
+    this.detail = detail;
+  }
+}
+
 const processCheckoutStock = db.transaction((items) => {
   for (const item of items) {
-    const stock = db.prepare('SELECT stock FROM product_stock WHERE product_id = ?').get(item.id || item.productId);
-    if (!stock || stock.stock < (item.quantity || 1)) {
-      throw new Error(`Stock insuficiente para producto ${item.id || item.productId}`);
+    const productId = item.id || item.productId;
+    const requested = item.quantity || 1;
+    const stock = db.prepare('SELECT stock FROM product_stock WHERE product_id = ?').get(productId);
+    const available = stock ? stock.stock : 0;
+    if (!stock || available < requested) {
+      throw new StockError({
+        productId,
+        productName: item.name || item.title || productId,
+        available,
+        requested
+      });
     }
     db.prepare("UPDATE product_stock SET stock = stock - ?, updated_at = datetime('now') WHERE product_id = ?")
-      .run(item.quantity || 1, item.id || item.productId);
+      .run(requested, productId);
   }
 });
 

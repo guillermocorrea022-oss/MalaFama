@@ -1176,10 +1176,11 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
     padding-bottom: 380px !important;
   }
 
-  /* 2. Más gap bajo el retrato */
+  /* 2. Más gap bajo el retrato — sube por encima del nav flotante
+        para que no quede cortado por la píldora inferior. */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 72px !important;
+    bottom: 112px !important;
   }
 
   /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */

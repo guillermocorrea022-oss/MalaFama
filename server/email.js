@@ -42,7 +42,8 @@ const STATUS_LABELS = {
   nuevo: 'Nuevo',
   confirmado: 'Confirmado',
   preparando: 'Preparando',
-  enviado: 'Enviado',
+  enviado: 'Enviado',           // legacy, mantenemos por compatibilidad
+  entregado_ues: 'Entregado a UES',
   entregado: 'Entregado',
   cancelado: 'Cancelado'
 };
@@ -193,16 +194,21 @@ async function sendStatusUpdate(order, newStatus) {
   const t = getTransporter();
   if (!t || !order.customer_email) return;
 
+  const trackingLine = order.tracking_info
+    ? `<br><br><strong style="color:#000;">Código de seguimiento UES:</strong><br><span style="display:inline-block;margin-top:6px;padding:8px 14px;background:#fff;border:2px dashed #2b52b3;border-radius:6px;font-family:monospace;font-size:15px;font-weight:700;letter-spacing:0.08em;">${order.tracking_info}</span><br><br>Podés rastrear tu envío en <a href="https://www.ues.com.uy/" style="color:#2b52b3;font-weight:700;">ues.com.uy</a>.`
+    : '';
+
   const statusMessages = {
     confirmado: 'Tu pago fue confirmado y estamos procesando tu pedido.',
-    preparando: 'Estamos preparando tu pedido. Pronto estara listo para enviar.',
+    preparando: 'Estamos armando tu pedido en este momento. Te avisamos cuando esté en manos de UES para que puedas hacer el seguimiento.',
     enviado: `Tu pedido fue enviado! ${order.tracking_info ? 'Info de seguimiento: ' + order.tracking_info : 'Te avisaremos cuando llegue.'}`,
+    entregado_ues: `Tu pedido ya está en manos de <strong>UES</strong> y en camino.${trackingLine}`,
     entregado: 'Tu pedido fue entregado. Esperamos que disfrutes tu cerveza!',
     cancelado: 'Tu pedido fue cancelado. Si tienes dudas, contactanos.'
   };
 
   const message = statusMessages[newStatus] || `El estado de tu pedido cambio a: ${newStatus}`;
-  const statusColor = { confirmado: '#ecc94b', preparando: '#ed8936', enviado: '#805ad5', entregado: '#38a169', cancelado: '#e53e3e' };
+  const statusColor = { confirmado: '#ecc94b', preparando: '#ed8936', enviado: '#805ad5', entregado_ues: '#2b52b3', entregado: '#38a169', cancelado: '#e53e3e' };
 
   const body = `
     <p style="color:#333;font-size:15px;line-height:1.6;">Hola <strong>${order.customer_first_name || ''}</strong>,</p>

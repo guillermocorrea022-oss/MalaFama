@@ -1380,6 +1380,10 @@
 
           if (data.success) {
             showResult('success', data.orderId);
+          } else if (data.code === 'INSUFFICIENT_STOCK') {
+            // Stock insuficiente: lo mostramos como aviso recuperable para
+            // que el usuario pueda ajustar la cantidad sin perder el form.
+            showStockError(data.error, data.detail);
           } else {
             showResult('error', null, data.error || 'El pago fue rechazado. Verifica los datos.');
           }
@@ -1388,6 +1392,38 @@
           showResult('error', null, 'No se pudo conectar con el servidor. Intenta de nuevo.');
         }
       });
+
+      // ===== Stock error banner (recuperable) =====
+      function showStockError(message, detail) {
+        let banner = document.getElementById('stockErrorBanner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'stockErrorBanner';
+          banner.style.cssText =
+            'position:fixed;top:24px;left:50%;transform:translateX(-50%);' +
+            'z-index:10000;max-width:520px;width:calc(100% - 32px);' +
+            'background:#2b1616;border:1px solid #c0392b;border-radius:12px;' +
+            'padding:18px 22px;color:#ffdddd;font-family:var(--font-family,sans-serif);' +
+            'box-shadow:0 12px 32px rgba(0,0,0,0.45);display:flex;gap:14px;align-items:flex-start;';
+          document.body.appendChild(banner);
+        }
+        const qty = detail ? `<strong style="color:#fff;font-size:15px;">Solo quedan ${detail.available}</strong>` : '';
+        banner.innerHTML =
+          '<div style="font-size:22px;line-height:1;">⚠️</div>' +
+          '<div style="flex:1;">' +
+            '<div style="font-weight:700;color:#fff;font-size:15px;margin-bottom:4px;letter-spacing:0.02em;">STOCK INSUFICIENTE</div>' +
+            '<div style="font-size:13px;line-height:1.5;opacity:0.9;">' + message + '</div>' +
+            (qty ? '<div style="margin-top:6px;font-size:12px;opacity:0.75;">' + qty + ' unidad' + (detail.available === 1 ? '' : 'es') + ' disponible' + (detail.available === 1 ? '' : 's') + '.</div>' : '') +
+          '</div>' +
+          '<button type="button" aria-label="Cerrar" style="background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;padding:0 4px;">×</button>';
+        banner.querySelector('button').addEventListener('click', () => banner.remove());
+        // Auto-dismiss tras 8s
+        clearTimeout(banner._t);
+        banner._t = setTimeout(() => { if (banner.parentNode) banner.remove(); }, 8000);
+        // Re-habilitar el botón de pago por si estaba disabled
+        const payBtn = document.querySelector('[data-checkout-submit], #checkoutSubmit, button[type="submit"]');
+        if (payBtn) { payBtn.disabled = false; payBtn.removeAttribute('aria-busy'); }
+      }
 
       // ===== Result screen =====
       function showResult(type, orderId, errorMsg) {

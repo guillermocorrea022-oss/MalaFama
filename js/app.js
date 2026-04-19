@@ -1757,24 +1757,38 @@
     const carousel = document.getElementById('relatedCarousel');
     if (!carousel) return;
 
+    // Solo recomendamos productos DISPONIBLES (activos + con stock > 0).
+    // No tiene sentido sugerir cervezas que nadie puede comprar.
+    const isAvailable = p => isProductAvailable(p.id);
+
     // Get products from same category, excluding current
     let related = PRODUCTS.filter(p =>
-      p.id !== currentProduct.id && (
+      p.id !== currentProduct.id &&
+      isAvailable(p) && (
         p.category === currentProduct.category ||
         p.tags.some(t => currentProduct.tags.includes(t))
       )
     );
 
-    // If not enough, add random ones
+    // If not enough, add random ones (también solo disponibles)
     if (related.length < 4) {
       const others = PRODUCTS.filter(p =>
-        p.id !== currentProduct.id && !related.includes(p)
+        p.id !== currentProduct.id &&
+        isAvailable(p) &&
+        !related.includes(p)
       );
       related = [...related, ...others.slice(0, 4 - related.length)];
     }
 
     // Limit to 8
     related = related.slice(0, 8);
+
+    // Si quedó vacío (raro, solo si todo está sin stock) ocultamos la sección
+    if (related.length === 0) {
+      const section = carousel.closest('.related-products');
+      if (section) section.style.display = 'none';
+      return;
+    }
 
     related.forEach(product => {
       const card = createProductCard(product);

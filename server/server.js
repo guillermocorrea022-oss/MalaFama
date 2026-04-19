@@ -489,10 +489,20 @@ app.post('/api/checkout', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Datos incompletos' });
     }
 
-    // Validate stock before processing
+    // Validate stock before processing — si falla, devolvemos detalle
+    // estructurado para que el frontend pueda decir "solo quedan X" exacto.
     try {
       db.processCheckoutStock(items);
     } catch (stockErr) {
+      if (stockErr.code === 'INSUFFICIENT_STOCK' && stockErr.detail) {
+        const d = stockErr.detail;
+        return res.status(400).json({
+          success: false,
+          code: 'INSUFFICIENT_STOCK',
+          error: `Solo quedan ${d.available} unidades de "${d.productName}". Ajustá la cantidad e intentá de nuevo.`,
+          detail: d
+        });
+      }
       return res.status(400).json({ success: false, error: stockErr.message });
     }
 

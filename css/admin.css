@@ -185,6 +185,7 @@ body.page-admin .shop-subnav.pdp-subnav {
 .badge-confirmado { background: #fef3c7; color: #92400e; }
 .badge-preparando { background: #ffedd5; color: #9a3412; }
 .badge-enviado { background: #ede9fe; color: #5b21b6; }
+.badge-entregado_ues { background: #dbeafe; color: #2b52b3; border: 1px dashed #2b52b3; }
 .badge-entregado { background: #d1fae5; color: #065f46; }
 .badge-cancelado { background: #fee2e2; color: #991b1b; }
 .badge-confirmed { background: #d1fae5; color: #065f46; }

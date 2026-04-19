@@ -19,17 +19,26 @@ function escapeHtml(unsafe) {
 
 const STATUS_LABELS = {
   nuevo: 'Nuevo', confirmado: 'Confirmado', preparando: 'Preparando',
-  enviado: 'Enviado', entregado: 'Entregado', cancelado: 'Cancelado'
+  enviado: 'Enviado',                 // legacy
+  entregado_ues: 'Entregado a UES',
+  entregado: 'Entregado', cancelado: 'Cancelado'
 };
 
+// Flujo normal: nuevo → confirmado → preparando → entregado_ues → entregado
 const STATUS_NEXT = {
-  nuevo: 'confirmado', confirmado: 'preparando',
-  preparando: 'enviado', enviado: 'entregado'
+  nuevo: 'confirmado',
+  confirmado: 'preparando',
+  preparando: 'entregado_ues',
+  entregado_ues: 'entregado',
+  enviado: 'entregado'                // legacy
 };
 
 const STATUS_NEXT_LABEL = {
-  nuevo: 'Confirmar', confirmado: 'Preparar',
-  preparando: 'Enviar', enviado: 'Entregar'
+  nuevo: 'Confirmar',
+  confirmado: 'Armar pedido',
+  preparando: 'Entregar a UES',
+  entregado_ues: 'Marcar entregado',
+  enviado: 'Entregar'                 // legacy
 };
 
 const PROVIDER_LABELS = {
@@ -360,20 +369,30 @@ function renderOrdersTable(orders) {
       <td><span class="badge badge-${escapeHtml(o.status)}">${STATUS_LABELS[o.status] || escapeHtml(o.status)}</span></td>
       <td>
         ${nextStatus ? `<button class="btn btn-sm btn-primary" onclick="changeOrderStatus('${oid}','${nextStatus}')">${nextLabel}</button>` : ''}
-        ${o.status !== 'cancelado' && o.status !== 'entregado' ? `<button class="btn btn-sm btn-danger" onclick="changeOrderStatus('${oid}','cancelado')" style="margin-left:4px;">✕</button>` : ''}
+        ${!['cancelado','entregado','entregado_ues','enviado'].includes(o.status) ? `<button class="btn btn-sm btn-danger" onclick="changeOrderStatus('${oid}','cancelado')" style="margin-left:4px;" title="Cancelar pedido">✕</button>` : ''}
       </td>
     </tr>`;
   }).join('');
 }
 
 async function changeOrderStatus(orderId, newStatus) {
-  const confirmMsg = `¿Cambiar estado del pedido ${orderId} a "${STATUS_LABELS[newStatus]}"?`;
-  if (!confirm(confirmMsg)) return;
-
   let trackingInfo = '';
-  if (newStatus === 'enviado') {
+
+  // Para "entregado a UES" el código de seguimiento es obligatorio —
+  // es el dato que el cliente va a usar para rastrear su envío.
+  if (newStatus === 'entregado_ues') {
+    trackingInfo = prompt('Código de seguimiento UES (obligatorio):', '') || '';
+    if (!trackingInfo.trim()) {
+      alert('Necesitamos el código de seguimiento para avisarle al cliente.');
+      return;
+    }
+  } else if (newStatus === 'enviado') {
+    // legacy: opcional
     trackingInfo = prompt('Info de seguimiento (opcional):', '') || '';
   }
+
+  const confirmMsg = `¿Cambiar estado del pedido ${orderId} a "${STATUS_LABELS[newStatus]}"?\n\nEsto enviará un email automático al cliente.`;
+  if (!confirm(confirmMsg)) return;
 
   try {
     const res = await fetch(`/api/admin/orders/${orderId}/status`, {

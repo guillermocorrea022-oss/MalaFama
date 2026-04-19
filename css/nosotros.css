@@ -66,7 +66,9 @@
   margin: 0 auto;
   padding: 0 var(--space-8);
   width: 100%;
-  animation: heroFadeUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
+  /* Delay reducido: el loader ya demora 550ms antes de soltar la
+     animación, no hace falta agregar otros 300ms encima. */
+  animation: heroFadeUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s both;
 }
 
 @keyframes heroFadeUp {
@@ -100,7 +102,7 @@
     z-index: 1;
     pointer-events: none;
     user-select: none;
-    animation: yearFadeIn 2.5s ease 0.6s both;
+    animation: yearFadeIn 1.6s ease 0.15s both;
   }
 
   @keyframes yearFadeIn {
@@ -114,7 +116,7 @@
     align-items: center;
     padding-left: 64px;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideFromRight 1s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.75s both;
+    animation: slideFromRight 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.25s both;
   }
 
   @keyframes slideFromRight {
@@ -152,7 +154,7 @@
     z-index: 3;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 18px var(--space-8);
-    animation: heroFadeUp 0.7s ease 1.1s both;
+    animation: heroFadeUp 0.6s ease 0.45s both;
   }
 
   .nos-hero__pillar {
