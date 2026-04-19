@@ -9,3 +9,6 @@ sessions.sqlite-shm
 *.sqlite-journal
 bookings.json
 orders.json
+
+# Backup de imagenes originales (pre-optimizacion)
+_img_originals/
