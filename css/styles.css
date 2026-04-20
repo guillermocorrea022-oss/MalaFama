@@ -1028,14 +1028,14 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 @media (max-width: 900px) {
   .home-hero {
     width: calc(100% - 24px);
-    min-height: 130vh;
+    min-height: 124vh;
     border-radius: 24px;
     margin: 12px auto 40px auto;
   }
 
   .home-hero__content {
-    padding: 60px 24px 520px;
-    min-height: 130vh;
+    padding: 60px 24px 494px;
+    min-height: 124vh;
   }
 
   .home-hero__vignette {
@@ -1109,7 +1109,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero--ready .home-hero__portrait {
     display: block;
     position: absolute !important;
-    bottom: 75px !important;
+    bottom: 71px !important;
     left: 50% !important;
     top: auto !important;
     right: auto !important;
@@ -1180,7 +1180,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   /* 2. Retrato más abajo — no tapa el texto de "MONTEVIDEO & PDE" */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 75px !important;
+    bottom: 71px !important;
     width: 73vw !important;
     max-width: 299px !important;
   }
@@ -7395,12 +7395,12 @@ html, body {
   /* Hero más alto: aire para el texto + retrato sin que se corte */
   body.view-home .home-hero,
   body.view-home .home-hero__content {
-    min-height: 130vh;
+    min-height: 124vh;
   }
 
   /* Empuja el texto del hero hacia arriba para dejarle espacio al retrato */
   body.view-home .home-hero__content {
-    padding-bottom: 520px !important;
+    padding-bottom: 494px !important;
   }
 
   /* Ocultar pillars "4 hermanos", "Sin filtrar", "Barrica viva" — dejar solo Montevideo & PDE */
@@ -7418,7 +7418,7 @@ html, body {
   /* Retrato: posición final mobile — bien abajo, sin tapar el texto. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: 75px !important;
+    bottom: 71px !important;
     width: 73vw !important;
     max-width: 299px !important;
   }
