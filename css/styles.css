@@ -1113,8 +1113,8 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
     left: 50% !important;
     top: auto !important;
     right: auto !important;
-    width: 62vw;
-    max-width: 252px;
+    width: 77vw;
+    max-width: 315px;
     opacity: 0 !important;
     transform: translateX(calc(-50% + 5px + 130vw)) rotate(4deg) !important;
     transition: none !important;
@@ -1181,8 +1181,8 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
     bottom: 115px !important;
-    width: 62vw !important;
-    max-width: 252px !important;
+    width: 77vw !important;
+    max-width: 315px !important;
   }
 
   /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */
@@ -7419,8 +7419,8 @@ html, body {
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
     bottom: 115px !important;
-    width: 62vw !important;
-    max-width: 252px !important;
+    width: 77vw !important;
+    max-width: 315px !important;
   }
 
   /* Subnav (INICIO/CERVEZAS/PACKS/ESPECIALES) oculto al tope del hero home.
