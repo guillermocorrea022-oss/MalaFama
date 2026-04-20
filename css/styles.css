@@ -7415,13 +7415,12 @@ html, body {
     justify-content: center;
   }
 
-  /* Retrato: subido por encima del nav flotante, con aire arriba y abajo.
-     Sigue apareciendo al scrollear gracias a .portrait-in-view en JS. */
+  /* Retrato: posición final mobile — bien abajo, sin tapar el texto. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: 180px !important;
+    bottom: 55px !important;
     width: 62vw !important;
-    max-width: 258px !important;
+    max-width: 252px !important;
   }
 
   /* Subnav (INICIO/CERVEZAS/PACKS/ESPECIALES) oculto al tope del hero home.
