@@ -1028,14 +1028,14 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 @media (max-width: 900px) {
   .home-hero {
     width: calc(100% - 24px);
-    min-height: 140vh;
+    min-height: 130vh;
     border-radius: 24px;
     margin: 12px auto 40px auto;
   }
 
   .home-hero__content {
-    padding: 60px 24px 580px;
-    min-height: 140vh;
+    padding: 60px 24px 520px;
+    min-height: 130vh;
   }
 
   .home-hero__vignette {
@@ -1056,16 +1056,16 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 
   .home-hero__signature {
     font-size: clamp(4.5rem, 22vw, 7.5rem);
-    margin-bottom: 92px;
+    margin-bottom: 69px;
   }
 
   .home-hero__manifesto {
     margin-top: 0;
-    margin-bottom: 108px;
+    margin-bottom: 81px;
   }
 
   .home-hero__ctas {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
   }
 
   .home-hero__sub {
@@ -1109,7 +1109,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero--ready .home-hero__portrait {
     display: block;
     position: absolute !important;
-    bottom: 226px !important;
+    bottom: 170px !important;
     left: 50% !important;
     top: auto !important;
     right: auto !important;
@@ -1146,7 +1146,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero__pillars {
     flex-wrap: wrap;
     gap: 12px 20px;
-    padding-top: 72px;
+    padding-top: 54px;
   }
 
   .home-hero__pillars li {
@@ -1180,7 +1180,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   /* 2. Retrato más abajo — no tapa el texto de "MONTEVIDEO & PDE" */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 226px !important;
+    bottom: 170px !important;
     width: 62vw !important;
     max-width: 252px !important;
   }
@@ -7395,12 +7395,12 @@ html, body {
   /* Hero más alto: aire para el texto + retrato sin que se corte */
   body.view-home .home-hero,
   body.view-home .home-hero__content {
-    min-height: 140vh;
+    min-height: 130vh;
   }
 
   /* Empuja el texto del hero hacia arriba para dejarle espacio al retrato */
   body.view-home .home-hero__content {
-    padding-bottom: 580px !important;
+    padding-bottom: 520px !important;
   }
 
   /* Ocultar pillars "4 hermanos", "Sin filtrar", "Barrica viva" — dejar solo Montevideo & PDE */
@@ -7418,7 +7418,7 @@ html, body {
   /* Retrato: posición final mobile — bien abajo, sin tapar el texto. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: 226px !important;
+    bottom: 170px !important;
     width: 62vw !important;
     max-width: 252px !important;
   }
