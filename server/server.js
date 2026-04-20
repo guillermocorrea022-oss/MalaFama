@@ -21,6 +21,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const db = require('./db');
+const { seedDemoData } = require('./seed-demo');
 const email = require('./email');
 
 // ─── node-fetch para pagos con Plexo en producción ───
@@ -323,31 +324,8 @@ app.get('/api/auth/me', (req, res) => {
 });
 
 // =============================================
-// USER PROFILE
+// CART SYNC (logged-in users)
 // =============================================
-
-app.put('/api/user/profile', requireAuth, (req, res) => {
-  try {
-    const { firstName, lastName, phone, shippingStreet, shippingApt, shippingDept, shippingZone } = req.body;
-    db.updateUserProfile(req.session.userId, {
-      firstName, lastName, phone, shippingStreet, shippingApt, shippingDept, shippingZone
-    });
-    const updated = db.findUserById(req.session.userId);
-    res.json({ success: true, user: sanitizeUser(updated) });
-  } catch (error) {
-    console.error('Profile update error:', error);
-    res.status(500).json({ success: false, error: 'Error al actualizar perfil' });
-  }
-});
-
-// =============================================
-// CART ENDPOINTS (logged-in users)
-// =============================================
-
-app.get('/api/cart', requireAuth, (req, res) => {
-  const items = db.getUserCart(req.session.userId);
-  res.json({ items });
-});
 
 app.post('/api/cart/sync', requireAuth, (req, res) => {
   try {
@@ -363,31 +341,6 @@ app.post('/api/cart/sync', requireAuth, (req, res) => {
   }
 });
 
-app.put('/api/cart/:productId', requireAuth, (req, res) => {
-  try {
-    const productId = parseInt(req.params.productId);
-    const { quantity } = req.body;
-    db.setCartItem(req.session.userId, productId, quantity);
-    const items = db.getUserCart(req.session.userId);
-    res.json({ success: true, items });
-  } catch (error) {
-    console.error('Cart update error:', error);
-    res.status(500).json({ success: false, error: 'Error al actualizar carrito' });
-  }
-});
-
-app.delete('/api/cart/:productId', requireAuth, (req, res) => {
-  try {
-    const productId = parseInt(req.params.productId);
-    db.removeCartItem(req.session.userId, productId);
-    const items = db.getUserCart(req.session.userId);
-    res.json({ success: true, items });
-  } catch (error) {
-    console.error('Cart remove error:', error);
-    res.status(500).json({ success: false, error: 'Error al eliminar del carrito' });
-  }
-});
-
 // =============================================
 // PUBLIC STOCK ENDPOINT
 // =============================================
@@ -395,18 +348,6 @@ app.delete('/api/cart/:productId', requireAuth, (req, res) => {
 app.get('/api/stock', (req, res) => {
   const stock = db.getAllProductStock();
   res.json({ stock });
-});
-
-// Price overrides endpoint for frontend
-app.get('/api/price-overrides', (req, res) => {
-  const stock = db.getAllProductStock();
-  const overrides = {};
-  stock.forEach(s => {
-    if (s.price_uyu > 0) {
-      overrides[s.product_id] = s.price_uyu;
-    }
-  });
-  res.json({ priceOverrides: overrides });
 });
 
 // =============================================
@@ -663,19 +604,6 @@ app.get('/api/reservas/capacity', (req, res) => {
   } catch (error) {
     console.error('Error getting capacity:', error);
     res.status(500).json({ success: false, error: 'Error al consultar cupos' });
-  }
-});
-
-// Public: get booked slots for a location+date
-app.get('/api/reservas/slots', (req, res) => {
-  try {
-    const { location, date } = req.query;
-    if (!location || !date) return res.status(400).json({ success: false, error: 'location y date requeridos' });
-    const slots = db.getBookedSlots(location.toLowerCase(), date);
-    res.json({ success: true, slots });
-  } catch (error) {
-    console.error('Error getting slots:', error);
-    res.status(500).json({ success: false, error: 'Error al consultar horarios' });
   }
 });
 
@@ -1084,26 +1012,6 @@ app.get('/api/admin/customers/:userId/orders', requireAdmin, (req, res) => {
 });
 
 // =============================================
-// NEWSLETTER
-// =============================================
-app.post('/api/newsletter', rateLimit(900000, 3), (req, res) => {
-  const { email: subscriberEmail } = req.body;
-  // Validación robusta de email (misma regex que el frontend)
-  if (!subscriberEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscriberEmail) || subscriberEmail.length > 200) {
-    return res.status(400).json({ success: false, error: 'Email inválido' });
-  }
-
-  try {
-    // La tabla newsletter_subscribers se crea en db.js al arrancar el servidor
-    db.prepare('INSERT OR IGNORE INTO newsletter_subscribers (email) VALUES (?)').run(subscriberEmail);
-    res.json({ success: true });
-  } catch (e) {
-    console.error('[Newsletter]', e.message);
-    res.status(500).json({ success: false, error: 'Error al suscribirse' });
-  }
-});
-
-// =============================================
 // HEALTH CHECK — Endpoint de monitoreo
 // =============================================
 // Usado por load balancers, uptimerobot, etc. para verificar que el servidor responde.
@@ -1148,6 +1056,15 @@ app.listen(PORT, async () => {
       }
     } catch (e) {
       console.error('[admin-seed] Error:', e.message);
+    }
+  }
+
+  // ── Seed datos demo (solo si DEMO_DATA_SEED=true) ──
+  if (process.env.DEMO_DATA_SEED === 'true') {
+    try {
+      await seedDemoData();
+    } catch (e) {
+      console.error('[demo-seed] Error:', e.message);
     }
   }
 });
