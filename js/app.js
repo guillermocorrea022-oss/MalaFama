@@ -100,16 +100,7 @@
   }
 
   // Expose cart functions globally for auth.js integration
-  window.saveCartToStorage = saveCartToStorage;
   window.loadCartFromStorage = loadCartFromStorage;
-  window.getCart = function() { return cart; };
-  window.setCart = function(newCart) {
-    cart = newCart;
-    cartCount = cart.reduce((s, i) => s + i.quantity, 0);
-    updateCartCount();
-    renderCart();
-    saveCartToStorage();
-  };
   window.refreshCartUI = function() {
     updateCartCount();
     renderCart();
@@ -123,102 +114,6 @@
   function getUrlParam(key) {
     const params = new URLSearchParams(window.location.search);
     return params.get(key);
-  }
-
-  // ===== Auto-detect vibrant color from product image =====
-  var _vibrantCache = {};
-  function extractVibrantColor(imgSrc) {
-    return new Promise(function(resolve) {
-      if (_vibrantCache[imgSrc]) return resolve(_vibrantCache[imgSrc]);
-      var img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = function() {
-        try {
-          var canvas = document.createElement('canvas');
-          var size = (typeof MF_CONFIG !== 'undefined') ? MF_CONFIG.ui.colorSampleSize : 80;
-          canvas.width = size;
-          canvas.height = size;
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, size, size);
-          var data = ctx.getImageData(0, 0, size, size).data;
-
-          // Collect colors with their HSL values
-          var colorBuckets = {};
-          for (var i = 0; i < data.length; i += 16) { // sample every 4th pixel
-            var r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
-            if (a < 200) continue; // skip transparent
-
-            // RGB to HSL
-            var rn = r/255, gn = g/255, bn = b/255;
-            var max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
-            var h, s, l = (max + min) / 2;
-
-            if (max === min) { h = s = 0; }
-            else {
-              var d = max - min;
-              s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-              if (max === rn) h = ((gn - bn) / d + (gn < bn ? 6 : 0)) / 6;
-              else if (max === gn) h = ((bn - rn) / d + 2) / 6;
-              else h = ((rn - gn) / d + 4) / 6;
-            }
-
-            // Skip grays (low saturation), very dark, very light
-            if (s < 0.25 || l < 0.15 || l > 0.85) continue;
-
-            // Bucket by hue (36 buckets = 10° each)
-            var bucket = Math.floor(h * 36);
-            if (!colorBuckets[bucket]) colorBuckets[bucket] = { count: 0, totalS: 0, totalL: 0, totalR: 0, totalG: 0, totalB: 0 };
-            colorBuckets[bucket].count++;
-            colorBuckets[bucket].totalS += s;
-            colorBuckets[bucket].totalL += l;
-            colorBuckets[bucket].totalR += r;
-            colorBuckets[bucket].totalG += g;
-            colorBuckets[bucket].totalB += b;
-          }
-
-          // Score each bucket: prefer vibrant, eye-catching colors
-          var bestScore = 0, bestColor = null;
-          Object.keys(colorBuckets).forEach(function(key) {
-            var b = colorBuckets[key];
-            if (b.count < 3) return; // ignore very rare colors
-            var avgS = b.totalS / b.count;
-            var avgL = b.totalL / b.count;
-            var hue = parseFloat(key) / 36; // 0-1
-
-            // Lightness bonus: prefer 0.35-0.55 range (rich, not washed out)
-            var lBonus = 1 - Math.abs(avgL - 0.45) * 2;
-            lBonus = Math.max(lBonus, 0.2);
-
-            // Hue bonus: boost reds, blues, teals, magentas (eye-catching)
-            // Penalize yellows/beiges (hue 0.1-0.2) which are less striking
-            var hueBonus = 1;
-            if (hue < 0.05 || hue > 0.95) hueBonus = 1.6;  // Red — most eye-catching
-            else if (hue > 0.55 && hue < 0.75) hueBonus = 1.4; // Blue/teal
-            else if (hue > 0.8 && hue < 0.95) hueBonus = 1.5;  // Magenta/pink
-            else if (hue > 0.1 && hue < 0.2) hueBonus = 0.5;   // Yellow/beige — penalize
-            else if (hue > 0.2 && hue < 0.45) hueBonus = 1.1;  // Green
-            else if (hue > 0.45 && hue < 0.55) hueBonus = 1.3;  // Cyan/teal
-
-            // Score = saturation * sqrt(count) * lightness * hue preference
-            var score = avgS * Math.sqrt(b.count) * lBonus * hueBonus;
-            if (score > bestScore) {
-              bestScore = score;
-              // Boost saturation for the final color to make it pop
-              var finalS = Math.min(avgS * 1.3, 1);
-              var finalL = Math.max(Math.min(avgL, 0.5), 0.35);
-              bestColor = hslToHex(hue, finalS, finalL);
-            }
-          });
-
-          _vibrantCache[imgSrc] = bestColor;
-          resolve(bestColor);
-        } catch(e) {
-          resolve(null); // CORS or other error
-        }
-      };
-      img.onerror = function() { resolve(null); };
-      img.src = imgSrc;
-    });
   }
 
   function hslToHex(h, s, l) {
@@ -2136,16 +2031,27 @@
     onScroll();
   }
 
-  // ─── Mobile: navbar visible al inicio + en el top + al hacer scroll UP ───
-  // Comportamiento:
-  //   • y ≤ 40   → visible (el usuario está arriba de todo)
-  //   • scroll DOWN (y > lastY + 3) y y > 80 → ocultar
-  //   • scroll UP   (y < lastY - 3)          → mostrar
+  // ─── Mobile: navbar oculta mientras el hero está en pantalla ───
+  // Comportamiento general:
+  //   • Páginas con hero full-height (.nos-hero, .loc-hero):
+  //       - Oculta mientras scroll < 75% del hero
+  //       - Aparece al cruzar ese umbral o al hacer scroll UP pasado el hero
+  //   • Resto de páginas (index, tienda, etc.):
+  //       - y ≤ 40   → visible
+  //       - scroll DOWN > 80 → ocultar
+  //       - scroll UP        → mostrar
   (function initMobileSubnavScroll() {
     if (!document.querySelector('.shop-subnav')) return;
     var lastY = window.scrollY;
     var ticking = false;
     function isMobile() { return window.matchMedia('(max-width: 900px)').matches; }
+
+    // Detectar si la página tiene un hero de altura completa
+    var heroEl = document.querySelector('.nos-hero, .loc-hero');
+    function heroThreshold() {
+      return heroEl ? heroEl.offsetHeight * 0.75 : 40;
+    }
+
     function apply(visible) {
       if (visible) document.body.classList.add('subnav-mobile-visible');
       else document.body.classList.remove('subnav-mobile-visible');
@@ -2157,21 +2063,33 @@
         return;
       }
       var y = window.scrollY;
-      if (y <= 40) {
-        // En el top de la página → siempre visible
-        apply(true);
-      } else if (y > lastY + 3 && y > 80) {
-        // Scroll hacia abajo → ocultar
-        apply(false);
-      } else if (y < lastY - 3) {
-        // Scroll hacia arriba → mostrar
-        apply(true);
+      if (heroEl) {
+        // Páginas con hero: ocultar mientras el hero está en pantalla
+        if (y < heroThreshold()) {
+          apply(false);
+        } else if (y > lastY + 3) {
+          apply(false); // scroll hacia abajo → ocultar
+        } else if (y < lastY - 3) {
+          apply(true);  // scroll hacia arriba → mostrar
+        }
+      } else {
+        // Páginas sin hero: comportamiento estándar
+        if (y <= 40) {
+          apply(true);
+        } else if (y > lastY + 3 && y > 80) {
+          apply(false);
+        } else if (y < lastY - 3) {
+          apply(true);
+        }
       }
       lastY = y;
     }
-    // Estado inicial: si ya estamos cargando en mobile cerca del top, mostrar
-    if (isMobile() && window.scrollY <= 40) {
-      document.body.classList.add('subnav-mobile-visible');
+    // Estado inicial
+    if (isMobile()) {
+      if (!heroEl && window.scrollY <= 40) {
+        document.body.classList.add('subnav-mobile-visible');
+      }
+      // Con hero: empieza oculta siempre
     }
     window.addEventListener('scroll', function () {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
@@ -2179,7 +2097,6 @@
     window.addEventListener('resize', function () {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
-    // Al cargar la página asegurarse de aplicar el estado correcto
     window.addEventListener('load', update);
   })();
 
