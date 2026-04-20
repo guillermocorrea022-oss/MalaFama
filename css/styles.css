@@ -1109,7 +1109,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero--ready .home-hero__portrait {
     display: block;
     position: absolute !important;
-    bottom: 70px !important;
+    bottom: 150px !important;
     left: 50% !important;
     top: auto !important;
     right: auto !important;
@@ -1180,7 +1180,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   /* 2. Retrato más abajo — no tapa el texto de "MONTEVIDEO & PDE" */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 70px !important;
+    bottom: 150px !important;
     width: 62vw !important;
     max-width: 252px !important;
   }
@@ -7418,7 +7418,7 @@ html, body {
   /* Retrato: posición final mobile — bien abajo, sin tapar el texto. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: 70px !important;
+    bottom: 150px !important;
     width: 62vw !important;
     max-width: 252px !important;
   }
