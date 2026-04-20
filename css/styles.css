@@ -1028,14 +1028,14 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 @media (max-width: 900px) {
   .home-hero {
     width: calc(100% - 24px);
-    min-height: 108vh;
+    min-height: 120vh;
     border-radius: 24px;
     margin: 12px auto 40px auto;
   }
 
   .home-hero__content {
-    padding: 60px 24px 440px;
-    min-height: 108vh;
+    padding: 60px 24px 460px;
+    min-height: 120vh;
   }
 
   .home-hero__vignette {
@@ -1045,7 +1045,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   }
 
   .home-hero__eyebrow {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .home-hero__manifesto {
@@ -1056,16 +1056,16 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 
   .home-hero__signature {
     font-size: clamp(4.5rem, 22vw, 7.5rem);
-    margin-bottom: 22px;
+    margin-bottom: 36px;
   }
 
   .home-hero__manifesto {
-    margin-top: 6px;
-    margin-bottom: 28px;
+    margin-top: 0;
+    margin-bottom: 44px;
   }
 
   .home-hero__ctas {
-    margin-bottom: 16px;
+    margin-bottom: 30px;
   }
 
   .home-hero__sub {
@@ -1109,12 +1109,12 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero--ready .home-hero__portrait {
     display: block;
     position: absolute !important;
-    bottom: 32px !important;
+    bottom: 55px !important;
     left: 50% !important;
     top: auto !important;
     right: auto !important;
-    width: 59vw;
-    max-width: 242px;
+    width: 62vw;
+    max-width: 252px;
     opacity: 0 !important;
     transform: translateX(calc(-50% + 5px + 130vw)) rotate(4deg) !important;
     transition: none !important;
@@ -1146,7 +1146,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero__pillars {
     flex-wrap: wrap;
     gap: 12px 20px;
-    padding-top: 16px;
+    padding-top: 26px;
   }
 
   .home-hero__pillars li {
@@ -1170,20 +1170,19 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
    ───────────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
 
-  /* 1. Más aire: el contenido arranca más abajo y deja espacio abajo
-        para que el retrato respire y no se coma el hero. */
+  /* 1. Padding-top fijo para anclar MALA FAMA en el mismo lugar.
+        Padding-bottom amplio para que el retrato no tape el texto. */
   .home-hero__content {
     padding-top: 156px !important;
-    padding-bottom: 440px !important;
+    padding-bottom: 460px !important;
   }
 
-  /* 2. Retrato más arriba y un pelín más grande — aire cómodo entre
-        el texto del hero, el retrato y el nav flotante inferior. */
+  /* 2. Retrato más abajo — no tapa el texto de "MONTEVIDEO & PDE" */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 170px !important;
+    bottom: 55px !important;
     width: 62vw !important;
-    max-width: 258px !important;
+    max-width: 252px !important;
   }
 
   /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */
