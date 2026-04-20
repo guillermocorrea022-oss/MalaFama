@@ -1109,12 +1109,12 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero--ready .home-hero__portrait {
     display: block;
     position: absolute !important;
-    bottom: 115px !important;
+    bottom: 75px !important;
     left: 50% !important;
     top: auto !important;
     right: auto !important;
-    width: 77vw;
-    max-width: 315px;
+    width: 73vw;
+    max-width: 299px;
     opacity: 0 !important;
     transform: translateX(calc(-50% + 5px + 130vw)) rotate(4deg) !important;
     transition: none !important;
@@ -1180,9 +1180,9 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   /* 2. Retrato más abajo — no tapa el texto de "MONTEVIDEO & PDE" */
   .home-hero__portrait,
   .home-hero--ready .home-hero__portrait {
-    bottom: 115px !important;
-    width: 77vw !important;
-    max-width: 315px !important;
+    bottom: 75px !important;
+    width: 73vw !important;
+    max-width: 299px !important;
   }
 
   /* 3. Animación: MALA FAMA empieza en el centro del hero y sube */
@@ -7418,9 +7418,9 @@ html, body {
   /* Retrato: posición final mobile — bien abajo, sin tapar el texto. */
   body.view-home .home-hero__portrait,
   body.view-home .home-hero--ready .home-hero__portrait {
-    bottom: 115px !important;
-    width: 77vw !important;
-    max-width: 315px !important;
+    bottom: 75px !important;
+    width: 73vw !important;
+    max-width: 299px !important;
   }
 
   /* Subnav (INICIO/CERVEZAS/PACKS/ESPECIALES) oculto al tope del hero home.
