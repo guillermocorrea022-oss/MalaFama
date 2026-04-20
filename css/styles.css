@@ -1056,16 +1056,16 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
 
   .home-hero__signature {
     font-size: clamp(4.5rem, 22vw, 7.5rem);
-    margin-bottom: 36px;
+    margin-bottom: 46px;
   }
 
   .home-hero__manifesto {
     margin-top: 0;
-    margin-bottom: 44px;
+    margin-bottom: 54px;
   }
 
   .home-hero__ctas {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
 
   .home-hero__sub {
@@ -1146,7 +1146,7 @@ body:has(.shop-subnav:not(.pdp-subnav)):not(.view-home) {
   .home-hero__pillars {
     flex-wrap: wrap;
     gap: 12px 20px;
-    padding-top: 26px;
+    padding-top: 36px;
   }
 
   .home-hero__pillars li {
